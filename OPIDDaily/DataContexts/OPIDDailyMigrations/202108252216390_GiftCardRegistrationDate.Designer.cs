@@ -7,13 +7,13 @@ namespace OPIDDaily.DataContexts.OPIDDailyMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class GiftCard1 : IMigrationMetadata
+    public sealed partial class GiftCardRegistrationDate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(GiftCard1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(GiftCardRegistrationDate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202108252155549_GiftCard1"; }
+            get { return "202108252216390_GiftCardRegistrationDate"; }
         }
         
         string IMigrationMetadata.Source

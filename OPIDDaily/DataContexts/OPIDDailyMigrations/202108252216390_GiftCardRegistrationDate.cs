@@ -3,7 +3,7 @@ namespace OPIDDaily.DataContexts.OPIDDailyMigrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class GiftCard1 : DbMigration
+    public partial class GiftCardRegistrationDate : DbMigration
     {
         public override void Up()
         {

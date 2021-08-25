@@ -9,7 +9,7 @@ namespace OPIDDaily.DataContexts.OPIDDailyMigrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"DataContexts\OPIDDailyMigrations";
             ContextKey = "OPIDDaily.DataContexts.OpidDailyDB";
         }

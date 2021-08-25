@@ -233,6 +233,7 @@
       <DependentUpon>202108251619234_InitialDB.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContexts\OPIDDailyMigrations\Configuration.cs" />
+    <Compile Include="Entities\GiftCard.cs" />
     <Compile Include="Entities\MBVD.cs" />
     <Compile Include="Entities\Agency.cs" />
     <Compile Include="Entities\Client.cs" />

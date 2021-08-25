@@ -31,6 +31,8 @@ namespace OPIDDaily.DataContexts
         public DbSet<AncientCheck> AncientChecks { get; set; }
 
         public DbSet<PocketCheck> PocketChecks { get; set; }
+
+        public DbSet<GiftCard> GiftCards { get; set; }
     }
     
 }

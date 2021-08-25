@@ -225,6 +225,7 @@ namespace OPIDDaily.DAL
             {
                 DateTime nextDate = date.AddHours(24);
                 List<Client> clients;
+                List<GiftCard> gcards = opiddailycontext.GiftCards.ToList();
                 List<ClientViewModel> clientCVMS = new List<ClientViewModel>();
                 bool dobSearch = sps != null && sps._search == true && !string.IsNullOrEmpty(sps.sDOB);
 

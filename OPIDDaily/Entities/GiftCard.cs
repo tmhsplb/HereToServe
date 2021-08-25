@@ -12,6 +12,8 @@ namespace OpidDailyEntities
         public int Id { get; set; }
         public string Owner { get; set; }
 
+        public DateTime RegistrationDate { get; set; }
+
         public string RegistrationID { get; set; }
     }
 }

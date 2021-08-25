@@ -62,7 +62,8 @@ namespace OPIDDaily
             get
             {
                 // return "Server=57d3c1fb-7e27-4b81-a9f2-aa8f0182310e.sqlserver.sequelizer.com;Database=db57d3c1fb7e274b81a9f2aa8f0182310e;User ID=fnalfcnlfsgdzgys;Password=LBwjPwsBZk577fNWh25JqJh3AKBaQiQzibLomTwYoGJckFBgdz8dswBcuCRd3sTQ;";
-                return "Server=38cef54f-3aaf-47b7-bdaa-ad8d01019adf.sqlserver.sequelizer.com;Database=db38cef54f3aaf47b7bdaaad8d01019adf;User ID=hprerfhehwozwstf;Password=TXmDfSAAwUP4qLUB7GR5ysFTfcyk7KZM5MZ5Z2iGioV3Gw2Nhe7ubXWzqAxctqCU;";
+                //return "Server=38cef54f-3aaf-47b7-bdaa-ad8d01019adf.sqlserver.sequelizer.com;Database=db38cef54f3aaf47b7bdaaad8d01019adf;User ID=hprerfhehwozwstf;Password=TXmDfSAAwUP4qLUB7GR5ysFTfcyk7KZM5MZ5Z2iGioV3Gw2Nhe7ubXWzqAxctqCU;";
+                return "Server=da70aead-a3bf-4b8c-ac97-ad8f01120a2d.sqlserver.sequelizer.com;Database=dbda70aeada3bf4b8cac97ad8f01120a2d;User ID=madtfqqdwodmmodg;Password=oK6ijz8HuaUCkuXMXFXicXgqprJeFWxnKiF6V2cccHAmYi6ESBP5T7nxCP32X3bE;";
             }
         }
 

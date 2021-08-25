@@ -226,12 +226,12 @@
     <Compile Include="DAL\Users.cs" />
     <Compile Include="DAL\Visits.cs" />
     <Compile Include="DataContexts\IdentityDB.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\202108222051075_InitialCreate.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\202108222051075_InitialCreate.Designer.cs">
-      <DependentUpon>202108222051075_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
     <Compile Include="DataContexts\OpidDailyDB.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202108251619234_InitialDB.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202108251619234_InitialDB.Designer.cs">
+      <DependentUpon>202108251619234_InitialDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataContexts\OPIDDailyMigrations\Configuration.cs" />
     <Compile Include="Entities\MBVD.cs" />
     <Compile Include="Entities\Agency.cs" />
@@ -907,8 +907,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataContexts\IdentityMigrations\202108222051075_InitialCreate.resx">
-      <DependentUpon>202108222051075_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202108251619234_InitialDB.resx">
+      <DependentUpon>202108251619234_InitialDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

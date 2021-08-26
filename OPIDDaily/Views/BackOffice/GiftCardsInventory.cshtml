@@ -1,0 +1,104 @@
+﻿@model OPIDDaily.Models.GiftCardInventoryViewModel
+
+@{
+    ViewBag.Title = "Gift Cards Inventory";
+    Layout = "~/Views/Shared/_BackOffice.cshtml";
+}
+
+
+<br/><br/><br/>
+<div class="row">
+    <div class="col-md-12">
+        <section id="inventoryForm">
+            @using (Html.BeginForm("UpdateInventory", "BackOffice", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationMessage("InventoryError", new { @class = "text-danger" })
+
+
+                <h4>Available Funds</h4>
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(m => m.METROFunds, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.METROFunds, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(m => m.VisaFunds, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.VisaFunds, new { @class = "control-label" })
+                    </div>
+                </div>
+
+                <br /><br />
+
+                <h4>Inventory</h4>
+                <hr />
+
+                @Html.Partial("_GiftCardInventoryForm", Model)
+
+
+                <br /><br />
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Update Inventory" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<br />
+<hr />
+<br/>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <section id="inventoryForm">
+            @using (Html.BeginForm("UpdateAgencyBudget", "BackOffice", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationMessage("BudgetError", new { @class = "text-danger" })
+
+
+                <h4>Budget</h4>
+                <hr />
+                <div class="form-group">
+                   <div class="col-md-4">
+                     @Html.DropDownListFor(model => model.AgencyId, Model.Agencies, new { @class = "form-control" })
+                   </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(m => m.METROBudget, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.METROBudget, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(m => m.VisaBudget, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.VisaBudget, new { @class = "control-label" })
+                    </div>
+                </div>
+
+                <br /><br />
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Update Budget" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>

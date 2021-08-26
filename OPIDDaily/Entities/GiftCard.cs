@@ -10,10 +10,15 @@ namespace OpidDailyEntities
     {
         [Key]
         public int Id { get; set; }
-        public string Owner { get; set; }
+
+        public int HolderId { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 
         public string RegistrationID { get; set; }
+
+        public DateTime BalanceDate { get; set; }
+
+        public int CardBalance { get; set; }
     }
 }

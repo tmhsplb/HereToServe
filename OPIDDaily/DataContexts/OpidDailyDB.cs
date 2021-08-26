@@ -33,6 +33,8 @@ namespace OPIDDaily.DataContexts
         public DbSet<PocketCheck> PocketChecks { get; set; }
 
         public DbSet<GiftCard> GiftCards { get; set; }
+
+        public DbSet<GiftCardInventory> GiftCardInventory { get; set; }
     }
     
 }

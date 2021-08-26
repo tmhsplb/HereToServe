@@ -177,6 +177,6 @@ namespace OpidDailyEntities
 
         public ICollection<TextMsg> TextMsgs { get; set; }
 
-      
+        public ICollection<GiftCard> GiftCards { get; set; }
     }
 }

@@ -456,5 +456,45 @@ namespace OPIDDaily.Controllers
             ViewData["MergeStatus"] = "Merge Complete";
             return View("Merge");
         }
+
+        public ActionResult GiftCardsInventory()
+        {
+            GiftCardInventoryViewModel gcivm = GiftCards.GetInventory();
+            int selectedAgency = Convert.ToInt32(SessionHelper.Get("SelectedAgency")); 
+            gcivm.Agencies = Agencies.GetAgenciesSelectList(selectedAgency);
+
+            if (selectedAgency != 0)
+            {
+                GiftCards.SetBudgets(selectedAgency, gcivm);
+            }
+            
+            return View("GiftCardsInventory", gcivm);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateInventory(GiftCardInventoryViewModel gcivm)
+        {
+            GiftCards.UpdateInventory(gcivm);
+            return RedirectToAction("GiftCardsInventory");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAgencyBudget(GiftCardInventoryViewModel gcivm)
+        {
+            int agencyId = Convert.ToInt32(gcivm.AgencyId);
+
+            if (agencyId == 0)
+            {
+                ModelState.AddModelError("BudgetError", "Cannot update budget of Operation ID");
+                gcivm = GiftCards.GetInventory();
+                gcivm.Agencies = Agencies.GetAgenciesSelectList(0);
+                return View("GiftCardsInventory", gcivm);
+            }
+
+            SessionHelper.Set("SelectedAgency", agencyId.ToString());
+            GiftCards.UpdateBudgets(agencyId, gcivm.METROBudget, gcivm.VisaBudget);
+
+            return RedirectToAction("GiftCardsInventory");
+        }
     }
 }

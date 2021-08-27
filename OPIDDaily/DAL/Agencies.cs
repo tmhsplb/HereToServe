@@ -11,7 +11,7 @@ namespace OPIDDaily.DAL
 {
     public class Agencies
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Agencies));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Agencies));
 
         public static SelectList GetAgenciesSelectList(int agencyId)
         {
@@ -109,6 +109,15 @@ namespace OPIDDaily.DAL
                 Email = agency.Email,
                 IsActive = (agency.IsActive ? "Yes" : string.Empty)
             };
+        }
+
+        public static Agency GetAgency(int agencyId)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Agency agency = opiddailycontext.Agencies.Where(a => a.AgencyId == agencyId).SingleOrDefault();
+                return agency;
+            }
         }
 
         public static List<AgencyViewModel> GetAgencies(string sidx, string sord)

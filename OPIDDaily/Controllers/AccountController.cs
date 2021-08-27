@@ -18,7 +18,7 @@ namespace OPIDDaily.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AccountController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AccountController));
 
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

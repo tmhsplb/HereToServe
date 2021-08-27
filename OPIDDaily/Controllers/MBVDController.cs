@@ -10,7 +10,7 @@ namespace OPIDDaily.Controllers
 {
     public class MBVDController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MBVDController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MBVDController));
 
         public ActionResult ManageMBVDS()
         {

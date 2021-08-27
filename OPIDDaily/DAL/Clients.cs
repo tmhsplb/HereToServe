@@ -13,7 +13,7 @@ namespace OPIDDaily.DAL
 {
     public class Clients
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Clients));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Clients));
 
         public static int IdentifyClient(string lastName, string firstName, DateTime dob)
         {

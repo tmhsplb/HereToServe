@@ -11,7 +11,7 @@ namespace OPIDDaily.DAL
 {
     public class Visits
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Clients));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Clients));
 
         private static string MostRecentSender(int id)
         {

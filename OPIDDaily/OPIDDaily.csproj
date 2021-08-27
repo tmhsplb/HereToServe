@@ -905,6 +905,7 @@
     <Content Include="Views\BackOffice\ExpressClientServiceRequest.cshtml" />
     <Content Include="Views\BackOffice\GiftCardsInventory.cshtml" />
     <Content Include="Views\Shared\_GiftCardInventoryForm.cshtml" />
+    <Content Include="Views\CaseManager\GiftCardsRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

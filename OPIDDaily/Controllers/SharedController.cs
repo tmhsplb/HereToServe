@@ -20,7 +20,7 @@ namespace OPIDDaily.Controllers
 {
     public class SharedController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SharedController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SharedController));
 
         public static int NowServing()
         {
@@ -973,7 +973,7 @@ namespace OPIDDaily.Controllers
             RequestedServicesViewModel rsvm = new RequestedServicesViewModel();
             Client client = Clients.GetClient(nowServing, rsvm);
 
-            if (client.HHId != 0)
+            if (client.HHId != null)
             {
                 ViewBag.Warning = "Cannot prepare a Service Ticket for a dependent of another client.";
                 return View("Warning");

@@ -5,6 +5,7 @@ using OpidDailyEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace OPIDDaily.DAL
@@ -125,7 +126,150 @@ namespace OPIDDaily.DAL
                     agency.METROBudget = metroBudget;
                     agency.VisaBudget = visaBudget;
                     opiddailycontext.SaveChanges();
+                    // Avoid a race conditon by allowing the
+                    // commit to the database time to complete.
+                    Thread.Sleep(200);
                 }
+            }
+        }
+
+        public static string FulfillRequest(int nowServing, GiftCardInventoryViewModel gcivm)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                DateTime today = Extras.DateTimeToday().AddHours(12);
+                Client client = opiddailycontext.Clients.Find(nowServing);
+                GiftCard metroCard = new GiftCard { HolderId = client.Id, RegistrationDate = today, BalanceDate = today, CardBalance = 0 };
+                GiftCard visaCard = new GiftCard { HolderId = client.Id, RegistrationDate = today, BalanceDate = today,  CardBalance = 0 };
+
+                if (client != null)
+                {
+                    int agencyId = client.AgencyId;
+                    Agency agency = opiddailycontext.Agencies.Where(a => a.AgencyId == agencyId).SingleOrDefault();
+
+                    if (agency != null)
+                    {
+                        int metroBudget = agency.METROBudget, visaBudget = agency.VisaBudget;
+                        int metroRequest = 0, visaRequest = 0;
+                        bool metroBudgetExceeded = false, visaBudgetExceeded = false;
+                        
+                        if (!string.IsNullOrEmpty(gcivm.METROCard))
+                        {
+                            switch (gcivm.METROCard)
+                            {
+                                case "METROCard20":
+                                    metroRequest = 20;
+                                    metroCard.CardBalance = 20;
+                                    break;
+
+                                case "METROCard30":
+                                    metroRequest = 30;
+                                    metroCard.CardBalance = 30;
+                                    break;
+
+                                case "METROCard40":
+                                    metroRequest = 40;
+                                    metroCard.CardBalance = 40;
+                                    break;
+
+                                case "METROCard50":
+                                    metroRequest = 50;
+                                    metroCard.CardBalance = 50;
+                                    break;
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(gcivm.VisaCard))
+                        {
+                            switch (gcivm.VisaCard)
+                            {
+                                case "VisaCard20":
+                                    visaRequest = 20;
+                                    visaCard.CardBalance = 20;
+                                    break;
+
+                                case "VisaCard30":
+                                    visaRequest = 30;
+                                    visaCard.CardBalance = 30;
+                                    break;
+
+                                case "VisaCard40":
+                                    visaRequest = 40;
+                                    visaCard.CardBalance = 40;
+                                    break;
+
+                                case "VisaCard50":
+                                    visaRequest = 50;
+                                    visaCard.CardBalance = 50;
+                                    break;
+                            }
+                        }
+
+                        if (metroRequest > metroBudget)
+                        {
+                            metroBudgetExceeded = true;
+                        }
+
+                        if (visaRequest > visaBudget)
+                        {
+                            visaBudgetExceeded = true;
+                        }
+
+                        if (metroBudgetExceeded && visaBudgetExceeded)
+                        {
+                            return "BothBudgetsExceeded";
+                        }
+                        else if (metroBudgetExceeded)
+                        {
+                            // Update Visa Budget
+                            agency.VisaBudget -= visaRequest;
+                          
+                            if (visaCard.CardBalance > 0)
+                            {
+                                opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                                client.GiftCards.Add(visaCard);
+                            }
+
+                            opiddailycontext.SaveChanges();
+
+                            return "METROBudgetExceeded";
+                        }
+                        else if (visaBudgetExceeded)
+                        {
+                            // Update METRO Budget
+                            agency.METROBudget -= metroRequest;
+
+                            if (metroCard.CardBalance > 0)
+                            {
+                                opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                                client.GiftCards.Add(metroCard);
+                            }
+                            opiddailycontext.SaveChanges();
+
+                            return "VisaBudgetExceeded";
+                        }
+                        else
+                        {
+                            // Update both budgets
+                            agency.METROBudget -= metroRequest;
+                            agency.VisaBudget -= visaRequest;
+                            opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                            if (metroCard.CardBalance > 0)
+                            {
+                                client.GiftCards.Add(metroCard);
+                            }
+                            if (visaCard.CardBalance > 0)
+                            {
+                                client.GiftCards.Add(visaCard);
+                            }
+                            opiddailycontext.SaveChanges();
+
+                            return "RequestFulfilled";
+                        }
+                    }
+                }
+
+                return "BadAgency";
             }
         }
     }

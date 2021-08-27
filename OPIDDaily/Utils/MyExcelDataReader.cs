@@ -13,7 +13,7 @@ namespace OPIDDaily.Utils
 {
     public class MyExcelDataReader
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MyExcelDataReader));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MyExcelDataReader));
      
         private static CheckViewModel NewCheckViewModel(System.Data.DataRow dataRow)
         {

@@ -18,7 +18,7 @@ namespace OPIDDaily.Controllers
 {
     public class UsersController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(UsersController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(UsersController));
 
         public bool IsInRole(string role)
         {

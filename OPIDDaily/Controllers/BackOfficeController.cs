@@ -17,7 +17,7 @@ namespace OPIDDaily.Controllers
     [Authorize(Roles = "BackOffice")]
     public class BackOfficeController : SharedController
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(BackOfficeController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(BackOfficeController));
        
         public ActionResult Home()
         {
@@ -472,6 +472,7 @@ namespace OPIDDaily.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateInventory(GiftCardInventoryViewModel gcivm)
         {
             GiftCards.UpdateInventory(gcivm);
@@ -479,6 +480,7 @@ namespace OPIDDaily.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateAgencyBudget(GiftCardInventoryViewModel gcivm)
         {
             int agencyId = Convert.ToInt32(gcivm.AgencyId);

@@ -22,7 +22,7 @@ namespace OPIDDaily.DAL
 {
     public class CheckManager
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(CheckManager));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(CheckManager));
 
         private static bool _firstCall = true;
       //  private static List<int> _incidentals;

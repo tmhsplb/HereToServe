@@ -13,7 +13,7 @@ namespace OPIDChecks.Controllers
 {
     public class FileDownloadController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(FileDownloadController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(FileDownloadController));
 
         public static string GetResearchTableCSV()
         {

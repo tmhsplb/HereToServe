@@ -21,9 +21,11 @@ namespace OPIDDaily.Models
         [Display(Name = "VISA Budget")]
         public int VisaBudget { get; set; }
 
+        public string METROCard { get; set; }
+
         [Display(Name = "$20 METRO Card")]
         public int METROCards20 { get; set; }
-
+               
         [Display(Name = "$30 METRO Card")]
         public int METROCards30 { get; set; }
 
@@ -32,6 +34,8 @@ namespace OPIDDaily.Models
 
         [Display(Name = "$50 METRO Card")]
         public int METROCards50 { get; set; }
+
+        public string VisaCard { get; set; }
 
         [Display(Name = "$20 VISA Card")]
         public int VisaCards20 { get; set; }

@@ -10,7 +10,7 @@ namespace OPIDDaily.Controllers
 {
     public class AgencyController : Controller
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AgencyController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AgencyController));
 
         public ActionResult ManageAgencies()
         {

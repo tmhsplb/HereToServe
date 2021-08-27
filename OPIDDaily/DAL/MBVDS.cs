@@ -11,7 +11,7 @@ namespace OPIDDaily.DAL
 {
     public class MBVDS
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Agencies));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(Agencies));
 
         public static SelectList GetMBVDSelectList()
         {

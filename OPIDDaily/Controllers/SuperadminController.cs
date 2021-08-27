@@ -16,7 +16,7 @@ namespace OPIDDaily.Controllers
     [Authorize(Roles = "SuperAdmin")]
     public class SuperadminController : SharedController 
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SuperadminController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SuperadminController));
 
         public ActionResult Home()
         {

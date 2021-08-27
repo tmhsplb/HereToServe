@@ -15,7 +15,7 @@ namespace OPIDDaily.Controllers
     [Authorize(Roles = "CaseManager")]
     public class CaseManagerController : SharedController
     {
-        private static log4net.ILog Log = log4net.LogManager.GetLogger(typeof(CaseManagerController));
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(CaseManagerController));
 
         public ActionResult Home()
         {
@@ -161,6 +161,95 @@ namespace OPIDDaily.Controllers
             Clients.StoreRequestedServicesAndSupportingDocuments(client.Id, rsvm);
             PrepareClientNotes(client, rsvm);
             return RedirectToAction("ManageMyClients", "CaseManager");
+        }
+
+        public ActionResult GiftCardsRequest()
+        {
+            int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "Please first select a client from the Clients Table.";
+                return View("Warning");
+            }
+
+            Client client = Clients.GetClient(nowServing, null);
+
+            if (client == null)
+            {
+                ViewBag.Warning = "Could not find selected client.";
+                return View("Warning");
+            }
+
+            if (client.LCK)
+            {
+                ViewBag.Warning = "Operation ID has currently locked Gift Card Requests for this client.";
+                return View("Warning");
+            }
+
+            return RedirectToAction("FulfillGiftCardsRequest");
+        }
+
+        public ActionResult FulfillGiftCardsRequest()
+        {
+            int nowServing = NowServing();
+            Client client = Clients.GetClient(nowServing, null);
+
+            if (client != null)
+            {
+                Agency agency = Agencies.GetAgency(client.AgencyId);
+
+                if (agency != null)
+                {
+                    GiftCardInventoryViewModel gcivm = GiftCards.GetInventory();
+                    gcivm.AgencyId = agency.AgencyId.ToString();
+                    gcivm.METROBudget = agency.METROBudget;
+                    gcivm.VisaBudget = agency.VisaBudget;
+
+                    return View("GiftCardsRequest", gcivm);
+                }
+
+                ViewBag.Warning = string.Format("Could not find agency {0}", agency.AgencyName);
+                return View("Warning");
+            }
+
+            ViewBag.Warning = "Could not find referenced client";
+            return View("Warning");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FulfillGiftCardsRequest(GiftCardInventoryViewModel gcivm)
+        {
+            int nowServing = NowServing();
+            string fulfillableRequest = GiftCards.FulfillRequest(nowServing, gcivm);
+            
+            if (fulfillableRequest.Equals("BadAgency"))
+            {
+                ModelState.AddModelError("ExceedsMETROBudgetError", "Could not find agency.");
+                return View("GiftCardsRequest", gcivm);
+            }
+
+            if (fulfillableRequest.Equals("METROBudgetExceeded"))
+            {
+                ModelState.AddModelError("ExceedsMETROBudgetError", "METRO gift card request exceeds budget.");
+                return View("GiftCardsRequest", gcivm);
+            }
+
+            if (fulfillableRequest.Equals("VisaBudgetExceeded"))
+            {
+                ModelState.AddModelError("ExceedsVisaBudgetError", "Visa gift card request exceeds budget.");
+                return View("GiftCardsRequest", gcivm);
+            }
+
+            if (fulfillableRequest.Equals("BothBudgetsExceeded"))
+            {
+                ModelState.AddModelError("ExceedsMETROBudgetError", "METRO gift card request exceeds budget.");
+                ModelState.AddModelError("ExceedsVisaBudgetError", "Visa gift card request exceeds budget.");
+                return View("GiftCardsRequest", gcivm);
+            }
+
+            return RedirectToAction("ManageMyClients");
         }
     }
 }

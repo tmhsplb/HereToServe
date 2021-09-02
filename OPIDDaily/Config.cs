@@ -65,7 +65,7 @@ namespace OPIDDaily
                 // Database for application HereToServe
                 return "Server=38cef54f-3aaf-47b7-bdaa-ad8d01019adf.sqlserver.sequelizer.com;Database=db38cef54f3aaf47b7bdaaad8d01019adf;User ID=hprerfhehwozwstf;Password=TXmDfSAAwUP4qLUB7GR5ysFTfcyk7KZM5MZ5Z2iGioV3Gw2Nhe7ubXWzqAxctqCU;";
                 // Database for application HTS:
-                return "Server=da70aead-a3bf-4b8c-ac97-ad8f01120a2d.sqlserver.sequelizer.com;Database=dbda70aeada3bf4b8cac97ad8f01120a2d;User ID=madtfqqdwodmmodg;Password=oK6ijz8HuaUCkuXMXFXicXgqprJeFWxnKiF6V2cccHAmYi6ESBP5T7nxCP32X3bE;";
+               // return "Server=da70aead-a3bf-4b8c-ac97-ad8f01120a2d.sqlserver.sequelizer.com;Database=dbda70aeada3bf4b8cac97ad8f01120a2d;User ID=madtfqqdwodmmodg;Password=oK6ijz8HuaUCkuXMXFXicXgqprJeFWxnKiF6V2cccHAmYi6ESBP5T7nxCP32X3bE;";
             }
         }
 

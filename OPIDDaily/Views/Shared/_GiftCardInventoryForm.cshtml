@@ -1,58 +1,32 @@
 ﻿@model OPIDDaily.Models.GiftCardInventoryViewModel
-
 <div class="form-group">
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.METROCards20, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.METROCards20, new { @class = "control-label" })
-    </div>
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.VisaCards20, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.VisaCards20, new { @class = "control-label" })
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.METROCards30, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.METROCards30, new { @class = "control-label" })
-    </div>
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.VisaCards30, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.VisaCards30, new { @class = "control-label" })
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.METROCards40, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.METROCards40, new { @class = "control-label" })
-    </div>
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.VisaCards40, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.VisaCards40, new { @class = "control-label" })
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.METROCards50, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.METROCards50, new { @class = "control-label" })
-    </div>
-    <div class="col-md-2">
-        @Html.TextBoxFor(m => m.VisaCards50, new { style="width:50px; font-weight:bold;", @class = "form-control" })
-    </div>
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.VisaCards50, new { @class = "control-label" })
-    </div>
+    <table>
+        <tr>
+            <td>@Html.TextBoxFor(m => m.METROCards20, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.METROCards20, new { @class = "giftcardlabel" })</td>
+            <td>@Html.TextBoxFor(m => m.VisaCards20, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.VisaCards20, new { @class = "giftcardlabel" })</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>@Html.TextBoxFor(m => m.METROCards30, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.METROCards30, new { @class = "giftcardlabel" })</td>
+            <td>@Html.TextBoxFor(m => m.VisaCards30, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.VisaCards30, new { @class = "giftcardlabel" })</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>@Html.TextBoxFor(m => m.METROCards40, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.METROCards40, new { @class = "giftcardlabel" })</td>
+            <td>@Html.TextBoxFor(m => m.VisaCards40, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.VisaCards40, new { @class = "giftcardlabel" })</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>@Html.TextBoxFor(m => m.METROCards50, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.METROCards50, new { @class = "giftcardlabel" })</td>
+            <td>@Html.TextBoxFor(m => m.VisaCards50, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+            <td>@Html.LabelFor(m => m.VisaCards50, new { @class = "giftcardlabel" })</td>
+        </tr>
+    </table>
 </div>

@@ -152,7 +152,17 @@ namespace OPIDDaily.DAL
             }
         }
 
-        public static GiftCardInventoryViewModel Populate(Agency agency, int id)
+        private static bool IsMETROCard(GiftCard gcard)
+        {
+            return (100 < gcard.GiftCardType && gcard.GiftCardType < 200);
+        }
+
+        private static bool IsVisaCard(GiftCard gcard)
+        {
+            return (200 < gcard.GiftCardType && gcard.GiftCardType < 300);
+        }
+
+        public static GiftCardInventoryViewModel SetRadioButtons(Agency agency, int id)
         {
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
@@ -180,15 +190,13 @@ namespace OPIDDaily.DAL
                     {
                         if (gcard.IsActive && DateTime.Compare(gcard.RegistrationDate, today) == 0)
                         {
-                            // Implict typing to determine METRO card
-                            if (100 < gcard.GiftCardType && gcard.GiftCardType < 200)
+                            if (IsMETROCard(gcard))
                             {
                                 gcivm.METROCard = gcard.GiftCardType.ToString();
                                 gcivm.CurrentMETRORequest = gcard.CardBalance;
                             }
 
-                            // Implicit typing to determine Visa card
-                            if (200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                            if (IsVisaCard(gcard))
                             {
                                 gcivm.VisaCard = gcard.GiftCardType.ToString();
                                 gcivm.CurrentVisaRequest = gcard.CardBalance;
@@ -290,14 +298,13 @@ namespace OPIDDaily.DAL
                     {
                         if (gcard.IsCurrent && DateTime.Compare(gcard.RegistrationDate, today) == 0)
                         {
-                            // Implict typing to determine METRO card
-                            if (100 < gcard.GiftCardType && gcard.GiftCardType < 200)
+                            if (IsMETROCard(gcard))
                             {
                                 todaysMETROGiftCard = gcard;
                             }
 
                             // Implict typing to determine Visa card
-                            if (200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                            if (IsVisaCard(gcard))
                             {
                                 todaysVisaGiftCard = gcard;
                             }
@@ -325,8 +332,8 @@ namespace OPIDDaily.DAL
                             // Radio button "No METRO Card" was selected. Deactive a current METRO card (if any).
                             foreach (GiftCard gcard in gcards)
                             {
-                                if (gcard.IsCurrent && 100 < gcard.GiftCardType && gcard.GiftCardType < 200)
-                                {
+                                if (gcard.IsCurrent && IsMETROCard(gcard))
+                                { 
                                     gcard.IsActive = false;
                                 }
                             }
@@ -345,7 +352,7 @@ namespace OPIDDaily.DAL
                             // Radio button "No Visa Card" was selected. Deactive a current Visa card (if any).
                             foreach (GiftCard gcard in gcards)
                             {
-                                if (gcard.IsCurrent && 200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                                if (gcard.IsCurrent && IsVisaCard(gcard))
                                 {
                                     gcard.IsActive = false;
                                 }
@@ -394,8 +401,7 @@ namespace OPIDDaily.DAL
                                     // There is a new current Visa card. Unmark as current a previous one (if any).
                                     foreach (GiftCard gcard in gcards)
                                     {
-                                        // Implicit type check for Visa cards. 
-                                        if (gcard.IsCurrent && 200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                                        if (gcard.IsCurrent && IsVisaCard(gcard))
                                         {
                                             gcard.IsCurrent = false;
                                         }
@@ -426,9 +432,8 @@ namespace OPIDDaily.DAL
                                     // There is a new current METRO card. Unmark as current a previous one (if any).
                                     foreach (GiftCard gcard in gcards)
                                     {
-                                        // Implicit type check for METRO cards
-                                        if (gcard.IsCurrent && 100 < gcard.GiftCardType && gcard.GiftCardType < 200)
-                                        {
+                                        if (gcard.IsCurrent && IsMETROCard(gcard))
+                                        { 
                                             gcard.IsCurrent = false;
                                         }
                                     }
@@ -458,8 +463,7 @@ namespace OPIDDaily.DAL
                                     // There is a new current Visa card. Unmark as current a previous one (if any).
                                     foreach (GiftCard gcard in gcards)
                                     {
-                                        // Implicit type check for Visa cards
-                                        if (gcard.IsCurrent && 200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                                        if (gcard.IsCurrent && IsVisaCard(gcard))
                                         {
                                             gcard.IsCurrent = false;
                                         }
@@ -485,7 +489,7 @@ namespace OPIDDaily.DAL
                                     foreach (GiftCard gcard in gcards)
                                     {
                                         // Implicit type check for METRO cards
-                                        if (gcard.IsCurrent && 100 < gcard.GiftCardType && gcard.GiftCardType < 200)
+                                        if (gcard.IsCurrent && IsMETROCard(gcard))
                                         {
                                             gcard.IsCurrent = false;
                                         }
@@ -521,14 +525,10 @@ namespace OPIDDaily.DAL
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsActive && gcard.IsCurrent)
+                        if (gcard.IsActive && gcard.IsCurrent && IsMETROCard(gcard))
                         {
-                            // Implict typing!
-                            if (100 < gcard.GiftCardType && gcard.GiftCardType < 200)
-                            {
-                                rsvm.METROGiftCardAmount = gcard.CardBalance;
-                                return true;
-                            }
+                            rsvm.METROGiftCardAmount = gcard.CardBalance;
+                            return true;
                         }
                     }
                 }
@@ -550,14 +550,10 @@ namespace OPIDDaily.DAL
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsActive && gcard.IsCurrent)
+                        if (gcard.IsActive && gcard.IsCurrent && IsVisaCard(gcard))
                         {
-                            // Implicit typing!
-                            if (200 < gcard.GiftCardType && gcard.GiftCardType < 300)
-                            {
-                                rsvm.VisaGiftCardAmount = gcard.CardBalance;
-                                return true;
-                            }
+                            rsvm.VisaGiftCardAmount = gcard.CardBalance;
+                            return true;
                         }
                     }
                 }
@@ -583,12 +579,12 @@ namespace OPIDDaily.DAL
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsCurrent && cardType.Equals("MGC") && 100 < gcard.GiftCardType && gcard.GiftCardType < 200)
+                        if (gcard.IsCurrent && cardType.Equals("MGC") && IsMETROCard(gcard))
                         {
                             gcard.IsCurrent = false;
                         }
 
-                        if (gcard.IsCurrent && cardType.Equals("VGC") && 200 < gcard.GiftCardType && gcard.GiftCardType < 300)
+                        if (gcard.IsCurrent && cardType.Equals("VGC") && IsVisaCard(gcard))
                         {
                             gcard.IsCurrent = false;    
                         }

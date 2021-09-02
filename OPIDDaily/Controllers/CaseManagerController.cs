@@ -201,7 +201,7 @@ namespace OPIDDaily.Controllers
 
                 if (agency != null)
                 {
-                    GiftCardInventoryViewModel gcivm = GiftCards.Populate(agency, client.Id);
+                    GiftCardInventoryViewModel gcivm = GiftCards.SetRadioButtons(agency, client.Id);
                     return View("GiftCardsRequest", gcivm);
                 }
 

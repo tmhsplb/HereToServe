@@ -8,9 +8,7 @@
 <br /><br /><br /><br />
 
 @using (Html.BeginForm("FulfillGiftCardsRequest", "CaseManager", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-
-
+{ 
     @Html.AntiForgeryToken()
     @Html.ValidationMessage("ExceedsMETROBudgetError", new { @class = "text-danger" })
     @Html.ValidationMessage("ExceedsVisaBudgetError", new { @class = "text-danger" })
@@ -21,124 +19,75 @@
     <h4>Budgets</h4>
     <hr />
 
-    <div class="form-group">
-        <div class="col-md-2">
-            @Html.TextBoxFor(m => m.METROBudget, new { @readonly = "readonly", style="width:50px; font-weight:bold;", @class = "form-control" })
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.METROBudget, new { @class = "control-label" })
-        </div>
-        <div class="col-md-2">
-            @Html.TextBoxFor(m => m.VisaBudget, new { @readonly = "readonly", style="width:50px; font-weight:bold;", @class = "form-control" })
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.VisaBudget, new { @class = "control-label" })
-        </div>
-    </div>
-
-    <br />
-    <h4>Gift Cards</h4>
-    <hr />
-
     <div class="row">
         <div class="col-md-12">
-            <section id="giftcardsrequestForm">
-                @* Table style: https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side *@
+            <section id="budgetsTable">
                 <table>
                     <tr>
-                     <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard20, new {  @class = "form-control", style = "width:50px;" })</td>
-                     <td>@Html.LabelFor(m => m.METROCards20, new { @class = "giftcardlabel" })</td>
-                     <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard20, new {  @class = "form-control", style = "width:50px;" })</td>
-                     <td>@Html.LabelFor(m => m.VisaCards20, new { @class = "giftcardlabel" })</td>
-                    </tr>
-                    <tr>
-                     <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard30, new { @class = "form-control" })</td>
-                     <td>@Html.LabelFor(m => m.METROCards30, new { @class = "giftcardlabel" })</td>
-                     <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard30, new { @class = "form-control" })</td>
-                     <td>@Html.LabelFor(m => m.VisaCards30, new { @class = "giftcardlabel" })</td>
+                        <td>@Html.TextBoxFor(m => m.METROBudget, new { @readonly = "readonly", style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                        <td>@Html.LabelFor(m => m.METROBudget, new { @class = "giftcardlabel" })</td>
+                        <td>@Html.TextBoxFor(m => m.VisaBudget, new { @readonly = "readonly", style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                        <td>@Html.LabelFor(m => m.VisaBudget, new { @class = "giftcardlabel" })</td>
                     </tr>
                 </table>
-                <!--
-                <div style="width: 800px; display: table;">
-                    <div style="display: table-row">
-                        <div  display: table-cell;">
-                            @Html.RadioButtonFor(m => m.METROCard, Model.METROCard20, new { style="width:100px;", @class = "form-control" })
-
-                        </div>
-                        <div display: table-cell;">
-
-                            @Html.LabelFor(m => m.METROCards20, new {  style="width:300px;", @class = "control-label" })
-                        </div>
-                        <div  display: table-cell;">
-                            @Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard20, new { style="width:100px;", @class = "form-control" })
-                           
-                        </div>
-                        <div display: table-cell;">
-                          
-                            @Html.LabelFor(m => m.VisaCards20, new { style="width:300px;", @class = "control-label" })
-                        </div>
-                       <div style="width: 10%; display: table-cell;">&nbsp;</div> 
-                    </div>
-                    <br />
-                    <div style="display: table-row">
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.METROCard, Model.METROCard30, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.METROCards30, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard30, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.VisaCards30, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 10%; display: table-cell;">&nbsp;</div>
-                    </div>
-                    <br />
-                    <div style="display: table-row">
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.METROCard, Model.METROCard40, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.METROCards40, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard40, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.VisaCards40, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 10%; display: table-cell;">&nbsp;</div>
-                    </div>
-                    <br />
-                    <div style="display: table-row">
-                        <div style="width: 30%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.METROCard, Model.METROCard50, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.METROCards50, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 30%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard50, new { @class = "form-control" })
-                            @Html.LabelFor(m => m.VisaCards50, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 40%; display: table-cell;">&nbsp;</div>
-                    </div>
-                    <br/>
-                    <div style="display: table-row">
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.METROCard, Model.METROCardNone)
-                            @Html.LabelFor(m => m.METROCardNone, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 45%; display: table-cell;">
-                            @Html.RadioButtonFor(m => m.VisaCard, Model.VisaCardNone)
-                            @Html.LabelFor(m => m.VisaCardNone, new { @class = "control-label" })
-                        </div>
-                        <div style="width: 10%; display: table-cell;">&nbsp;</div>
-                    </div>
-                </div>
-                -->
-                <br /><br/>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="Submit" class="btn btn-default" />
-                    </div>
-                </div>
-
             </section>
-
         </div>
     </div>
-}
+    
+        <br />
+        <h4>Gift Cards</h4>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-12">
+                <section id="giftcardsrequestForm">
+                    <table>
+                        <tr>
+                            <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard20, new { @class = "form-control", style = "width:50px;" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards20, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard20, new { @class = "form-control", style = "width:50px;" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards20, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard30, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards30, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard30, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards30, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard40, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards40, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard40, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards40, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCard50, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards50, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCard50, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards50, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.RadioButtonFor(m => m.METROCard, Model.METROCardNone, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCardNone, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.RadioButtonFor(m => m.VisaCard, Model.VisaCardNone, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCardNone, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                    </table>
+                   
+                    <br /><br />
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+  }
 

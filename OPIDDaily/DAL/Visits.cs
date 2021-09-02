@@ -121,6 +121,18 @@ namespace OPIDDaily.DAL
             };
         }
 
+        private static VisitViewModel GiftCardToVisitViewModel(GiftCard gcard)
+        {
+            return new VisitViewModel
+            {
+                Id = gcard.Id,
+                Date = gcard.RegistrationDate,
+                Item = (100 < gcard.GiftCardType && gcard.GiftCardType < 200 ? "METRO Card" : "VISA Card"),
+                Check = string.Format("${0}", gcard.CardBalance),
+                Status = "Gift Card"
+            };
+        }
+
         public static List<VisitViewModel> GetVisits(int nowServing)
         {
             using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
@@ -132,6 +144,8 @@ namespace OPIDDaily.DAL
                 
                 if (client != null)
                 {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
                     List<AncientCheck> ancientChecks = opiddailycontext.AncientChecks.Where(ac => ac.DOB == DOB && ac.Name.ToUpper().StartsWith(lastName)).ToList();
                     List<RCheck> rchecks = opiddailycontext.RChecks.Where(rc => rc.DOB == DOB && rc.Name.ToUpper().StartsWith(lastName)).ToList();
                     List<VisitViewModel> visits = new List<VisitViewModel>();
@@ -144,6 +158,14 @@ namespace OPIDDaily.DAL
                     foreach (RCheck rcheck in rchecks)
                     {
                         visits.Add(RCheckToVisitViewModel(rcheck, msgs));
+                    }
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (!gcard.IsCurrent && gcard.IsActive)
+                        {
+                            visits.Add(GiftCardToVisitViewModel(gcard));
+                        }
                     }
                  
                     // Make sure that visits are listed by ascending date
@@ -177,33 +199,6 @@ namespace OPIDDaily.DAL
                 return visits;
             }
         }
-
-        /*
-        // A Pocket Check is unresolved if it has a non-zero check number and an unknown disposition.
-        public static List<VisitViewModel> GetUnresolvedPocketChecks(int nowServing)
-        {
-            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
-            {
-                Client client = opiddailycontext.Clients.Find(nowServing);
-                List<PocketCheck> pchecks = opiddailycontext.PocketChecks.Where(pc => pc.ClientId == client.Id && pc.Num != 0  // && (pc.Disposition.Equals(null) || pc.Disposition.Equals(""))
-                                                                                      && pc.IsActive == true).ToList();
-
-                List<VisitViewModel> visits = new List<VisitViewModel>();
-
-                foreach (PocketCheck pcheck in pchecks)
-                {
-                    if (pcheck.IsActive)
-                    {
-                        visits.Add(PocketCheckToVisitViewModel(pcheck));
-                    }
-                }
-
-                // Make sure that visits are listed by ascending date
-                visits = visits.OrderBy(v => v.Date).ToList();
-                return visits;
-            }
-        }
-        */
 
         private static PocketCheck NewPocketCheck(Client client, VisitViewModel vvm)
         {
@@ -254,9 +249,18 @@ namespace OPIDDaily.DAL
 
                     // A pocket check must always have a corresponding check in the Research Table,
                     // because Service Tickets are generated from the visit history in the Research
-                    // table, not by using any pocket checks. So, when we add a new pocket check
+                    // Table, not by using any pocket checks. So, when we add a new pocket check
                     // we must also add a new corresponding research check.
-                    opiddailycontext.RChecks.Add(NewRCheck(client, vvm));
+
+                    if (vvm.Status.Equals("Gift Card"))
+                    {
+                        GiftCards.Deliver(nowServing, vvm.Item);
+                    }
+                    else
+                    {
+                        opiddailycontext.RChecks.Add(NewRCheck(client, vvm));    
+                    }
+
                     opiddailycontext.SaveChanges();
                 }
             }

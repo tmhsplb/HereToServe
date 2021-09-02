@@ -42,25 +42,7 @@ namespace OPIDDaily.Controllers
             return View("Clients");
         }
 
-        /*
-        public ActionResult PrehistoricChecks()
-        {
-            RequestedServicesViewModel rsvm = new RequestedServicesViewModel();
-            int nowServing = NowServing();
-            Client client = Clients.GetClient(nowServing, rsvm);
-            rsvm.Agencies = Agencies.GetAgenciesSelectList(client.AgencyId);
-            rsvm.MBVDS = MBVDS.GetMBVDSelectList();
-
-            ViewBag.ClientName = Clients.ClientBeingServed(client);
-            ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
-            ViewBag.Age = client.Age;
-
-            // Treat a client with ancient history like a client with existing history
-            // that is not yet visible, i.e. must be added to any actual existing history.
-            return View("ExistingClient", rsvm);
-        }
-        */
-
+       
         public ActionResult GetClientHistory()
         {
             RequestedServicesViewModel rsvm = new RequestedServicesViewModel { Agencies = Agencies.GetAgenciesSelectList(0) };

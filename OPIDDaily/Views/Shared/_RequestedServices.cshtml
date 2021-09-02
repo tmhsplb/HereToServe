@@ -59,6 +59,22 @@
                 <td width="200">&nbsp;&nbsp; @Model.TDLNotes</td>
             </tr>
         }
+        @if (Model.METROGiftCard)
+        {
+            <tr>
+                <td align="center" width="80">METRO Card</td>
+                <td align="center" width="120">$@Model.METROGiftCardAmount</td>
+                <td width="200">&nbsp;&nbsp; @Model.METROGiftCardNotes</td>
+            </tr>
+        }
+        @if (Model.VisaGiftCard)
+        {
+            <tr>
+                <td align="center" width="80">Visa Card</td>
+                <td align="center" width="120">$@Model.VisaGiftCardAmount</td>
+                <td width="200">&nbsp;&nbsp; @Model.VisaGiftCardNotes</td>
+            </tr>
+        }
         @if (Model.Numident)
         {
             <tr>
@@ -84,8 +100,8 @@
         @if (!string.IsNullOrEmpty(Model.Notes))
         {
             <tr>
-               <td colspan="3"><strong>&nbsp;&nbsp;@Model.Notes</strong></td>
-           </tr>
+                <td colspan="3"><strong>&nbsp;&nbsp;@Model.Notes</strong></td>
+            </tr>
         }
     </table>
    

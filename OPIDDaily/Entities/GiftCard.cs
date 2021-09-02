@@ -11,7 +11,7 @@ namespace OpidDailyEntities
         [Key]
         public int Id { get; set; }
 
-        public int HolderId { get; set; }
+        public int GiftCardType { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 
@@ -20,5 +20,9 @@ namespace OpidDailyEntities
         public DateTime BalanceDate { get; set; }
 
         public int CardBalance { get; set; }
+
+        public bool IsCurrent { get; set; }
+
+        public bool IsActive { get; set;}
     }
 }

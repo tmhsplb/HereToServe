@@ -201,11 +201,7 @@ namespace OPIDDaily.Controllers
 
                 if (agency != null)
                 {
-                    GiftCardInventoryViewModel gcivm = GiftCards.GetInventory();
-                    gcivm.AgencyId = agency.AgencyId.ToString();
-                    gcivm.METROBudget = agency.METROBudget;
-                    gcivm.VisaBudget = agency.VisaBudget;
-
+                    GiftCardInventoryViewModel gcivm = GiftCards.Populate(agency, client.Id);
                     return View("GiftCardsRequest", gcivm);
                 }
 

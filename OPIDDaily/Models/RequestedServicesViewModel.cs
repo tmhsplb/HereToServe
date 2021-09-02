@@ -84,6 +84,18 @@ namespace OPIDDaily.Models
         [Display(Name = "Pre-approved")]
         public bool PreApprovedReplacementTDL { get; set; }
 
+        public bool METROGiftCard { get; set; }
+
+        public int METROGiftCardAmount { get; set; }
+
+        public string METROGiftCardNotes { get; set; }
+
+        public bool VisaGiftCard { get; set; }
+
+        public int VisaGiftCardAmount { get; set; }
+
+        public string VisaGiftCardNotes { get; set; }
+
         /*
         [Display(Name = "Eligible?")]
         public bool ReplacementTDLEligible { get; set; }

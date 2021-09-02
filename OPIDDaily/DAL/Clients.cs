@@ -60,6 +60,8 @@ namespace OPIDDaily.DAL
             }
         }
 
+      
+
         public static Client GetClient(int nowServing, RequestedServicesViewModel rsvm)
         {
             using (OpidDailyDB opidcontext = new OpidDailyDB())
@@ -89,6 +91,9 @@ namespace OPIDDaily.DAL
                     rsvm.Numident = client.Numident;
                     rsvm.RequestedDocument = client.RequestedDocument;
                     rsvm.Notes = client.Notes;
+
+                    rsvm.METROGiftCard = GiftCards.RequestingMETROGiftCard(client.Id, rsvm);
+                    rsvm.VisaGiftCard = GiftCards.RequestingVisaGiftCard(client.Id, rsvm);
 
                     rsvm.TrackingOnly = NoServicesRequested(rsvm);
 

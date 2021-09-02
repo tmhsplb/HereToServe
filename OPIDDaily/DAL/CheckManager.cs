@@ -787,9 +787,17 @@ namespace OPIDDaily.DAL
                     {
                         return true;
                     }
+
+                    opidcontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    bool gcards = client.GiftCards.Any(gc => gc.IsActive == true);
+
+                    if (gcards)
+                    {
+                        return true;
+                    }
                 }
 
-                return false;
+                return false;  // Testing!
             }
         }
 

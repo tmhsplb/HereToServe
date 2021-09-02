@@ -245,6 +245,14 @@
     <Compile Include="DataContexts\OPIDDailyMigrations\202108261451350_GiftCardInventory.Designer.cs">
       <DependentUpon>202108261451350_GiftCardInventory.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataContexts\OPIDDailyMigrations\202108301608034_GiftCard2.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202108301608034_GiftCard2.Designer.cs">
+      <DependentUpon>202108301608034_GiftCard2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109011404077_GiftCards3.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109011404077_GiftCards3.Designer.cs">
+      <DependentUpon>202109011404077_GiftCards3.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataContexts\OPIDDailyMigrations\Configuration.cs" />
     <Compile Include="Entities\GiftCard.cs" />
     <Compile Include="Entities\GiftCardInventory.cs" />
@@ -937,6 +945,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202108261451350_GiftCardInventory.resx">
       <DependentUpon>202108261451350_GiftCardInventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202108301608034_GiftCard2.resx">
+      <DependentUpon>202108301608034_GiftCard2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109011404077_GiftCards3.resx">
+      <DependentUpon>202109011404077_GiftCards3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

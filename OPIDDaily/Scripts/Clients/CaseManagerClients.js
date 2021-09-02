@@ -22,7 +22,7 @@ $("#clientsGrid").jqGrid({
         { key: false, name: 'BirthName', index: 'BirthName', width: 150, editable: true, sortable: false, search: false },
         { key: false, align: 'center', name: 'DOB', index: 'DOB', formatter: 'date', width: 120, editable: true, sortable: true, search: false },
         { key: false, align: 'center', name: 'Age', index: 'Age', width: 50, editable: false, sortable: false, search: false },
-        { name: 'PND', index: 'PND', align: 'center', width: 55, editable: false, edittype: "checkbox", editoptions: { value: "Y:''" }, },
+        { name: 'ACK', index: 'ACK', align: 'center', width: 55, editable: false, edittype: "checkbox", editoptions: { value: "Y:''" }, },
         { name: 'LCK', index: 'LCK', align: 'center', width: 55, editable: false, edittype: "checkbox", editoptions: { value: "Y:''" }, },
         { name: 'XID', index: 'XID', align: 'center', width: 50, editable: false, edittype: "checkbox", editoptions: { value: "Y:''" } },
         { name: 'XBC', index: 'XBC', align: 'center', width: 50, editable: false, edittype: "checkbox", editoptions: { value: "Y:''" }, },

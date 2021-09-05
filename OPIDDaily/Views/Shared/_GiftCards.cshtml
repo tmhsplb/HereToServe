@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - OPID Daily</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/DataTables/css")
+
     @Scripts.Render("~/bundles/modernizr")
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/mvc5datatables")
     @RenderSection("scripts", required: false)
 
     <style>
@@ -33,13 +36,12 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Home", "CaseManager")</li>
-                    <li>@Html.ActionLink("Clients", "ManageMyClients", "CaseManager")</li>
-                    <li>@Html.ActionLink("Demographics", "GetDemographicInfo", "CaseManager")</li>
-                    <li>@Html.ActionLink("Service Request", "ServiceRequest", "CaseManager")</li>
-                    <li>@Html.ActionLink("Gift Cards", "GiftCardsRequest", "CaseManager")</li>
-                    <li>@Html.ActionLink("Service Ticket", "PrepareCaseManagerServiceTicket", "CaseManager")</li>
-                    <!-- <li>@Html.ActionLink("Voucher", "PrepareVoucher", "CaseManager")</li> -->
+                    <li>@Html.ActionLink("Home", "Home", "GiftCards")</li>
+                    <li>@Html.ActionLink("Dashboard", "ManageDashboard", "GiftCards")</li>
+                    <li>@Html.ActionLink("Service Ticket", "GiftCardsServiceTicket", "GiftCards")</li>
+                    <li>@Html.ActionLink("Assign Card(s)", "AssignRequestedCards", "GiftCards")</li>
+                    <li>@Html.ActionLink("Gift Cards", "GiftCardsInventory", "GiftCards")</li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

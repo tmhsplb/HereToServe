@@ -1,0 +1,101 @@
+﻿@model OPIDDaily.Models.GiftCardInventoryViewModel
+
+@{
+    ViewBag.Title = "Gift Cards Inventory";
+    Layout = "~/Views/Shared/_GiftCards.cshtml";
+}
+
+
+<br /><br /><br />
+<div class="row">
+    <div class="col-md-12">
+        <section id="inventoryForm">
+            @using (Html.BeginForm("UpdateInventory", "GiftCards", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationMessage("InventoryError", new { @class = "text-danger" })
+
+                <h4>Available Funds</h4>
+                <hr />
+
+                <div class="form-group">
+                    <table>
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.METROFunds, new { @readonly = "readonly", style = "width:60px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROFunds, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaFunds, new { @readonly = "readonly", style = "width:60px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaFunds, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br /><br />
+
+                <h4>Inventory</h4>
+                <hr />
+
+                @Html.Partial("_GiftCardInventoryForm", Model)
+
+
+                <br /><br />
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Update Inventory" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<br />
+<hr />
+<br />
+
+@* Two submit buttons: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form*@
+<div class="row">
+    <div class="col-md-12">
+        <section id="inventoryForm">
+
+            @using (Html.BeginForm("HandleBudgetRequest", "GiftCards", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationMessage("BudgetError", new { @class = "text-danger" })
+
+                <h4>Budgets</h4>
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.AgencyId, Model.Agencies, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>@Html.TextBoxFor(m => m.METROBudget, new { style = "width:60px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROBudget, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaBudget, new { style = "width:60px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaBudget, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br /><br />
+
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <input type="submit" name="retrievebudget" value="Retrieve Budget" class="btn btn-default" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" name="updatebudget" value="Update Budget" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>

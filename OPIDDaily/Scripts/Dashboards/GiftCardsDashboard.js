@@ -1,9 +1,8 @@
 ﻿var lastServed = 0;
 var rowsToColor = [];
 
-
 $("#dashboardGrid").jqGrid({
-    url: "GetDashboard",  
+    url: "GetDashboard", // "@Url.Action("GetDashboard", "BackOffice")",
     datatype: "json",
     pageable: true,
     mtype: "Get",
@@ -11,7 +10,7 @@ $("#dashboardGrid").jqGrid({
     colModel: [
         { key: true, hidden: true, name: 'Id', index: 'Id' },
         { key: false, align: 'center', name: 'ServiceTicket', index: 'ServiceTicket', width: 50, editable: true, sortable: true, search: false },
-        { key: false, name: 'AgencyName', index: 'AgencyName', width: 150, editable: false, sortable: false, search: true, searchoptions: { sopt: ['bw'] } },
+        { key: false, name: 'AgencyName', index: 'AgencyName', width: 150, editable: false, search: true }, 
         { key: false, align: 'center', name: 'Expiry', index: 'Expiry', formatter: 'date', width: 120, editable: true, sortable: true, search: false },
         { key: false, name: 'Stage', index: 'Stage', width: 100, formatter: rowColorFormatter, editable: true, edittype: 'select', editoptions: { value: { 'Screened': 'Screened', 'CheckedIn': 'CheckedIn', 'Interviewing': 'Interviewing', 'BackOffice': 'BackOffice', 'Done': 'Done' } }, sortable: false, search: false },
         { key: false, name: 'Conversation', index: 'Conversation', width: 35, align: 'center', editable: true, edittype: "checkbox", editoptions: { value: "Y:''" }, sortable: false, search: false },
@@ -20,7 +19,8 @@ $("#dashboardGrid").jqGrid({
         { key: false, name: 'FirstName', index: 'FirstName', width: 150, editable: true, sortable: false, search: true },
         { key: false, name: 'MiddleName', index: 'MiddleName', width: 150, editable: true, sortable: false, search: true },
         { key: false, name: 'BirthName', index: 'BirthName', width: 150, editable: true, sortable: false, search: true },
-        { key: false, align: 'center', name: 'DOB', index: 'DOB', formatter: 'date', width: 120, editable: true, sortable: true, search: false },
+       // { key: false, align: 'center', name: 'DOB', index: 'DOB', formatter: 'date', width: 120, editable: true, sortable: true, search: false },
+        { key: false, align: 'center', name: 'sDOB', index: 'sDOB', width: 120, editable: true, sortable: true, search: true },
         { key: false, align: 'center', name: 'Age', index: 'Age', width: 50, editable: false, sortable: true, search: false },
         { name: 'ACK', index: 'ACK', align: 'center', width: 50, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" }, search: false },
         { name: 'LCK', index: 'LCK', align: 'center', width: 50, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" }, search: false },
@@ -31,16 +31,17 @@ $("#dashboardGrid").jqGrid({
     ],
     pager: '#dashboardPager',
     rowNum: 15,
+   // rowList: [15, 20, 25],
 
     onSelectRow: function (nowServing) {
         if (nowServing == null || nowServing == lastServed) {
             // Prevent infinite recursion caused by reloadGrid
-            //alert("nowServing is null or nowServing == lastServed!");
+            // alert("Prevent infinite recursion");
         } else {
             lastServed = nowServing;
 
             var dashboard = jQuery("#dashboardGrid"),
-                // selRowId = dashboard.jqGrid('getGridParam', 'selrow'),
+               // selRowId = dashboard.jqGrid('getGridParam', 'selrow'),
                 hasConversation = dashboard.jqGrid('getCell', nowServing, 'Conversation');
 
             if (hasConversation == "Y") {
@@ -48,12 +49,12 @@ $("#dashboardGrid").jqGrid({
             } else {
                 jQuery("#conversation").addClass("hideConversation");
             }
-
+                  
             jQuery("#dashboardGrid").jqGrid('setGridParam',
                 {
                     postData: { nowConversing: nowServing },
-                    url: "NowConversing", // "@Url.Action("NowServing", "FrontDesk")"
-                    }).trigger('reloadGrid', { fromServer: true });
+                    url: "NowConversing",
+                }).trigger('reloadGrid', { fromServer: true });
         }
     },
 
@@ -61,16 +62,18 @@ $("#dashboardGrid").jqGrid({
     viewrecords: true,
     loadonce: false,
     loadComplete: function () {
-        //  alert("load is Complete");
+        // alert("lastServed = " + lastServed);
         jQuery("#dashboardGrid").jqGrid('setSelection', lastServed);
     },
 
     gridComplete: function () {
         for (var i = 0; i < rowsToColor.length; i++) {
-            //  alert("colored row: " + rowsToColor[i].rowId + " " + rowsToColor[i].rowColor);
+          //  alert("colored row: " + rowsToColor[i].rowId + " " + rowsToColor[i].rowColor);
             $("#" + rowsToColor[i].rowId).css("color", rowsToColor[i].rowColor)
         }
     },
+
+   // gridview: true,
 
     caption: 'Service Requests Dashboard',
     emptyrecords: 'No records to display',
@@ -93,10 +96,10 @@ $("#dashboardGrid").jqGrid({
         $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
         jQuery("#" + subgrid_table_id).jqGrid({
             postData: { id: function () { /* alert("id of expanded row = " + row_id); */ return row_id } },  // the secret to getting the row id in the post!
-            url: "GetDependents", // "@Url.Action("GetDependents", "FrontDesk")",
+            url: "GetDependents", // "@Url.Action("GetDependents", "BackOffice")",
             datatype: "json",
             mtype: 'post',
-            editurl: "Dummy", // "@Url.Action("Dummy", "FrontDesk")",
+            editurl: "Dummy", // "@Url.Action("Dummy", "BackOffice")",
             cellsubmit: 'clientArray',
             colNames: ['Id', 'First Name', 'Middle Name', 'Last Name', 'Birth Name', 'DOB', 'Age', /* 'ACK', */ 'XID', 'XBC', 'Notes'],
             colModel: [
@@ -105,9 +108,10 @@ $("#dashboardGrid").jqGrid({
                 { key: false, name: 'MiddleName', index: 'MiddleName', width: 100, editable: true },
                 { key: false, name: 'LastName', index: 'LastName', width: 100, editable: true },
                 { key: false, name: 'BirthName', index: 'BirthName', width: 100, editable: true, sortable: false, search: false },
-                { key: false, align: 'center', name: 'DOB', index: 'DOB', formatter: 'date', width: 120, editable: true },
+                //{ key: false, align: 'center', name: 'DOB', index: 'DOB', formatter: 'date', width: 120, editable: true },
+                { key: false, align: 'center', name: 'sDOB', index: 'sDOB', width: 120, editable: true, search: false },
                 { key: false, align: 'center', name: 'Age', index: 'Age', width: 50, editable: false, sortable: false, search: false },
-             //   { name: 'ACK', index: 'ACK', align: 'center', width: 35, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" } },
+               // { name: 'ACK', index: 'ACK', align: 'center', width: 35, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" } },
                 { name: 'XID', index: 'XID', align: 'center', width: 35, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" } },
                 { name: 'XBC', index: 'XBC', align: 'center', width: 35, editable: true, edittype: "checkbox", editoptions: { value: "Y:''" } },
                 { key: false, name: 'Notes', index: 'Notes', width: 150, sortable: false, editable: true, edittype: 'textarea', editoptions: { rows: '2', cols: '300' } }
@@ -123,7 +127,7 @@ $("#dashboardGrid").jqGrid({
                     jQuery("#dashboardGrid").jqGrid('setGridParam',
                         {
                             postData: { nowServing: nowServing },
-                            url: "NowServing",  
+                            url: "NowServing", // "@Url.Action("NowServing", "BackOffice")"
                         }).trigger('reloadGrid', { fromServer: true }).jqGrid('setSelection', nowServing, true);
                 }
             },
@@ -136,7 +140,7 @@ $("#dashboardGrid").jqGrid({
         jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: true, add: false, del: false, search: false, refresh: false },
             {
                 zIndex: 100,
-                url: "EditDependentClient", //  "@Url.Action("EditDependentClient", "FrontDesk")",
+                url: "EditDependentClient", // "@Url.Action("EditDependentClient", "BackOffice")",
                 closeOnEscape: true,
                 closeAfterEdit: true,
                 recreateForm: true,
@@ -154,7 +158,7 @@ jQuery("#dashboardGrid").jqGrid('filterToolbar', { searchOperators: true });
 jQuery("#dashboardGrid").jqGrid('navGrid', '#dashboardPager', { edit: true, add: false, del: false, search: false, refresh: true },
     {
         zIndex: 100,
-        url: "EditClient", // "@Url.Action("EditClient", "FrontDesk")",
+        url: "EditClient", // "@Url.Action("EditClient", "BackOffice")",
         closeOnEscape: true,
         closeAfterEdit: true,
         recreateForm: true,
@@ -172,10 +176,10 @@ function rowColorFormatter(cellValue, options, rowObject) {
     if (cellValue != null && cellValue == "END") {
         // End of conversation. Turn coloring off.
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#000000" };  // black
-    } else if (cellValue != null && cellValue == "FromAgency" || cellValue == "FromOPID" || cellValue == "IHFromOPID" || cellValue == "FromFrontDesk" || cellValue == "IHFromFrontDesk" || cellValue == "IHFromGCAdmin" || cellValue == "FromGCAdmin") {
+    } else if (cellValue != null && (cellValue == "FromAgency" || cellValue == "FromFrontDesk" || cellValue == "IHFromFrontDesk" || cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer" || cellValue == "FromOPID" || cellValue == "IHFromOPID")) {
         // alert("cellValue == FromAgency");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#00FF00" };  // green
-    } else if (cellValue != null && (cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer")) {
+    } else if (cellValue != null && (cellValue == "FromGCAdmin" || cellValue == "IHFromGCAdmin")) {
         // alert("cellValue == FromOPID");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#FF0000" };  // red
     } else if (cellValue != null && cellValue == "StageChange") {

@@ -789,7 +789,7 @@ namespace OPIDDaily.DAL
                     }
 
                     opidcontext.Entry(client).Collection(c => c.GiftCards).Load();
-                    bool gcards = client.GiftCards.Any(gc => gc.IsActive == true);
+                    bool gcards = client.GiftCards.Any(gc => gc.IsActive == true && !gc.IsCurrent);
 
                     if (gcards)
                     {

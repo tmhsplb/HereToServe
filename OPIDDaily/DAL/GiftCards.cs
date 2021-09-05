@@ -594,5 +594,188 @@ namespace OPIDDaily.DAL
                 }
             }
         }
+
+        private static string GiftCardLabel(GiftCard gcard)
+        {
+            int amount = 0;
+            string suffix = " Card";
+
+            if (IsMETROCard(gcard))
+            {
+                amount = gcard.GiftCardType % 100;
+                suffix = "METRO card";
+            }
+
+
+            if (IsVisaCard(gcard))
+            {
+                amount = gcard.GiftCardType % 200;
+                suffix = "VISA card";
+            }
+
+            return string.Format("${0} {1}:", amount, suffix);
+        }
+
+        private static GiftCardViewModel GiftCardEntityToGiftCardViewModel(GiftCard gcard)
+        {
+            return new GiftCardViewModel
+            {
+                Id = gcard.Id,
+                Label = GiftCardLabel(gcard),
+                GiftCardType = gcard.GiftCardType,
+                RegistrationDate = gcard.RegistrationDate,
+                RegistrationID = gcard.RegistrationID,
+                BalanceDate = gcard.BalanceDate,
+                CardBalance = gcard.CardBalance
+            };
+        }
+
+        public static GiftCardViewModel GetCurrentMETRORequest(int nowServing)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsMETROCard(gcard))
+                        {
+                            return GiftCardEntityToGiftCardViewModel(gcard);
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public static GiftCardViewModel GetCurrentVisaRequest(int nowServing)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsVisaCard(gcard))
+                        {
+                            return GiftCardEntityToGiftCardViewModel(gcard);
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public static string GetCurrentMETRORegistrationId(int nowServing)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsMETROCard(gcard))
+                        {
+                            return gcard.RegistrationID;
+                        }
+                    }
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public static void SetCurrentMETRORegistrationId(int nowServing, string metroRegistrationId)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsMETROCard(gcard))
+                        {
+                            gcard.RegistrationID = metroRegistrationId;
+                            opiddailycontext.SaveChanges();
+                            // Avoid a race condition
+                            Thread.Sleep(200);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string GetCurrentVisaRegistrationId(int nowServing)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsVisaCard(gcard))
+                        {
+                            return gcard.RegistrationID;  
+                        }
+                    }
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public static void SetCurrentVisaRegistrationId(int nowServing, string visaRegistrationId)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                    List<GiftCard> gcards = client.GiftCards.ToList();
+
+                    foreach (GiftCard gcard in gcards)
+                    {
+                        if (gcard.IsActive && gcard.IsCurrent && IsVisaCard(gcard))
+                        {
+                            gcard.RegistrationID = visaRegistrationId;
+                            opiddailycontext.SaveChanges();
+                            // Avoid a race condition
+                            Thread.Sleep(200);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -203,6 +203,7 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\FileDownloadController.cs" />
     <Compile Include="Controllers\FrontDeskController.cs" />
+    <Compile Include="Controllers\GiftCardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterviewerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -269,6 +270,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GiftCardInventoryViewModel.cs" />
+    <Compile Include="Models\GiftCardViewModel.cs" />
     <Compile Include="Models\MBVDViewModel.cs" />
     <Compile Include="Models\AgencyViewModel.cs" />
     <Compile Include="Models\Check.cs" />
@@ -597,6 +599,7 @@
     <Content Include="App_Data\Import Me Header.csv" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\ClientHistory\InterviewerClientHistory.js" />
+    <Content Include="Scripts\Conversation\GiftCardsConversation.js" />
     <Content Include="Scripts\Conversation\InterviewerConversation.js" />
     <Content Include="Scripts\Conversation\FrontDeskConversation.js" />
     <Content Include="Scripts\Conversation\CaseManagerConversation.js" />
@@ -608,6 +611,7 @@
     <Content Include="Scripts\Clients\CaseManagerClients.js" />
     <Content Include="Scripts\Clients\FrontDeskClients.js" />
     <Content Include="Scripts\Clients\SuperadminClients.js" />
+    <Content Include="Scripts\Dashboards\GiftCardsDashboard.js" />
     <Content Include="Scripts\Dashboards\BackOfficeDashboard.js" />
     <Content Include="Scripts\Dashboards\DemoDashboard.js" />
     <Content Include="Scripts\Dashboards\InterviewerDashboard.js" />
@@ -914,6 +918,14 @@
     <Content Include="Views\BackOffice\GiftCardsInventory.cshtml" />
     <Content Include="Views\Shared\_GiftCardInventoryForm.cshtml" />
     <Content Include="Views\CaseManager\GiftCardsRequest.cshtml" />
+    <Content Include="Views\Shared\_GiftCards.cshtml" />
+    <Content Include="Views\GiftCards\Home.cshtml" />
+    <Content Include="Views\GiftCards\GiftCardsInventory.cshtml" />
+    <Content Include="Views\GiftCards\PrintExpressClient.cshtml" />
+    <Content Include="Views\GiftCards\PrintExistingClient.cshtml" />
+    <Content Include="Views\GiftCards\Dashboard.cshtml" />
+    <Content Include="Views\GiftCards\AssignRequestedCards.cshtml" />
+    <Content Include="Views\GiftCards\Warning.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

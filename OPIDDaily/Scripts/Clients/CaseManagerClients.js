@@ -220,7 +220,7 @@ function rowColorFormatter(cellValue, options, rowObject) {
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#000000" };  // black
     } else if (cellValue != null && cellValue == "FromAgency") {
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#FF0000" };  // red
-    } else if (cellValue != null && (cellValue == "FromOPID" || cellValue == "FromFrontDesk" || cellValue == "FromInterviewer")) {
+    } else if (cellValue != null && (cellValue == "FromOPID" || cellValue == "FromFrontDesk" || cellValue == "FromInterviewer" || cellValue == "FromGCAdmin")) {
         // alert("cellValue == FromOPID");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#00FF00" };  // green
     } else if (cellValue != null && cellValue == "StageChange") {

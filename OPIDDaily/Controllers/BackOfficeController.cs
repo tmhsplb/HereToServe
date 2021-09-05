@@ -409,59 +409,5 @@ namespace OPIDDaily.Controllers
             ViewData["MergeStatus"] = "Merge Complete";
             return View("Merge");
         }
-
-        public ActionResult GiftCardsInventory()
-        {
-            GiftCardInventoryViewModel gcivm = GiftCards.GetInventory();
-            int selectedAgency = Convert.ToInt32(SessionHelper.Get("SelectedAgency")); 
-            gcivm.Agencies = Agencies.GetAgenciesSelectList(selectedAgency);
-
-            if (selectedAgency != 0)
-            {
-                GiftCards.SetBudgets(selectedAgency, gcivm);
-            }
-            
-            return View("GiftCardsInventory", gcivm);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateInventory(GiftCardInventoryViewModel gcivm)
-        {
-            GiftCards.UpdateInventory(gcivm);
-            return RedirectToAction("GiftCardsInventory");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult HandleBudgetRequest(string retrieveBudget, string updateBudget, GiftCardInventoryViewModel gcivm)
-        {
-            int agencyId = Convert.ToInt32(gcivm.AgencyId);
-
-            if (agencyId == 0)
-            {
-                ModelState.AddModelError("BudgetError", "Please select an agency other than OpID");
-                gcivm = GiftCards.GetInventory();
-                gcivm.Agencies = Agencies.GetAgenciesSelectList(0);
-                return View("GiftCardsInventory", gcivm);
-            }
-
-            if (!string.IsNullOrEmpty(retrieveBudget) && retrieveBudget.Equals("Retrieve Budget"))
-            {
-                SessionHelper.Set("SelectedAgency", agencyId.ToString());
-                return RedirectToAction("GiftCardsInventory");
-            }
-            else if (!string.IsNullOrEmpty(updateBudget) && updateBudget.Equals("Update Budget"))
-            {
-                SessionHelper.Set("SelectedAgency", agencyId.ToString());
-                GiftCards.UpdateBudgets(agencyId, gcivm.METROBudget, gcivm.VisaBudget);
-                return RedirectToAction("GiftCardsInventory");
-            }
-            
-            ModelState.AddModelError("BudgetError", "Unknown budget command");
-            gcivm = GiftCards.GetInventory();
-            gcivm.Agencies = Agencies.GetAgenciesSelectList(0);
-            return View("GiftCardsInventory", gcivm);
-        }
     }
 }

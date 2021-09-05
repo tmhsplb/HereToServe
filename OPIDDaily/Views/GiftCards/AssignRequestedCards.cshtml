@@ -1,0 +1,55 @@
+﻿@model Tuple<GiftCardViewModel, GiftCardViewModel>
+@using OPIDDaily.Models
+
+@{
+    ViewBag.Title = "Gift Cards";
+    Layout = "~/Views/Shared/_GiftCards.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-4">
+            <section id="assingForm">
+                @using (Html.BeginForm("AssignRequestedCards", "GiftCards", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationMessage("AssignmentError", new { @class = "text-danger" })
+
+                    <h4>Assign Cards</h4>
+                    <hr />
+
+                    <div class="form-group">
+                        @if (Model.Item1 != null)
+                        {
+                            <table>
+                                <tr>
+                                    <td>@Html.Label(Model.Item1.Label, new { @class = "giftcardlabel" })</td>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>@Html.TextBox("metroRegistrationId", Model.Item1.RegistrationID, new { style = "width:200px; font-weight:bold", @class = "form-control" })</td>
+                                </tr>
+                            </table>
+                        }
+
+                        @if (Model.Item2 != null)
+                        {
+                            <table>
+                                <tr>
+                                    <td>@Html.Label(Model.Item2.Label, new { @class = "giftcardlabel" })</td>
+                                    @*<td>&nbsp;&nbsp;</td>*@
+                                    <td>@Html.TextBox("visaRegistrationId", Model.Item2.RegistrationID, new { style = "width:200px; font-weight:bold", @class = "form-control" })</td>
+                                </tr>
+                            </table>
+                        }
+                    </div>
+
+                    <br /><br />
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+

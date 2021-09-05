@@ -245,7 +245,7 @@ namespace OPIDDaily.Controllers
                 return View("GiftCardsRequest", gcivm);
             }
 
-            return RedirectToAction("ManageMyClients");
+            return RedirectToAction("PrepareCaseManagerServiceTicket");
         }
     }
 }

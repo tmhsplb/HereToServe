@@ -117,6 +117,11 @@ namespace OPIDDaily.Controllers
                     return RedirectToAction("ManageMyClients", "CaseManager");
                 }
 
+                else if (IsInRole("GiftCardAdmin"))
+                {
+                    return RedirectToAction("ManageDashboard", "GiftCards");
+                }
+
                 ViewBag.Warning = "User in unrecognized role.";
             }
             else

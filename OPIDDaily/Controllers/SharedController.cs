@@ -553,6 +553,16 @@ namespace OPIDDaily.Controllers
             rsvm.TDLNotes = notes.ToString();
         }
 
+        protected static void PrepareMETRONotes(Client client, RequestedServicesViewModel rsvm)
+        {
+            rsvm.METROGiftCardNotes = GiftCards.GetCurrentMETRORegistrationId(client.Id);
+        }
+
+        protected static void PrepareVisaNotes(Client client, RequestedServicesViewModel rsvm)
+        {
+            rsvm.VisaGiftCardNotes = GiftCards.GetCurrentVisaRegistrationId(client.Id);
+        }
+
         protected void PrepareClientNotes(Client client, RequestedServicesViewModel rsvm)
         {
             if (!rsvm.TrackingOnly)
@@ -561,6 +571,8 @@ namespace OPIDDaily.Controllers
                 PrepareMBVDNotes(client, rsvm);
                 PrepareTIDNotes(client, rsvm);
                 PrepareTDLNotes(client, rsvm);
+                PrepareMETRONotes(client, rsvm);
+                PrepareVisaNotes(client, rsvm);
             }
             else
             {
@@ -960,7 +972,7 @@ namespace OPIDDaily.Controllers
         }
 
 
-        public ActionResult PrepareServiceTicket()
+        public ActionResult PrepareCaseManagerServiceTicket()
         {
             int nowServing = NowServing();
 

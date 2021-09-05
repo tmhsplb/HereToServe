@@ -129,7 +129,8 @@ namespace OPIDDaily.DAL
                 Date = gcard.RegistrationDate,
                 Item = (100 < gcard.GiftCardType && gcard.GiftCardType < 200 ? "METRO Card" : "VISA Card"),
                 Check = string.Format("${0}", gcard.CardBalance),
-                Status = "Gift Card"
+                Status = "Gift Card",
+                Notes = gcard.RegistrationID
             };
         }
 

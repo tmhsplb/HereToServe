@@ -63,7 +63,7 @@ namespace OPIDDaily.Models
 
         public string MSG { get; set; }
 
-        public string Msgs { get; set; }
+      //  public string Msgs { get; set; }
                 
         public string Notes { get; set; }
     }

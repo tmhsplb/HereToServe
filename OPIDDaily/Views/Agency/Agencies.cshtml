@@ -19,10 +19,10 @@
 
 <script type="text/javascript">
     $("#agenciesGrid").jqGrid({
-        url: "@Url.Action("GetAgencies", "Agency")",
+        url: "GetAgencies",  // "@Url.Action("GetAgencies", "Agency")",
         datatype: "json",
         mtype: "Get",
-        colNames: ['Id', 'Id',  'AgencyName', 'ContactPerson', 'Phone', 'Email', 'Active'],
+        colNames: ['Id', 'Id',  'AgencyName', 'ContactPerson', 'Phone', 'Email', 'Gift Cards', 'Active'],
         colModel: [
             { key: true, hidden: true, name: 'Id', index: 'Id' },
             { key: false, name: 'AgencyId', index: 'AgencyId', width: 20, editable: true, sortable: false, search: false },
@@ -30,6 +30,7 @@
             { key: false, name: 'ContactPerson', index: 'ContactPerson', width: 150, editable: true, sortable: false, search: false },
             { key: false, name: 'Phone', index: 'Phone', width: 50, editable: true, sortable: false, search: false },
             { key: false, name: 'Email', index: 'Email', width: 150, editable: true, sortable: false, search: false },
+            { key: false, align: 'center', name: 'AllowGiftCards', index: 'AllowGiftCards', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:''" }, sortable: false, search: false},
             { key: false, align: 'center', name: 'IsActive', index: 'IsActive', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:''" }, sortable: false, search: false}
         ],
         pager: jQuery('#agenciesPager'),

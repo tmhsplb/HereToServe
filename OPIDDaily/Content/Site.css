@@ -23,6 +23,19 @@ textarea {
     max-width: 280px;
 }
 
+/* Styling of the navbar */
+.navbar-custom {
+    background-color: WhiteSmoke;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: blue;
+}
+
 
 /* https://stackoverflow.com/questions/8357058/how-to-make-a-href-link-look-like-a-button */
 .button {

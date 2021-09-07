@@ -105,7 +105,7 @@ namespace OPIDDaily.Controllers
                 return "Failure";
             }
 
-            Clients.DeleteDependentClient(id);
+            Clients.DeleteClient(id);
             DailyHub.Refresh();
             return "Success";
         }
@@ -183,7 +183,16 @@ namespace OPIDDaily.Controllers
 
             if (client.LCK)
             {
-                ViewBag.Warning = "Operation ID has currently locked Gift Card Requests for this client.";
+                ViewBag.Warning = "Operation ID has currently locked gift card requests for this client.";
+                return View("Warning");
+            }
+
+            int thisAgency = ReferringAgency();
+            Agency agency = Agencies.GetAgency(thisAgency);
+
+            if (agency != null && !agency.AllowGiftCards)
+            {
+                ViewBag.Warning = "Operation ID has currently disallowed gift card requests from your agency.";
                 return View("Warning");
             }
 

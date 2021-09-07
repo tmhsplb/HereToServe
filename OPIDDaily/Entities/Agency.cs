@@ -15,6 +15,7 @@ namespace OpidDailyEntities
         public string ContactPerson { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public bool AllowGiftCards { get; set; }
         public int METROBudget { get; set; }
         public int VisaBudget { get; set; }
         public bool IsActive { get; set; }

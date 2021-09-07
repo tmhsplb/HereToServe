@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - OPID Daily</title>
+    <title>@ViewBag.Title - Here to Serve</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/DataTables/css")
 
@@ -15,23 +15,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/mvc5datatables")
     @RenderSection("scripts", required: false)
-
-    <style>
-        /* https://stackoverflow.com/questions/24127521/change-bootstrap-navbar-background-color-and-font-color */
-        .navbar-custom {
-            background-color: WhiteSmoke;
-        }
-
-        .navbar-inverse .navbar-nav > li > a {
-            color: black;
-        }
-
-            .navbar-inverse .navbar-nav > li > a:hover {
-                color: blue;
-            }
-    </style>
-
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
         <div class="container">

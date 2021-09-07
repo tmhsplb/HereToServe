@@ -254,6 +254,14 @@
     <Compile Include="DataContexts\OPIDDailyMigrations\202109011404077_GiftCards3.Designer.cs">
       <DependentUpon>202109011404077_GiftCards3.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109071324361_Client.Msg.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109071324361_Client.Msg.Designer.cs">
+      <DependentUpon>202109071324361_Client.Msg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109071503084_AllowGiftCards.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109071503084_AllowGiftCards.Designer.cs">
+      <DependentUpon>202109071503084_AllowGiftCards.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataContexts\OPIDDailyMigrations\Configuration.cs" />
     <Compile Include="Entities\GiftCard.cs" />
     <Compile Include="Entities\GiftCardInventory.cs" />
@@ -918,7 +926,7 @@
     <Content Include="Views\BackOffice\GiftCardsInventory.cshtml" />
     <Content Include="Views\Shared\_GiftCardInventoryForm.cshtml" />
     <Content Include="Views\CaseManager\GiftCardsRequest.cshtml" />
-    <Content Include="Views\Shared\_GiftCards.cshtml" />
+    <Content Include="Views\Shared\_GiftCardAdmin.cshtml" />
     <Content Include="Views\GiftCards\Home.cshtml" />
     <Content Include="Views\GiftCards\GiftCardsInventory.cshtml" />
     <Content Include="Views\GiftCards\PrintExpressClient.cshtml" />
@@ -963,6 +971,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109011404077_GiftCards3.resx">
       <DependentUpon>202109011404077_GiftCards3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109071324361_Client.Msg.resx">
+      <DependentUpon>202109071324361_Client.Msg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109071503084_AllowGiftCards.resx">
+      <DependentUpon>202109071503084_AllowGiftCards.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

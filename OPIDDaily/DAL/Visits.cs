@@ -52,7 +52,7 @@ namespace OPIDDaily.DAL
             }
         }
 
-        private static VisitViewModel AncientCheckToVisitViewModel(AncientCheck ancientCheck, string[] msgs)
+        private static VisitViewModel AncientCheckToVisitViewModel(AncientCheck ancientCheck)
         {
             DateTime? adate = ancientCheck.Date;
             DateTime date;
@@ -79,7 +79,7 @@ namespace OPIDDaily.DAL
             };
         }
 
-        private static VisitViewModel RCheckToVisitViewModel(RCheck rcheck, string[] msgs)
+        private static VisitViewModel RCheckToVisitViewModel(RCheck rcheck)
         {
             DateTime? rdate = rcheck.Date;
             DateTime date;
@@ -139,7 +139,6 @@ namespace OPIDDaily.DAL
             using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
             {
                 Client client = opiddailycontext.Clients.Find(nowServing);
-                string[] msgs = (string.IsNullOrEmpty(client.Msgs) ? new[] {"None:0"} : client.Msgs.Split(','));
                 DateTime DOB = client.DOB;
                 string lastName = Extras.StripSuffix(client.LastName.ToUpper());
                 
@@ -153,12 +152,12 @@ namespace OPIDDaily.DAL
 
                     foreach (AncientCheck ancientCheck in ancientChecks)
                     {
-                        visits.Add(AncientCheckToVisitViewModel(ancientCheck, msgs));
+                        visits.Add(AncientCheckToVisitViewModel(ancientCheck));
                     }
 
                     foreach (RCheck rcheck in rchecks)
                     {
-                        visits.Add(RCheckToVisitViewModel(rcheck, msgs));
+                        visits.Add(RCheckToVisitViewModel(rcheck));
                     }
 
                     foreach (GiftCard gcard in gcards)

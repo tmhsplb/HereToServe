@@ -107,6 +107,7 @@ namespace OPIDDaily.DAL
                 ContactPerson = agency.ContactPerson,
                 Phone = agency.Phone,
                 Email = agency.Email,
+                AllowGiftCards = (agency.AllowGiftCards ? "Yes" : string.Empty),
                 IsActive = (agency.IsActive ? "Yes" : string.Empty)
             };
         }
@@ -183,6 +184,7 @@ namespace OPIDDaily.DAL
                 agency.ContactPerson = avm.ContactPerson;
                 agency.Phone = avm.Phone;
                 agency.Email = avm.Email;
+                agency.AllowGiftCards = (avm.AllowGiftCards == "Yes" ? true : false);
                 agency.IsActive = (avm.IsActive == "Yes" ? true : false);
 
                 opiddailycontext.SaveChanges();

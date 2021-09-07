@@ -24,7 +24,7 @@ namespace OPIDDaily.DAL
 
                 foreach (Client client in clients)
                 {
-                    if (!string.IsNullOrEmpty(client.Msgs) && !client.Msgs.StartsWith("END"))
+                    if (!string.IsNullOrEmpty(client.Msg) && !client.Msg.StartsWith("END"))
                     {
                         msgCnt += 1;
                     }

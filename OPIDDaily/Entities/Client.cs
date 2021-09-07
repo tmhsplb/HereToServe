@@ -9,7 +9,7 @@ namespace OpidDailyEntities
     // The list of client is threaded: both parents and children are in the Clients table
     // using the Foreign Key technique described in:
     // https://stackoverflow.com/questions/29516342/fk-to-the-same-table-code-first-entity-framework
-    // This solution does not make use of the Fluent API. An overview of the FLuent API is provided
+    // This solution does not make use of the Fluent API. An overview of the Fluent API is provided
     // in this article:
     // https://weblogs.asp.net/dotnetstories/looking-into-fluent-api-in-an-asp-net-mvc-4-0-code-first-application
     public class Client
@@ -73,7 +73,7 @@ namespace OpidDailyEntities
 
         public string Zip { get; set; }
 
-        public string Msgs { get; set; }
+        public string Msg { get; set; }
 
         public string Notes { get; set; }
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Text;
+using System.Threading;
 
 namespace OPIDDaily.DAL
 {
@@ -136,19 +137,6 @@ namespace OPIDDaily.DAL
 
         private static ClientViewModel ClientEntityToClientViewModel(Client client)
         {
-            string msg = string.Empty;
-
-            if (!string.IsNullOrEmpty(client.Msgs))
-            {
-                int separatorIndex = client.Msgs.IndexOf(":");
-
-                if (separatorIndex >= 0)
-                {
-                    // msg is the first message in the string client.Msgs
-                    msg = client.Msgs.Substring(0, separatorIndex);
-                }  
-            }
-
             ClientViewModel cvm = new ClientViewModel
             {
                 Id = client.Id,
@@ -173,8 +161,7 @@ namespace OPIDDaily.DAL
                 XID = (client.XID == true ? "Y" : string.Empty),
                 XBC = (client.XBC == true ? "Y" : string.Empty),
             
-                MSG = msg,
-                Msgs = client.Msgs,
+                MSG = client.Msg,
                 Notes = client.Notes
             };
 
@@ -202,7 +189,6 @@ namespace OPIDDaily.DAL
             client.LCK = (string.IsNullOrEmpty(cvm.LCK) || cvm.LCK.Equals("''")) ? false : true;
             client.XID = (cvm.XID.Equals("Y") ? true : false);
             client.XBC = (cvm.XBC.Equals("Y") ? true : false);
-            client.Msgs = cvm.Msgs;
             client.Notes = cvm.Notes;
         }
 
@@ -394,28 +380,15 @@ namespace OPIDDaily.DAL
             return (msg.Equals("END") || msg.Equals("DONE") || msg.Equals("OVER"));
         }
 
-        private static void PrependMsg(Client client, string sender, string textMsg, bool inHouse)
+        private static void SetClientMsg(Client client, string sender, string textMsg, bool inHouse)
         {
-            string msg;
-
             if (IsEndMsg(textMsg))
             {
-                msg = string.Format("END:0");
+                client.Msg = string.Format("END");
             }
             else
             {
-                msg = string.Format("{0}From{1}:0", (inHouse ? "IH" : string.Empty), sender);
-            }
-            
-            // client.Msgs will be a comma separated list of messages
-            // Example: client.Msgs = "FromOPID:0,FromFrontDesk:0"
-            if (string.IsNullOrEmpty(client.Msgs))
-            {
-                client.Msgs = msg;
-            }
-            else
-            {
-                client.Msgs = string.Format("{0},{1}", msg, client.Msgs);
+                client.Msg = string.Format("{0}From{1}", (inHouse ? "IH" : string.Empty), sender);
             }
         }
 
@@ -427,7 +400,7 @@ namespace OPIDDaily.DAL
 
                 if (client != null)
                 {
-                    PrependMsg(client, sender, tmvm.Msg, (!string.IsNullOrEmpty(tmvm.InHouse) && tmvm.InHouse.Equals("Y")));
+                    SetClientMsg(client, sender, tmvm.Msg, (!string.IsNullOrEmpty(tmvm.InHouse) && tmvm.InHouse.Equals("Y")));
                     TextMsg textMsg = TextMsgViewModelToTextMsg(tmvm);
                     opiddailycontext.Entry(client).Collection(c => c.TextMsgs).Load();
 
@@ -869,23 +842,6 @@ namespace OPIDDaily.DAL
             }
         }
 
-        
-        public static void DeleteDependentClient(int id)
-        {
-            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
-            {
-                Client dependent = opiddailycontext.Clients.Find(id);
-
-                if (dependent != null)
-                {
-                    // Don't physically delete dependent, just mark it as inactive
-                    dependent.IsActive = false;
-                    CascadeDelete(opiddailycontext, dependent.Id);
-                    HandleLoneDependent(dependent);
-                }
-            }
-        }
-
         public static void StageTransition(ClientViewModel cvm, Client client)
         {
             if (cvm.Stage.Equals("CheckedIn") && client.Stage.Equals("Screened"))
@@ -921,22 +877,6 @@ namespace OPIDDaily.DAL
             }
         }
 
-        private static void PrependStageChangeMsg(ClientViewModel cvm, string clientMsgs)
-        {
-            string msg = string.Format("StageChange:{0}", cvm.Stage);
-
-            // clientMsgs is a comma separated list of messages
-            // Example: clientMsgs = "FromOPID:123588,FromAgency:123587"
-            if (string.IsNullOrEmpty(clientMsgs))
-            {
-                cvm.Msgs = msg;
-            }
-            else
-            {
-                cvm.Msgs = string.Format("{0},{1}", msg, clientMsgs);
-            }   
-        }
-
         public static int EditClient(ClientViewModel cvm)
         {
             using (OpidDailyDB opidcontext = new OpidDailyDB())
@@ -945,14 +885,8 @@ namespace OPIDDaily.DAL
  
                 if (client != null)
                 {
-                    /*
-                    if (client.Stage != cvm.Stage)
-                    {
-                       // There as been a stage transition
-                       PrependStageChangeMsg(cvm, client.Msgs);
-                    }
-                    */
-
+                    // cvm.Msg = string.Format("StageChange:{0}", cvm.Stage);
+                    
                     // Disable automatic stage transitioning
                     // StageTransition(cvm, client);
                     ClientViewModelToClientEntity(cvm, client);
@@ -1055,12 +989,40 @@ namespace OPIDDaily.DAL
 
                 if (client != null)
                 {
-                    client.IsActive = false; // Don't remove client, just mark client inactive
-                    CascadeDelete(opiddailycontext, client.Id);
+                    // Don't remove client, just mark client as inactive
+                    client.IsActive = false; 
+                   // CascadeDelete(opiddailycontext, client.Id);
+
+                    opiddailycontext.Entry(client).Collection(c => c.Dependents).Load();
+
+                    foreach (Client dependent in client.Dependents)
+                    {
+                        DeleteDependentClient(dependent.Id);
+                    }
+
+                    opiddailycontext.SaveChanges();
                 }
             }
         }
-       
+
+        public static void DeleteDependentClient(int id)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client dependent = opiddailycontext.Clients.Find(id);
+
+                if (dependent != null)
+                {
+                    // Don't remove dependent, just mark dependent as inactive
+                    dependent.IsActive = false;
+                    opiddailycontext.SaveChanges();
+                    // Prevent race condition
+                    Thread.Sleep(200);
+                    // CascadeDelete(opiddailycontext, dependent.Id);
+                    HandleLoneDependent(dependent);
+                }
+            }
+        }
 
         public static void CascadeDelete(OpidDailyDB opiddailycontext, int id)
         {
@@ -1068,9 +1030,13 @@ namespace OPIDDaily.DAL
 
             if (client != null)
             {
-                // Physically remove the text msgs of a deactivated cleint
-                // opiddailycontext.Entry(client).Collection(c => c.TextMsgs).Load();
-                // opiddailycontext.TextMsgs.RemoveRange(client.TextMsgs);
+                // Remove the text msgs of a deactivated client
+                opiddailycontext.Entry(client).Collection(c => c.TextMsgs).Load();
+                opiddailycontext.TextMsgs.RemoveRange(client.TextMsgs);
+
+                // Remove the gift cards of a deactivated client
+                opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                opiddailycontext.GiftCards.RemoveRange(client.GiftCards);
             }
 
             opiddailycontext.SaveChanges();

@@ -173,8 +173,6 @@ namespace OPIDDaily.DAL
                 gcivm.CurrentMETRORequest = 0;
                 gcivm.CurrentVisaRequest = 0;
 
-                DateTime today = Extras.DateTimeToday().AddHours(12);
-
                 Client client = opiddailycontext.Clients.Find(id);
                 if (client != null)
                 {
@@ -188,7 +186,7 @@ namespace OPIDDaily.DAL
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsActive && DateTime.Compare(gcard.RegistrationDate, today) == 0)
+                        if (gcard.IsActive && gcard.IsCurrent)
                         {
                             if (IsMETROCard(gcard))
                             {
@@ -296,7 +294,7 @@ namespace OPIDDaily.DAL
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsCurrent && DateTime.Compare(gcard.RegistrationDate, today) == 0)
+                        if (gcard.IsCurrent && gcard.IsActive)
                         {
                             if (IsMETROCard(gcard))
                             {
@@ -329,7 +327,7 @@ namespace OPIDDaily.DAL
                         }
                         else
                         {
-                            // Radio button "No METRO Card" was selected. Deactive a current METRO card (if any).
+                            // Radio button "No METRO Card" was selected. Deactivate a current METRO card (if any).
                             foreach (GiftCard gcard in gcards)
                             {
                                 if (gcard.IsCurrent && IsMETROCard(gcard))
@@ -349,7 +347,7 @@ namespace OPIDDaily.DAL
                         }
                         else
                         {
-                            // Radio button "No Visa Card" was selected. Deactive a current Visa card (if any).
+                            // Radio button "No Visa Card" was selected. Deactivate a current Visa card (if any).
                             foreach (GiftCard gcard in gcards)
                             {
                                 if (gcard.IsCurrent && IsVisaCard(gcard))

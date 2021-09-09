@@ -934,6 +934,12 @@
     <Content Include="Views\GiftCards\Dashboard.cshtml" />
     <Content Include="Views\GiftCards\AssignRequestedCards.cshtml" />
     <Content Include="Views\GiftCards\Warning.cshtml" />
+    <Content Include="Views\CaseManager\ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_ChangePassword.cshtml" />
+    <Content Include="Views\FrontDesk\ChangePassword.cshtml" />
+    <Content Include="Views\Interviewer\ChangePassword.cshtml" />
+    <Content Include="Views\BackOffice\ChangePassword.cshtml" />
+    <Content Include="Views\Superadmin\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

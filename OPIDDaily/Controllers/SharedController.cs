@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using static OPIDDaily.DataContexts.IdentityDB;
 using DataTables.Mvc;
@@ -15,12 +16,89 @@ using System.Linq.Dynamic;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace OPIDDaily.Controllers
 {
     public class SharedController : Controller
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SharedController));
+
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public SharedController()
+        {
+
+        }
+
+        public SharedController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+
+                ViewBag.Warning = "Your password has been changed";
+                return View("Warning");
+            }
+
+            AddErrors(result);
+
+            return View("ChangePassword", model);
+        }
 
         public static int NowServing()
         {
@@ -1111,6 +1189,6 @@ namespace OPIDDaily.Controllers
         public ActionResult _ClientsServed()
         {
             return PartialView();
-        }
+        }     
     }
 }

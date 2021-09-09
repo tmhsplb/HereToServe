@@ -322,5 +322,10 @@ namespace OPIDDaily.Controllers
         {
             return View("Version");
         }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePassword");
+        }
     }
 }

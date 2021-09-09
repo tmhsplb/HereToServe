@@ -39,7 +39,7 @@ namespace OPIDDaily.Controllers
             int referringAgency = ReferringAgency();
             List<ClientViewModel> clients = Clients.GetMyClients(referringAgency);
 
-           // VoucherBackButtonHelper("Reset", null);
+            // VoucherBackButtonHelper("Reset", null);
 
             int pageIndex = page - 1;
             int pageSize = (int)rows;
@@ -59,7 +59,7 @@ namespace OPIDDaily.Controllers
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
- 
+
         public string AddMyClient(ClientViewModel cvm)
         {
             int referringAgency = ReferringAgency();
@@ -109,7 +109,7 @@ namespace OPIDDaily.Controllers
             DailyHub.Refresh();
             return "Success";
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult StoreExpressClientServiceRequest(RequestedServicesViewModel rsvm)
@@ -127,7 +127,7 @@ namespace OPIDDaily.Controllers
                 ViewBag.ClientName = Clients.ClientBeingServed(client);
                 ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
                 ViewBag.Age = client.Age;
-                ModelState.AddModelError("ServiceRequestError",  serviceRequestError);
+                ModelState.AddModelError("ServiceRequestError", serviceRequestError);
                 rsvm.MBVDS = MBVDS.GetMBVDSelectList();
                 return View("ExpressClientServiceRequest", rsvm);
             }
@@ -211,6 +211,7 @@ namespace OPIDDaily.Controllers
                 if (agency != null)
                 {
                     GiftCardInventoryViewModel gcivm = GiftCards.SetRadioButtons(agency, client.Id);
+                    ViewBag.ClientName = Clients.ClientBeingServed(client, false);
                     return View("GiftCardsRequest", gcivm);
                 }
 
@@ -228,7 +229,7 @@ namespace OPIDDaily.Controllers
         {
             int nowServing = NowServing();
             string fulfillableRequest = GiftCards.FulfillRequest(nowServing, gcivm);
-            
+
             if (fulfillableRequest.Equals("BadAgency"))
             {
                 ModelState.AddModelError("ExceedsMETROBudgetError", "Could not find agency.");
@@ -255,6 +256,11 @@ namespace OPIDDaily.Controllers
             }
 
             return RedirectToAction("PrepareCaseManagerServiceTicket");
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePassword");
         }
     }
 }

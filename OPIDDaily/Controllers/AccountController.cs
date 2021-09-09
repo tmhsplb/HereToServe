@@ -162,7 +162,7 @@ namespace OPIDDaily.Controllers
 
             if (invite == null)
             {
-                ViewBag.Warning = "Registration failed. You must be invited to register for OPIDDaily and must register using the user name and email you supplied the Site Administrator when you were invited.";
+                ViewBag.Warning = "Registration failed. You must be invited to register for Here to Serve and must register using the user name and email you supplied the Site Administrator when you were invited.";
                 return View("Warning");
             }
             
@@ -474,6 +474,38 @@ namespace OPIDDaily.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async void ChangePassword(ChangePasswordViewModel model)
+        {
+            /*
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            */
+
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+               // return RedirectToAction("Index", new { Message = "Your password has been changed" });
+                return;
+            }
+
+           // AddErrors(result);
+
+            // return View(model);
+
+            return;
         }
 
         #region Helpers

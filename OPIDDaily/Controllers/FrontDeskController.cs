@@ -298,5 +298,10 @@ namespace OPIDDaily.Controllers
 
             return RedirectToAction("ExpressClientServiceTicket");
         }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePassword");
+        }
     }
 }

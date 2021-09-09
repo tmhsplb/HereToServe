@@ -409,5 +409,10 @@ namespace OPIDDaily.Controllers
             ViewData["MergeStatus"] = "Merge Complete";
             return View("Merge");
         }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePassword");
+        }
     }
 }

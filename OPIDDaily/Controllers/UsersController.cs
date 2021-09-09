@@ -138,7 +138,7 @@ namespace OPIDDaily.Controllers
         {
             return View("Users");
         }
-
+        
         // https://stackoverflow.com/questions/4101116/asp-net-mvc-post-call-returning-string-need-help-with-format-for-jqgrid/4102155#4102155
         public ActionResult GetAgencies()
         {
@@ -150,6 +150,16 @@ namespace OPIDDaily.Controllers
             return PartialView("_SelectAgency", ls);
         }
 
+        // This did not work when called from Users.cshtml. But don't know why,
+        // because GetAgencies does work. Maybe come back to this some day.
+        public ActionResult GetRoles()
+        {
+            List<RoleViewModel> rvms = Identity.GetRoles();
+
+            var ls = rvms.ToDictionary(r => r.Id, r => r.Name);
+
+            return PartialView("_SelectRole", ls);
+        }
 
         public string ExtendInvitation(InvitationViewModel invite)
         {

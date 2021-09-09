@@ -51,7 +51,7 @@ namespace OPIDDaily.DAL
 
         public static List<AgencyViewModel> GetAgencies()
         {
-            List<AgencyViewModel> agenciesAVMS = new List<AgencyViewModel>();
+            List<AgencyViewModel> avms = new List<AgencyViewModel>();
 
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
@@ -61,10 +61,10 @@ namespace OPIDDaily.DAL
 
                 foreach (Agency agency in agencies)
                 {
-                    agenciesAVMS.Add(AgencyEntityToAgencyViewModel(agency));
+                    avms.Add(AgencyEntityToAgencyViewModel(agency));
                 }
 
-                return agenciesAVMS;
+                return avms;
             }
         }
 

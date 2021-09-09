@@ -33,6 +33,7 @@
         { key: false, name: 'FullName', index: 'FullName', width: 80, editable: true, sortable: false, search: false },
         { key: false, name: 'Email', index: 'Email', width: 100, editable: true, sortable: false, search: false },
         { key: false, name: 'Role', index: 'Role', width: 80, editable: true, edittype: 'select', editoptions: { value: { '--': '--', 'FrontDesk': 'FrontDesk', 'Interviewer': 'Interviewer', 'BackOffice': 'BackOffice', 'GiftCardAdmin': 'GiftCardAdmin', 'CaseManager': 'CaseManager' } }, sortable: false, search: false },
+       @* { key: false, name: 'Role', index: 'Role', width: 80, editable: true, edittype: 'select', editoptions: { dataUrl: '@Url.Action("GetRoles", "Users")' }, sortable: false, search: false }, *@
         { key: false, name: 'Agency', index: 'Agency', width: 80, editable: true, edittype: 'select', editoptions: { dataUrl: '@Url.Action("GetAgencies", "Users")' }, sortable: false, search: false }
         ],
         pager: '#invitationsPager',

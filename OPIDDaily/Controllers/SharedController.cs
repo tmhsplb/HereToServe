@@ -77,7 +77,7 @@ namespace OPIDDaily.Controllers
             
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("ChangePassword", model);
             }
             
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);

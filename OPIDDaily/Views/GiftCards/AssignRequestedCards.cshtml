@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_GiftCardAdmin.cshtml";
 }
 
+
+
     <div class="row">
         <div class="col-md-4">
             <section id="assingForm">
@@ -20,6 +22,8 @@
                     <div class="form-group">
                         @if (Model.Item1 != null)
                         {
+                            @Html.Hidden("metroAmount", Model.Item1.CardBalance);
+
                             <table>
                                 <tr>
                                     <td>@Html.Label(Model.Item1.Label, new { @class = "giftcardlabel" })</td>
@@ -31,6 +35,8 @@
 
                         @if (Model.Item2 != null)
                         {
+                            @Html.Hidden("visaAmount", Model.Item2.CardBalance);
+
                             <table>
                                 <tr>
                                     <td>@Html.Label(Model.Item2.Label, new { @class = "giftcardlabel" })</td>

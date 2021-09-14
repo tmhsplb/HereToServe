@@ -781,8 +781,9 @@ namespace OPIDDaily.DAL
                         return true;
                     }
 
-                    bool pchecks = opidcontext.PocketChecks.Any(pc => pc.ClientId == nowServing && pc.IsActive == true);
+                    bool pchecks = opidcontext.PocketChecks.Any(pc => pc.ClientId == nowServing && pc.Num > 50 && pc.IsActive == true);
 
+                    // pc.Num > 50 means pocket check is not a gift card.
                     if (pchecks)
                     {
                         return true;
@@ -797,7 +798,7 @@ namespace OPIDDaily.DAL
                     }
                 }
 
-                return false;  // Testing!
+                return false;
             }
         }
 

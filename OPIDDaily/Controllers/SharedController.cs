@@ -235,6 +235,22 @@ namespace OPIDDaily.Controllers
             return View("Dashboard");
         }
 
+        public ActionResult ManagePocketChecks()
+        {
+            int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "Please first select a client from the Dashboard.";
+                return View("Warning");
+            }
+
+            Client client = Clients.GetClient(nowServing, null);
+            ViewBag.ClientName = Clients.ClientBeingServed(client, false);
+
+            return View("PocketChecks");
+        }
+
         public JsonResult GetDashboard(SearchParameters sps, int page, int? rows = 15)
         {
             List<ClientViewModel> clients = Clients.GetDashboardClients(sps);
@@ -434,7 +450,7 @@ namespace OPIDDaily.Controllers
         public string AddDatedPocketCheck(VisitViewModel vvm)
         {
             int nowServing = NowServing();
-            vvm.Date = Extras.DateTimeToday();
+            vvm.Date = Extras.DateTimeToday().AddHours(12);
             Visits.AddPocketCheck(nowServing, vvm);
             DailyHub.Refresh();
             return "Success";

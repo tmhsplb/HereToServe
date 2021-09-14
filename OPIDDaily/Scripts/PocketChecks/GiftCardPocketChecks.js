@@ -8,8 +8,8 @@ $("#pocketCheckGrid").jqGrid({
         { key: false, hidden: true, name: 'Id', index: 'Id' },  // Id may not be unique!
         { key: false, align: 'center', name: 'Date', index: 'Date', formatter: 'date', width: 80, editable: true, sortable: true, search: false },
         { key: false, name: 'Item', index: 'Item', width: 80, editable: true, sortable: false, search: false },
-        { key: false, name: 'Check', index: 'Check', width: 80, editable: true, sortable: false, search: false },
-        { key: false, name: 'Status', index: 'Status', width: 100, editable: true, edittype: 'select', editoptions: { value: { '': '', 'Cleared': 'Cleared', 'Voided': 'Voided', 'Gift Card': 'Gift Card', 'Gift Card Delivered: Gift Card Delivered', 'Voided/No Reissue': 'Voided/No Reissue', 'Voided/Resissued': 'Voided/Reissued', 'Voided/Replaced': 'Voided/Replaced', 'Gift Card Delivered': 'Gift Card Delivered', 'Scammed Check': 'Scammed Check', 'Used': 'Used', 'Not Used': 'Not Used' } }, sortable: false, search: false },
+        { key: false, align: 'center', name: 'Check', index: 'Check', width: 80, editable: true, sortable: false, search: false },
+        { key: false, name: 'Status', index: 'Status', width: 100, editable: true, edittype: 'select', editoptions: { value: { '': '', 'Cleared': 'Cleared', 'Voided': 'Voided', 'Gift Card': 'Gift Card', 'Gift Card Delivered': 'Gift Card Delivered', 'Voided/No Reissue': 'Voided/No Reissue', 'Voided/Resissued': 'Voided/Reissued', 'Voided/Replaced': 'Voided/Replaced', 'Scammed Check': 'Scammed Check', 'Used': 'Used', 'Not Used': 'Not Used' } }, sortable: false, search: false },
         { key: false, hidden: false, name: 'Notes', index: 'Notes', width: 150, editable: true, sortable: false, search: false, edittype: 'textarea', editoptions: { rows: '2', columns: '10' } }    
     ],
     pager: '#pocketCheckPager',
@@ -33,48 +33,21 @@ $("#pocketCheckGrid").jqGrid({
     multiselect: false,
 })
 
-jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, add: true, del: false, search: false, refresh: false },
+jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, add: false, del: false, search: false, refresh: false },
     {
         zIndex: 100,
-        url: "EditPocketCheck", 
+        url: "EditGiftCardPocketCheck",
         closeOnEscape: true,
         closeAfterEdit: true,
         recreateForm: true,
         afterComplete: function (response) {
             if (response.responseText) {
-                 // alert("BackOffice: " + response.responseText);
+                // alert("BackOffice: " + response.responseText);
             }
         }
-    },
-    {
-        zIndex: 100,
-        url: "AddDatedPocketCheck", 
-        closeOnEscape: true,
-        closeAfterAdd: true,
-        recreateForm: true,
-        afterComplete: function (response) {
-            if (response.responseText) {
-                if (response.responseText != "Success") {
-                    alert(response.responseText);
-                }
-            }
-        }
-    }
-    /*
-    {
-        zIndex: 100,
-        url: "DeletePocketCheck", // "@Url.Action("DeleteVisit", "FrontDesk")",
-        closeOnEscape: true,
-        closeAfterDelete: true,
-        recreateForm: true,
-        afterComplete: function (response) {
-            if (response.responseText) {
-                //   alert(response.responseText);
-            }
-        }
-    }
-    */
-    );
+    });
+    
+
 
 // http://www.trirand.com/blog/?page_id=393/help/how-to-use-add-form-dialog-popup-window-set-position
 $.extend($.jgrid.edit, {

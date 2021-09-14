@@ -769,6 +769,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\clientsServed.js" />
+    <Content Include="Scripts\PocketChecks\GiftCardPocketChecks.js" />
     <Content Include="Scripts\PocketChecks\PocketChecksReport.js" />
     <Content Include="Scripts\PocketChecks\FrontDeskPocketChecks.js" />
     <Content Include="Scripts\PocketChecks\InterviewerPocketChecks.js" />
@@ -940,6 +941,8 @@
     <Content Include="Views\BackOffice\ChangePassword.cshtml" />
     <Content Include="Views\Superadmin\ChangePassword.cshtml" />
     <Content Include="Views\Users\_SelectRole.cshtml" />
+    <Content Include="Views\GiftCards\ChangePassword.cshtml" />
+    <Content Include="Views\GiftCards\PocketChecks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

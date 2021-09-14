@@ -560,29 +560,37 @@ namespace OPIDDaily.DAL
             }
         }
 
-        // A pocket check representing a delivered gift card has been added. The gift card was
-        // marked as current. Change this to not current (gcard.IsCurrent = false) based on the cardType.
-        //   cardType = "MGC" => METRO gift card
-        //   cardType = "VGC" => Visa gift card
-        public static void Deliver(int nowServing, string cardType)
+        // A pocket check representing a gift card has been edited. If the status has been changed
+        // to "Gift Card Delivered" and the card was marked as current, then
+        // change the marking to not current (gcard.IsCurrent = false) based on the cardType.
+        public static void DeliverGiftCard(int nowServing, VisitViewModel vvm)
         {
+            string cardType = vvm.Item.Trim();
+            string status = vvm.Status;
+            
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
                 Client client = opiddailycontext.Clients.Find(nowServing);
 
-                if (client != null)
+                if (client != null && !string.IsNullOrEmpty(status) && status.Equals("Gift Card Delivered"))
                 {
+                    PocketCheck pcheck = opiddailycontext.PocketChecks.Find(vvm.Id);
+                    if (pcheck != null)
+                    {
+                        pcheck.Disposition = status;
+                    }
+
                     opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
                     List<GiftCard> gcards = client.GiftCards.ToList();
 
                     foreach (GiftCard gcard in gcards)
                     {
-                        if (gcard.IsCurrent && cardType.Equals("MGC") && IsMETROCard(gcard))
+                        if (gcard.IsCurrent && cardType.Equals("METRO Gift Card") && IsMETROCard(gcard))
                         {
                             gcard.IsCurrent = false;
                         }
 
-                        if (gcard.IsCurrent && cardType.Equals("VGC") && IsVisaCard(gcard))
+                        if (gcard.IsCurrent && cardType.Equals("VISA Gift Card") && IsVisaCard(gcard))
                         {
                             gcard.IsCurrent = false;    
                         }
@@ -748,6 +756,77 @@ namespace OPIDDaily.DAL
             }
 
             return string.Empty;
+        }
+
+        private static PocketCheck NewGiftCardPocketCheck(Client client, string item, string amount, string registrationId)
+        {
+            DateTime today = Extras.DateTimeToday().AddHours(12);
+
+            return new PocketCheck
+            {
+                ClientId = client.Id,
+                HH = (client.HHId == null ? 0 : (int)client.HHId),
+                Date = today,
+                Name = Clients.ClientBeingServed(client, false),
+                DOB = client.DOB,
+                Item = string.Format(" {0}", item),
+                Num = Convert.ToInt32(amount),
+                Disposition = " Gift Card",
+                Notes = string.Format(" {0}", registrationId),
+                IsActive = true
+            };
+        }
+
+        private static void AddPocketCheck(int nowServing, string item, string amount, string registrationId)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    // Check for existing pocket check using this registrationId
+                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes.Trim().Equals(registrationId)).SingleOrDefault();
+
+                    if (pc == null)
+                    {
+                        opiddailycontext.PocketChecks.Add(NewGiftCardPocketCheck(client, item, amount, registrationId));
+                        opiddailycontext.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public static void UpdatePocketChecks(int nowServing, string item, string amount, string registrationId)
+        {
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
+            {
+                Client client = opiddailycontext.Clients.Find(nowServing);
+
+                if (client != null)
+                {
+                    // Check for existing pocket check using this registrationId
+                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes.Trim() == registrationId).SingleOrDefault();
+
+                    if (pc == null)
+                    {
+                        int num = Convert.ToInt32(amount);
+                        pc = opiddailycontext.PocketChecks.Where(p => p.Item.Trim() == item && p.Num == num).SingleOrDefault();
+
+                        if (pc != null)
+                        {
+                            // We are just changing the registrationId of an existing pocket check
+                            pc.Notes = string.Format(" {0}", registrationId);
+                            opiddailycontext.SaveChanges();
+                            return;
+                        }
+
+                        // There is no pocket check with this registrationId.
+                        // Add a new pocket check.
+                        AddPocketCheck(nowServing, item, amount, registrationId);
+                    }
+                }
+            }
         }
 
         public static void SetCurrentVisaRegistrationId(int nowServing, string visaRegistrationId)

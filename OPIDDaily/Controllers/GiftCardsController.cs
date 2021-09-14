@@ -143,21 +143,36 @@ namespace OPIDDaily.Controllers
         }
 
         [HttpPost]
-        public ActionResult AssignRequestedCards(string metroRegistrationId, string visaRegistrationId)
+        public ActionResult AssignRequestedCards(string metroRegistrationId, string metroAmount, string visaRegistrationId, string visaAmount)
         {
             int nowServing = NowServing();
              
             if (!string.IsNullOrEmpty(metroRegistrationId))
             {
                 GiftCards.SetCurrentMETRORegistrationId(nowServing, metroRegistrationId);
+                GiftCards.UpdatePocketChecks(nowServing, "METRO Gift Card", metroAmount, metroRegistrationId);
             }
 
             if (!string.IsNullOrEmpty(visaRegistrationId))
             {
                 GiftCards.SetCurrentVisaRegistrationId(nowServing, visaRegistrationId);
+                GiftCards.UpdatePocketChecks(nowServing, "VISA Gift Card", visaAmount, visaRegistrationId);
             }
 
             return RedirectToAction("GiftCardsServiceTicket");
+        }
+
+        public string EditGiftCardPocketCheck(VisitViewModel vvm)
+        {
+            int nowServing = NowServing();
+            GiftCards.DeliverGiftCard(nowServing, vvm);
+            DailyHub.Refresh();
+            return "Success";
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePassword");
         }
     }
 }

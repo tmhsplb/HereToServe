@@ -107,22 +107,6 @@ namespace OPIDDaily.Controllers
             return RedirectToAction("ManageDashboard", "BackOffice");
         }
 
-        public ActionResult ManagePocketChecks()
-        {
-            int nowServing = NowServing();
-
-            if (nowServing == 0)
-            {
-                ViewBag.Warning = "Please first select a client from the Dashboard.";
-                return View("Warning");
-            }
-
-            Client client = Clients.GetClient(nowServing, null);
-            ViewBag.ClientName = Clients.ClientBeingServed(client);
-
-            return View("PocketChecks");
-        }
-
         public ActionResult PocketChecksReport()
         {
             return View("PocketChecksReport");

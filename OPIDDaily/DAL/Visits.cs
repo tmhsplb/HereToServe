@@ -251,16 +251,7 @@ namespace OPIDDaily.DAL
                     // because Service Tickets are generated from the visit history in the Research
                     // Table, not by using any pocket checks. So, when we add a new pocket check
                     // we must also add a new corresponding research check.
-
-                    if (vvm.Status.Equals("Gift Card"))
-                    {
-                        GiftCards.Deliver(nowServing, vvm.Item);
-                    }
-                    else
-                    {
-                        opiddailycontext.RChecks.Add(NewRCheck(client, vvm));    
-                    }
-
+                    opiddailycontext.RChecks.Add(NewRCheck(client, vvm));    
                     opiddailycontext.SaveChanges();
                 }
             }
@@ -307,7 +298,7 @@ namespace OPIDDaily.DAL
                         pcheck.Date = vvm.Date;
                         pcheck.Item = vvm.Item;
                         pcheck.Num = Convert.ToInt32(vvm.Check);
-                        pcheck.Disposition = vvm.Status;
+                        pcheck.Disposition = string.Format(" {0}", vvm.Status);
                         pcheck.Notes = vvm.Notes;
                         opiddailycontext.SaveChanges();
                         return;

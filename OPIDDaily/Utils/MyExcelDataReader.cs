@@ -502,7 +502,7 @@ namespace OPIDDaily.Utils
             }
             catch (Exception e)
             {
-                Log.Error(string.Format("Bad memo field for check num {0}", num));
+                Log.Error(string.Format("Bad memo field for check num {0}. Exception: {1}", num, e.Message));
                 interviewRecordID = 0;
             }
 

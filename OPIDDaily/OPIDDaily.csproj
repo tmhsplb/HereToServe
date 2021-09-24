@@ -928,7 +928,6 @@
     <Content Include="Views\Interviewer\ExpressClientServiceRequest.cshtml" />
     <Content Include="Views\BackOffice\ExistingClientServiceRequest.cshtml" />
     <Content Include="Views\BackOffice\ExpressClientServiceRequest.cshtml" />
-    <Content Include="Views\BackOffice\GiftCardsInventory.cshtml" />
     <Content Include="Views\Shared\_GiftCardInventoryForm.cshtml" />
     <Content Include="Views\CaseManager\GiftCardsRequest.cshtml" />
     <Content Include="Views\Shared\_GiftCardAdmin.cshtml" />

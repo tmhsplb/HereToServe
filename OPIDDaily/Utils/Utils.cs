@@ -15,6 +15,14 @@ namespace OPIDDaily.Utils
             return now.Date;
         }
 
+        public static DateTime DateTimeNoonToday()
+        {
+            // This is tricky!
+            // See: https://stackoverflow.com/questions/14576967/datetime-today-vs-datetime-now
+            DateTime now = DateTimeNow();
+            return now.Date.AddHours(12);
+        }
+
         public static DateTime DateTimeNow()
         {
             // This compensates for the fact that DateTime.Now on the AppHarbor server returns

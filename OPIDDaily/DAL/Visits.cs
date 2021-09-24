@@ -121,6 +121,25 @@ namespace OPIDDaily.DAL
             };
         }
 
+        private static string GetPocketCheckDisposition(string registrationID)
+        {
+            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
+            {
+                if (!string.IsNullOrEmpty(registrationID))
+                {
+                    PocketCheck pcheck = opiddailycontext.PocketChecks.Where(pc => pc.Notes.Trim() == registrationID).SingleOrDefault();
+                    if (pcheck != null)
+                    {
+                        return pcheck.Disposition;
+                    }
+
+                    return "Gift Card";
+                }
+
+                return "Gift Card";
+            }
+        }
+
         private static VisitViewModel GiftCardToVisitViewModel(GiftCard gcard)
         {
             return new VisitViewModel
@@ -129,7 +148,7 @@ namespace OPIDDaily.DAL
                 Date = gcard.RegistrationDate,
                 Item = (100 < gcard.GiftCardType && gcard.GiftCardType < 200 ? "METRO Card" : "VISA Card"),
                 Check = string.Format("${0}", gcard.CardBalance),
-                Status = "Gift Card",
+                Status = GetPocketCheckDisposition(gcard.RegistrationID),
                 Notes = gcard.RegistrationID
             };
         }

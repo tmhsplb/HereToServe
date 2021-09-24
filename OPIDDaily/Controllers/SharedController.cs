@@ -171,6 +171,42 @@ namespace OPIDDaily.Controllers
             return user.AgencyId;
         }
 
+        protected int ReferringAgentId()
+        {
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            string userName = User.Identity.GetUserName();
+            ApplicationUser user = userManager.FindByNameAsync(userName).Result;
+
+            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
+            {
+                Invitation invite = opiddailycontext.Invitations.Where(i => i.UserName == user.UserName).SingleOrDefault();
+
+                if (invite != null)
+                {
+                    return invite.Id;
+                }
+
+                return 0;
+            }
+
+        }
+
+        protected string ReferringAgentName(int referringAgentId)
+        {
+            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
+            {
+                Invitation invite = opiddailycontext.Invitations.Where(i => i.Id == referringAgentId).SingleOrDefault();
+
+                if (invite != null)
+                {
+                    return invite.FullName;
+                }
+
+                return "submitter unknown";
+            }
+        }
+
         private int AgencyOfUser()
         {
             return ReferringAgency();
@@ -190,7 +226,7 @@ namespace OPIDDaily.Controllers
 
         public ActionResult ManageClients()
         {
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.ServiceDate = today.ToString("ddd  MMM d");
             return View("Clients");
         }
@@ -199,9 +235,6 @@ namespace OPIDDaily.Controllers
         {
             DateTime today = Extras.DateTimeToday();
             List<ClientViewModel> clients = Clients.GetClients(sps, today);
-
-           // ServiceTicketBackButtonHelper("Reset", null);
-           // SpecialReferralBackButtonHelper("Reset", null);
 
             int pageIndex = page - 1;
             int pageSize = (int)rows;
@@ -300,6 +333,8 @@ namespace OPIDDaily.Controllers
 
         public string AddClient(ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
+
             int id = Clients.AddClient(cvm);
 
             if (id == -1)
@@ -318,6 +353,7 @@ namespace OPIDDaily.Controllers
 
         public string EditClient(ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
             int id = Clients.EditClient(cvm);
 
             // Edited client becomes the client being served.
@@ -357,6 +393,7 @@ namespace OPIDDaily.Controllers
 
         public string AddDependentClient(int household, ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
             int referringAgency = ReferringAgency();
             int id = Clients.AddDependentClient(referringAgency, household, cvm);
 
@@ -372,6 +409,7 @@ namespace OPIDDaily.Controllers
 
         public string EditDependentClient(ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
             Clients.EditDependentClient(cvm);
             return "Success";
         }
@@ -692,7 +730,7 @@ namespace OPIDDaily.Controllers
             Client client = Clients.GetClient(nowServing, rsvm);     
             PrepareClientNotes(client, rsvm);
             
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
             ViewBag.ServiceTicket = client.ServiceTicket;
             ViewBag.ClientName = Clients.ClientBeingServed(client);
@@ -708,8 +746,6 @@ namespace OPIDDaily.Controllers
             {
                 ViewBag.Agency = Agencies.GetAgencyName(Convert.ToInt32(rsvm.AgencyId));  // rsvm.Agency will be the Id of an Agency as a string 
             }
-
-            // ServiceTicketBackButtonHelper("Set", rsvm);
 
             // May have added a pocket check. In that case, this express client becomes
             // an existing client.
@@ -744,7 +780,7 @@ namespace OPIDDaily.Controllers
             Client client = Clients.GetClient(nowServing, rsvm);  
             PrepareClientNotes(client, rsvm);
             
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
             ViewBag.ServiceTicket = client.ServiceTicket;
             ViewBag.ClientName = Clients.ClientBeingServed(client);
@@ -831,7 +867,7 @@ namespace OPIDDaily.Controllers
             int nowServing = NowServing();
             Client client = Clients.GetClient(nowServing, null);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
 
             ViewBag.ServiceTicket = client.ServiceTicket;
@@ -1006,7 +1042,7 @@ namespace OPIDDaily.Controllers
             Client client = Clients.GetClient(nowServing, rsvm);
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
             ViewBag.ServiceTicket = client.ServiceTicket;
             ViewBag.ClientName = Clients.ClientBeingServed(client);
@@ -1014,6 +1050,7 @@ namespace OPIDDaily.Controllers
             ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
             ViewBag.Age = client.Age;
             ViewBag.Agency = GetClientAgencyName(client);
+            ViewBag.Agent = ReferringAgentName(client.ReferringAgentId);
 
             // ServiceTicketBackButtonHelper("Set", rsvm);
             return View("PrintExpressClient", rsvm);
@@ -1034,6 +1071,7 @@ namespace OPIDDaily.Controllers
             ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
             ViewBag.Age = client.Age;
             ViewBag.Agency = GetClientAgencyName(client);
+            ViewBag.Agent = ReferringAgentName(client.ReferringAgentId);
             List<VisitViewModel> visits = Visits.GetVisits(nowServing);
 
             rsvm.XBC = client.XBC == true ? "XBC" : string.Empty;
@@ -1087,7 +1125,7 @@ namespace OPIDDaily.Controllers
 
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.VoucherDate = today.ToString("MM/dd/yyyy");
             ViewBag.Expiry = client.Expiry.ToString("ddd MMM d, yyyy");
 
@@ -1148,7 +1186,7 @@ namespace OPIDDaily.Controllers
 
         public ActionResult Review()
         {
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.ServiceDate = today.ToString("ddd  MMM d, yyyy");
             return View("Review");
         }
@@ -1194,7 +1232,7 @@ namespace OPIDDaily.Controllers
 
         public ActionResult PrepareTable()
         {
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.ServiceDate = today.ToString("ddd  MMM d, yyyy");
 
             List<ClientServedViewModel> clientsServed = Clients.ClientsServed(today);

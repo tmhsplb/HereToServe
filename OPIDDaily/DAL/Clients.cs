@@ -22,7 +22,6 @@ namespace OPIDDaily.DAL
             {
                 using (OpidDailyDB opidcontext = new OpidDailyDB())
                 {
-                    DateTime today = Extras.DateTimeToday();
                     string lname = Extras.StripSuffix(lastName.ToUpper());
                     Client client = opidcontext.Clients.Where(c => c.LastName.StartsWith(lname) && c.FirstName.StartsWith(firstName) && c.DOB == dob).SingleOrDefault();
 
@@ -140,7 +139,7 @@ namespace OPIDDaily.DAL
             ClientViewModel cvm = new ClientViewModel
             {
                 Id = client.Id,
-                ServiceDate = client.ServiceDate.AddHours(12),
+                ServiceDate = client.ServiceDate,
                 Expiry = client.Expiry.AddHours(12),
                 ServiceTicket = client.ServiceTicket,
                 Stage = client.Stage,
@@ -182,7 +181,8 @@ namespace OPIDDaily.DAL
             client.MiddleName = cvm.MiddleName;
             client.BirthName = cvm.BirthName;
             client.DOB = dob;   
-            client.Age = CalculateAge(dob); 
+            client.Age = CalculateAge(dob);
+            client.ReferringAgentId = cvm.ReferringAgentId;
 
             // client.EXP = (cvm.EXP.Equals("Y") ? true : false);
             client.ACK = (client.ACK ? true : (!string.IsNullOrEmpty(cvm.ACK) && cvm.ACK.Equals("Y")) ? true : false);
@@ -540,6 +540,7 @@ namespace OPIDDaily.DAL
                         BirthName = cvm.BirthName,
                         DOB = dob, // cvm.DOB,
                         Age = CalculateAge(dob), // CalculateAge(cvm.DOB),
+                        ReferringAgentId = cvm.ReferringAgentId,
                         //   EXP = (cvm.EXP.Equals("Y") ? true : false),
                         ACK = (!string.IsNullOrEmpty(cvm.ACK) && cvm.ACK.Equals("Y") ? true : false),
                         XID = (cvm.XID.Equals("Y") ? true : false),
@@ -582,7 +583,7 @@ namespace OPIDDaily.DAL
 
         public static void AddNewClients(List<ClientRow> clientRows)
         {
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeToday().AddHours(12);
             DateTime now = Extras.DateTimeNow();
             List<Client> newClients = new List<Client>();
 
@@ -611,6 +612,7 @@ namespace OPIDDaily.DAL
                                 BirthName = cr.BirthName,
                                 DOB = cr.DOB,
                                 Age = CalculateAge(cr.DOB),
+                                ReferringAgentId = 0,
                                 ACK = false,
                                 XID = false,
                                 XBC = false,
@@ -701,6 +703,7 @@ namespace OPIDDaily.DAL
                     BirthName = cvm.BirthName,
                     DOB = cvm.DOB,  
                     Age = CalculateAge(cvm.DOB),
+                    ReferringAgentId = cvm.ReferringAgentId,
                     Conversation = (string.IsNullOrEmpty(cvm.Conversation) || cvm.Conversation.Equals("''") ? false : true),
                     Notes = cvm.Notes,
                     Screened = now,
@@ -757,11 +760,11 @@ namespace OPIDDaily.DAL
                     DateTime now = Extras.DateTimeNow();
                     // Adding a dependent client makes the family head a head of household
                     familyHead.HeadOfHousehold = true;
-                    DateTime today = Extras.DateTimeToday();
+                    DateTime today = Extras.DateTimeNoonToday();
 
                     Client dependent = new Client
                     {
-                        ServiceDate = today.AddHours(12),
+                        ServiceDate = now,
                         Expiry = CalculateExpiry(today),
                         ServiceTicket = familyHead.ServiceTicket,
                         Stage = "Screened",
@@ -770,8 +773,8 @@ namespace OPIDDaily.DAL
                         LastName = cvm.LastName,
                         BirthName = cvm.BirthName,
                         DOB = cvm.DOB,
-
                         Age = CalculateAge(cvm.DOB),
+                        ReferringAgentId = cvm.ReferringAgentId,
                         Notes = cvm.Notes,
                         Screened = now,
                         CheckedIn = now,
@@ -909,7 +912,7 @@ namespace OPIDDaily.DAL
                 {
                     // Since these fields are not editable by a Case Manager, they will
                     // be set to NULL in cvm. This will cause ClientViewModelToClientEntity
-                    // to generate an eror if we do not manually set theme here.
+                    // to generate an error if we do not manually set them here.
                     cvm.Stage = client.Stage;
                     cvm.ACK = (client.ACK ? "Y" : string.Empty);
                     cvm.LCK = (client.LCK ? "Y" : string.Empty);

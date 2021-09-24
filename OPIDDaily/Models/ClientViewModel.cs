@@ -37,6 +37,8 @@ namespace OPIDDaily.Models
 
         public int Age { get; set; }
  
+        public int ReferringAgentId { get; set; }
+
         public string ACK { get; set; }
 
         public string LCK { get; set; }

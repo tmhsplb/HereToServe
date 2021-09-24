@@ -25,7 +25,7 @@ namespace OPIDDaily.Controllers
 
         public ActionResult ManageMyClients()
         {
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             int msgCnt = Convert.ToInt32(SessionHelper.Get("MsgCnt"));
 
             ViewBag.ServiceDate = today.ToString("ddd  MMM d");
@@ -62,6 +62,7 @@ namespace OPIDDaily.Controllers
 
         public string AddMyClient(ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
             int referringAgency = ReferringAgency();
             int id = Clients.AddMyClient(cvm, referringAgency);
 
@@ -81,6 +82,7 @@ namespace OPIDDaily.Controllers
 
         public string EditMyClient(ClientViewModel cvm)
         {
+            cvm.ReferringAgentId = ReferringAgentId();
             int id = Clients.EditMyClient(cvm);
 
             // Edited client becomes the client being served.

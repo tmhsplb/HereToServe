@@ -90,9 +90,7 @@ namespace OPIDDaily.Controllers
                 srvm.AgencyContact = "_________________________";
             }
 
-          //  SpecialReferralBackButtonHelper("Set", srvm);
-
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.SpecialReferralDate = today.ToString("MMM d, yyyy");
             return View("PrintSpecialReferral", srvm);
         }
@@ -153,7 +151,7 @@ namespace OPIDDaily.Controllers
             Clients.StoreRequestedServicesAndSupportingDocuments(client.Id, rsvm);
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             DateTime expiryDate = Clients.CalculateExpiry(today);
             Clients.UpdateOverflowExpiry(nowServing, expiryDate);
 
@@ -163,10 +161,9 @@ namespace OPIDDaily.Controllers
             ViewBag.Age = client.Age;
             ViewBag.Agency = Agencies.GetAgencyName(Convert.ToInt32(rsvm.AgencyId));  // rsvm.AgencyId will be the Id of an Agency as a string
             ViewBag.IssueDate = today.ToString("ddd MMM d, yyyy");
-            ViewBag.Expiry = Clients.CalculateExpiry(today).ToString("ddd MMM d, yyyy");
+            ViewBag.Expiry = expiryDate.ToString("ddd MMM d, yyyy");
             ViewBag.VoucherDate = today.ToString("MM/dd/yyyy");  // for _OverflowSignatureBlock.cshtml
 
-         //   VoucherBackButtonHelper("Set", rsvm);
             return View("PrintExpressClientOverflowVoucher", rsvm);
         }
 
@@ -196,7 +193,7 @@ namespace OPIDDaily.Controllers
             Clients.StoreRequestedServicesAndSupportingDocuments(client.Id, rsvm);
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             DateTime expiryDate = Clients.CalculateExpiry(today);
             Clients.UpdateOverflowExpiry(nowServing, expiryDate);
             ViewBag.ClientName = Clients.ClientBeingServed(client);

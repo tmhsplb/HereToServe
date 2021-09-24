@@ -15,11 +15,39 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationMessage("InventoryError", new { @class = "text-danger" })
 
-                <h4>Available Funds</h4>
+                <h4>Inventory</h4>
                 <hr />
 
                 <div class="form-group">
                     <table>
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.METROCards20, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards20, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaCards20, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards20, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.METROCards30, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards30, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaCards30, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards30, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.METROCards40, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards40, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaCards40, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards40, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.METROCards50, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.METROCards50, new { @class = "giftcardlabel" })</td>
+                            <td>@Html.TextBoxFor(m => m.VisaCards50, new { style = "width:50px; font-weight:bold;", @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.VisaCards50, new { @class = "giftcardlabel" })</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
                         <tr>
                             <td>@Html.TextBoxFor(m => m.METROFunds, new { @readonly = "readonly", style = "width:60px; font-weight:bold;", @class = "form-control" })</td>
                             <td>@Html.LabelFor(m => m.METROFunds, new { @class = "giftcardlabel" })</td>
@@ -28,14 +56,6 @@
                         </tr>
                     </table>
                 </div>
-
-                <br /><br />
-
-                <h4>Inventory</h4>
-                <hr />
-
-                @Html.Partial("_GiftCardInventoryForm", Model)
-
 
                 <br /><br />
 

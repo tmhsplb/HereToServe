@@ -283,7 +283,7 @@ namespace OPIDDaily.DAL
         {
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
-                DateTime today = Extras.DateTimeToday().AddHours(12);
+                DateTime today = Extras.DateTimeNoonToday();
                 Client client = opiddailycontext.Clients.Find(nowServing);
                                 
                 if (client != null)
@@ -572,7 +572,7 @@ namespace OPIDDaily.DAL
             {
                 Client client = opiddailycontext.Clients.Find(nowServing);
 
-                if (client != null && !string.IsNullOrEmpty(status) && status.Equals("Gift Card Delivered"))
+                if (client != null && !string.IsNullOrEmpty(status))
                 {
                     PocketCheck pcheck = opiddailycontext.PocketChecks.Find(vvm.Id);
                     if (pcheck != null)
@@ -580,19 +580,23 @@ namespace OPIDDaily.DAL
                         pcheck.Disposition = status;
                     }
 
-                    opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
-                    List<GiftCard> gcards = client.GiftCards.ToList();
-
-                    foreach (GiftCard gcard in gcards)
+                    if (status.Equals("Gift Card Delivered"))
                     {
-                        if (gcard.IsCurrent && cardType.Equals("METRO Gift Card") && IsMETROCard(gcard))
-                        {
-                            gcard.IsCurrent = false;
-                        }
 
-                        if (gcard.IsCurrent && cardType.Equals("VISA Gift Card") && IsVisaCard(gcard))
+                        opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
+                        List<GiftCard> gcards = client.GiftCards.ToList();
+
+                        foreach (GiftCard gcard in gcards)
                         {
-                            gcard.IsCurrent = false;    
+                            if (gcard.IsCurrent && cardType.Equals("METRO Gift Card") && IsMETROCard(gcard))
+                            {
+                                gcard.IsCurrent = false;
+                            }
+
+                            if (gcard.IsCurrent && cardType.Equals("VISA Gift Card") && IsVisaCard(gcard))
+                            {
+                                gcard.IsCurrent = false;
+                            }
                         }
                     }
 
@@ -760,7 +764,7 @@ namespace OPIDDaily.DAL
 
         private static PocketCheck NewGiftCardPocketCheck(Client client, string item, string amount, string registrationId)
         {
-            DateTime today = Extras.DateTimeToday().AddHours(12);
+            DateTime today = Extras.DateTimeNoonToday();
 
             return new PocketCheck
             {

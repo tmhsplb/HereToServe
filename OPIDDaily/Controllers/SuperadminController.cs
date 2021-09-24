@@ -22,6 +22,7 @@ namespace OPIDDaily.Controllers
         {
             string workingConnectionString = string.Empty;
 
+            /*
             ViewBag.Release = Config.Release;   
                          
             switch (Config.Release) 
@@ -43,8 +44,8 @@ namespace OPIDDaily.Controllers
             ViewBag.ConnectionString = Config.ConnectionString;
             ViewBag.ChangedConnectionString = (Config.ConnectionString.Equals(workingConnectionString) ? "False" : "True");
             ViewBag.TrainingClients = Config.TrainingClients;
+            */
 
-            // Log.Info("Goto Superadmin home page");
             return View();
         }
 
@@ -53,7 +54,7 @@ namespace OPIDDaily.Controllers
             string serviceDate = SessionHelper.Get("ServiceDate");
             if (serviceDate.Equals("0"))
             {
-                DateTime today = Extras.DateTimeToday();
+                DateTime today = Extras.DateTimeNoonToday();
                 serviceDate = today.ToString("ddd MMM d");
             }
             ViewBag.ServiceDate = DateTime.Parse(serviceDate).ToString("ddd MMM d");
@@ -90,7 +91,7 @@ namespace OPIDDaily.Controllers
             string serviceDate = SessionHelper.Get("ServiceDate");
             if (serviceDate.Equals("0"))
             {
-                DateTime today = Extras.DateTimeToday();
+                DateTime today = Extras.DateTimeNoonToday();
                 serviceDate = today.ToString("ddd MMM d");
             }
 

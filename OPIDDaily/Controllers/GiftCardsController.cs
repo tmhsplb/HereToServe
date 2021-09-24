@@ -18,7 +18,7 @@ namespace OPIDDaily.Controllers
             return View("Home");
         }
 
-        public ActionResult GiftCardsInventory()
+        public ActionResult ManageInventory()
         {
             GiftCardInventoryViewModel gcivm = GiftCards.GetInventory();
             int selectedAgency = Convert.ToInt32(SessionHelper.Get("SelectedAgency"));
@@ -37,7 +37,7 @@ namespace OPIDDaily.Controllers
         public ActionResult UpdateInventory(GiftCardInventoryViewModel gcivm)
         {
             GiftCards.UpdateInventory(gcivm);
-            return RedirectToAction("GiftCardsInventory");
+            return RedirectToAction("ManageInventory");
         }
 
         [HttpPost]

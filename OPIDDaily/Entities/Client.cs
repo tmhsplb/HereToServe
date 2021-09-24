@@ -43,6 +43,8 @@ namespace OpidDailyEntities
 
         public int Age { get; set; }
 
+        public int ReferringAgentId { get; set; }
+
         public bool Conversation { get; set; }
 
         public bool HeadOfHousehold { get; set; }

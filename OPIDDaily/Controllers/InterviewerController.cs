@@ -13,39 +13,8 @@ namespace OPIDDaily.Controllers
     {
         public ActionResult Home()
         {
-           // ServiceTicketBackButtonHelper("Reset", null);
             return View();
         }
-
-        /*
-        public ActionResult InterviewerServiceTicket()
-        {
-            int nowServing = NowServing();
-
-            if (nowServing == 0)
-            {
-                ViewBag.Warning = "Please first select a client from the Dashboard.";
-                return View("Warning");
-            }
-
-            Client client = Clients.GetClient(nowServing, null);
-
-            if (client == null)
-            {
-                ViewBag.Warning = "Could not find selected client.";
-                return View("Warning");
-            }
-
-            if (CheckManager.HasHistory(client.Id))
-            {
-                //  client.EXP = false;
-                return RedirectToAction("PrepareInterviewerExistingClient");
-            }
-
-            // client.EXP = true;
-            return RedirectToAction("PrepareInterviewerExpressClient");
-        }
-        */
 
         public ActionResult PrepareInterviewerExpressClient(RequestedServicesViewModel rsvm)
         {
@@ -54,7 +23,7 @@ namespace OPIDDaily.Controllers
             Client client = Clients.GetClient(nowServing, rsvm);
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
             ViewBag.ServiceTicket = client.ServiceTicket;
             ViewBag.ClientName = Clients.ClientBeingServed(client);
@@ -62,8 +31,6 @@ namespace OPIDDaily.Controllers
             ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
             ViewBag.Age = client.Age;
             ViewBag.Agency = GetClientAgencyName(client);
-
-            // ServiceTicketBackButtonHelper("Set", rsvm);
 
             return View("PrintExpressClient", rsvm);
         }
@@ -75,7 +42,7 @@ namespace OPIDDaily.Controllers
             Client client = Clients.GetClient(nowServing, rsvm);
             PrepareClientNotes(client, rsvm);
 
-            DateTime today = Extras.DateTimeToday();
+            DateTime today = Extras.DateTimeNoonToday();
             ViewBag.TicketDate = today.ToString("MM/dd/yyyy");
             ViewBag.ServiceTicket = client.ServiceTicket;
             ViewBag.ClientName = Clients.ClientBeingServed(client);
@@ -88,7 +55,6 @@ namespace OPIDDaily.Controllers
             rsvm.XBC = client.XBC == true ? "XBC" : string.Empty;
             rsvm.XID = client.XID == true ? "XID" : string.Empty;
 
-            // ServiceTicketBackButtonHelper("Set", rsvm);
             var objTuple = new Tuple<List<VisitViewModel>, RequestedServicesViewModel>(visits, rsvm);
             return View("PrintExistingClient", objTuple);
         }

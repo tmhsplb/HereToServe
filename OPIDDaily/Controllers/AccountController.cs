@@ -207,13 +207,13 @@ namespace OPIDDaily.Controllers
                     if (user != null)
                     {
                         UserManager.Delete(user);
-                        opiddailycontext.Invitations.Remove(invite);
+                        invite.IsActive = false;  // Don't remove, just deactivate the invite 
                         opiddailycontext.SaveChanges();
                         return "Success";
                     }
                     else
                     {
-                        opiddailycontext.Invitations.Remove(invite);
+                        invite.IsActive = false; // Don't remove, just deactivate the invite
                         opiddailycontext.SaveChanges();
                         return "Success";
                     }

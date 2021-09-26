@@ -22,5 +22,7 @@ namespace OpidDailyEntities
         public string Role { get; set; }
 
         public int AgencyId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

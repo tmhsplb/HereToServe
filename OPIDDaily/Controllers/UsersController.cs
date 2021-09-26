@@ -57,11 +57,11 @@ namespace OPIDDaily.Controllers
 
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
-                var user = opiddailycontext.Invitations.Where(i => i.UserName == userName).SingleOrDefault();
+                var invite = opiddailycontext.Invitations.Where(i => i.UserName == userName).SingleOrDefault();
 
-                if (user != null)
+                if (invite != null)
                 {
-                    return true;
+                    return invite.IsActive;
                 }
             }
             

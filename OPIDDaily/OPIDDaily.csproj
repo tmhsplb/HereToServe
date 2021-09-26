@@ -266,6 +266,10 @@
     <Compile Include="DataContexts\OPIDDailyMigrations\202109232038326_ReferringAgent.Designer.cs">
       <DependentUpon>202109232038326_ReferringAgent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109262028061_Invitation.IsActive.cs" />
+    <Compile Include="DataContexts\OPIDDailyMigrations\202109262028061_Invitation.IsActive.Designer.cs">
+      <DependentUpon>202109262028061_Invitation.IsActive.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataContexts\OPIDDailyMigrations\Configuration.cs" />
     <Compile Include="Entities\GiftCard.cs" />
     <Compile Include="Entities\GiftCardInventory.cs" />
@@ -991,6 +995,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109232038326_ReferringAgent.resx">
       <DependentUpon>202109232038326_ReferringAgent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\OPIDDailyMigrations\202109262028061_Invitation.IsActive.resx">
+      <DependentUpon>202109262028061_Invitation.IsActive.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

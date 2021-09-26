@@ -66,6 +66,7 @@ namespace OPIDDaily.DAL
                 if (invite != null && invite.Email == email)
                 {
                     invite.Accepted = Extras.DateTimeToday();
+                    invite.IsActive = true;
                     opiddailycontext.SaveChanges();
                     return invite;
                 }
@@ -78,9 +79,26 @@ namespace OPIDDaily.DAL
         {
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
-                Invitation invite = InvitationViewModelToInvite(ivm);
-                   
-                opiddailycontext.Invitations.Add(invite);
+                Invitation invite;
+
+                invite = opiddailycontext.Invitations.Where(i => i.UserName == ivm.UserName).SingleOrDefault();
+
+                if (invite != null)
+                {
+                    // This is an existing user being reactivated.
+                    // This user probably required the SuperAdmin to reset his/her password.
+                    // To reset, the user is deleted from the UserStore and his/her invitation
+                    // is marked inactive. This allows the invite to be reused, which is important
+                    // because the Id of the invite is used as the value of client.ReferringAgentId.
+                    // See SharedController.AddClient.
+                    invite.IsActive = true;
+                }
+                else
+                {
+                    // This is a new user.
+                    invite = InvitationViewModelToInvite(ivm);   
+                    opiddailycontext.Invitations.Add(invite);
+                }
                 opiddailycontext.SaveChanges();
             }
 
@@ -139,7 +157,8 @@ namespace OPIDDaily.DAL
                 FullName = ivm.FullName,
                 Email = ivm.Email,
                 Role = ivm.Role,
-                AgencyId = Convert.ToInt32(ivm.Agency)    
+                AgencyId = Convert.ToInt32(ivm.Agency) ,
+                IsActive = true
             };
         }
 
@@ -152,7 +171,10 @@ namespace OPIDDaily.DAL
 
                 foreach (Invitation invite in invites)
                 {
-                    invitations.Add(InviteToInvitationViewModel(invite));
+                    if (invite.IsActive)
+                    {
+                        invitations.Add(InviteToInvitationViewModel(invite));
+                    }
                 }
 
                 return invitations;

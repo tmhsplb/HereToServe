@@ -393,8 +393,9 @@ namespace OPIDDaily.Controllers
 
         public string AddDependentClient(int household, ClientViewModel cvm)
         {
-            cvm.ReferringAgentId = ReferringAgentId();
             int referringAgency = ReferringAgency();
+            cvm.ReferringAgentId = ReferringAgentId();
+
             int id = Clients.AddDependentClient(referringAgency, household, cvm);
 
             if (id == -1)

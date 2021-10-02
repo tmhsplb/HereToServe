@@ -19,7 +19,10 @@ namespace OPIDDaily
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            // Note the use of Bundle instead of ScriptBundle when loading bootstrap.
+            // This solved an error problem described in
+            // https://stackoverflow.com/questions/68009152/mvc-5-scripts-render-bundles-bootstrap-error-object-reference-not-set-to
+            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
             // jquery mvc5 datatables js files

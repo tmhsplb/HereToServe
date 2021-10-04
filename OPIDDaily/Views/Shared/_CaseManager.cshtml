@@ -14,9 +14,10 @@
 </head>
 
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
         <div class="container">
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse">      
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Home", "CaseManager")</li>
                     <li>@Html.ActionLink("Clients", "ManageMyClients", "CaseManager")</li>
@@ -27,10 +28,11 @@
                     <!-- <li>@Html.ActionLink("Voucher", "PrepareVoucher", "CaseManager")</li> -->
                 </ul>
                 @Html.Partial("_LoginPartial")
-                @Html.Partial("_EnvironmentPartial")
-            </div>
+                @Html.Partial("_EnvironmentPartial")       
+            </div> 
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         @Html.Partial("_Footer")

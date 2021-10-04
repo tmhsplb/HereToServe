@@ -23,9 +23,12 @@ textarea {
     max-width: 280px;
 }
 
+
 /* Styling of the navbar */
 .navbar-custom {
     background-color: WhiteSmoke;
+    height: 50px;
+    font: 14px helvetica
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -63,6 +66,7 @@ textarea {
    background: green;
    position: fixed;
    top: 50px;
+   bottom: 0px;
    left: 0;
 }
 

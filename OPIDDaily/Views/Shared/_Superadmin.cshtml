@@ -18,23 +18,21 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
+    <div class="navbar navbar-expand navbar-inverse fixed-top navbar-custom">
         <div class="container">
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Home", "Superadmin")</li>
-                    <li>@Html.ActionLink("Users", "ManageUsers", "Users")</li>
-                    <li>@Html.ActionLink("Roles", "ManageRoles", "Role")</li>
-                    <li>@Html.ActionLink("Agencies", "ManageAgencies", "Agency")</li>
-                    <li>@Html.ActionLink("MBVD", "ManageMBVDS", "MBVD")</li>
-                    <li>@Html.ActionLink("Clients", "ManageServiceDateClients", "Superadmin")</li>
-                    <li>@Html.ActionLink("Rebuild", "Rebuild", "Superadmin")</li>
-                    <li>@Html.ActionLink("Demo", "Demo", "Superadmin")</li>
-                    <li>@Html.ActionLink("Recent Checks", "RecentChecks", "Superadmin")</li>
-                    <li>@Html.ActionLink("Ancient Checks", "AncientChecks", "Superadmin")</li>
-                    @*  <li>@Html.ActionLink("Pre-Approval Form", "PreApprovalForm", "Superadmin")</li> *@
-                    @*@<li>@Html.ActionLink("Review", "ServiceDateReview", "Superadmin")</li>*@
-                    <li>@Html.ActionLink("Version", "Version", "Superadmin")</li>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Users", "ManageUsers", "Users", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Roles", "ManageRoles", "Role", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Agencies", "ManageAgencies", "Agency", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("MBVD", "ManageMBVDS", "MBVD", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Clients", "ManageServiceDateClients", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Rebuild", "Rebuild", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Demo", "Demo", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Recent Checks", "RecentChecks", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Ancient Checks", "AncientChecks", "Superadmin", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Version", "Version", "Superadmin", new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

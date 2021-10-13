@@ -57,13 +57,13 @@ namespace OPIDDaily.Controllers
             if (!string.IsNullOrEmpty(retrieveBudget) && retrieveBudget.Equals("Retrieve Budget"))
             {
                 SessionHelper.Set("SelectedAgency", agencyId.ToString());
-                return RedirectToAction("GiftCardsInventory");
+                return RedirectToAction("ManageInventory");
             }
             else if (!string.IsNullOrEmpty(updateBudget) && updateBudget.Equals("Update Budget"))
             {
                 SessionHelper.Set("SelectedAgency", agencyId.ToString());
                 GiftCards.UpdateBudgets(agencyId, gcivm.METROBudget, gcivm.VisaBudget);
-                return RedirectToAction("GiftCardsInventory");
+                return RedirectToAction("ManageInventory");
             }
 
             ModelState.AddModelError("BudgetError", "Unknown budget command");

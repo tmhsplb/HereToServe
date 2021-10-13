@@ -174,7 +174,7 @@ function rowColorFormatter(cellValue, options, rowObject) {
     if (cellValue != null && cellValue == "END") {
         // End of conversation. Turn coloring off.
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#000000" };  // black
-    } else if (cellValue != null && (cellValue == "FromAgency" || cellValue == "FromOPID" || cellValue == "IHFromOPID" || cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer" || cellValue == "IHFromGCAdmin" || cellVale == "FromGCAdmin")) {
+    } else if (cellValue != null && (cellValue == "FromAgency" || cellValue == "FromOPID" || cellValue == "IHFromOPID" || cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer" || cellValue == "IHFromGCAdmin" || cellValue == "FromGCAdmin")) {
         // alert("cellValue == FromAgency");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#00FF00" };  // green
     } else if (cellValue != null && (cellValue == "FromFrontDesk" || cellValue == "IHFromFrontDesk")) {

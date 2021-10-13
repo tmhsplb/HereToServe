@@ -17,25 +17,19 @@
     @RenderSection("scripts", required: false)
 </head>
 
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
+    <div class="navbar navbar-expand navbar-inverse fixed-top navbar-custom">
         <div class="container">
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Home", "FrontDesk")</li>
-                    <li>@Html.ActionLink("Clients", "ManageClients", "FrontDesk")</li>
-                    <li>@Html.ActionLink("Demographics", "GetDemographicInfo", "FrontDesk")</li>
-                    <li>@Html.ActionLink("Service Request", "ServiceRequest", "FrontDesk")</li>
-                  <!--  <li>@Html.ActionLink("Service Ticket", "ServiceTicket", "FrontDesk")</li> -->
-                    <li>@Html.ActionLink("Service Ticket", "FrontDeskServiceTicket", "FrontDesk")</li>
-                    <li>@Html.ActionLink("Dashboard", "ManageDashboard", "FrontDesk")</li>
-                    @*
-        <li>@Html.ActionLink("Recent Checks", "RecentChecks", "FrontDesk")</li>
-        <li>@Html.ActionLink("Ancient Checks", "AncientChecks", "FrontDesk")</li>
-        <li>@Html.ActionLink("Overflow Voucher", "OverflowVoucher", "FrontDesk")</li>
-        <li>@Html.ActionLink("Special Referral", "SpecialReferral", "FrontDesk")</li>
-        <li>@Html.ActionLink("Review", "Review", "FrontDesk")</li>
-                    *@
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "FrontDesk", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Clients", "ManageClients", "FrontDesk", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "FrontDesk", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "FrontDesk", new { @class = "nav-link" })</li>
+                    <!--  <li class="nav-item">@Html.ActionLink("Service Ticket", "ServiceTicket", "FrontDesk", new { @class = "nav-link" })</li> -->
+                    <li class="nav-item">@Html.ActionLink("Service Ticket", "FrontDeskServiceTicket", "FrontDesk", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "FrontDesk", new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

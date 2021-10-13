@@ -37,8 +37,7 @@
 <h4>Agency:&nbsp;@ViewBag.Agency</h4>
 <br />
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container">
         <section id="expressclientForm">
             @using (Html.BeginForm("StoreExpressClientServiceRequest", "Interviewer", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -48,17 +47,16 @@
                 <hr />
                
                 @Html.Partial("_RequestedServicesForm", Model)
-
-                @Html.Partial("_BootstrapSupportingDocuments", Model)
+                <br/>
+                @Html.Partial("_SupportingDocumentsForm", Model)
 
                 <br />
                 <div class="form-group">
                     <div class="col-md-10">
-                        <input type="submit" value="Save Service Request" class="btn btn-default" />
+                        <input type="submit" value="Save Service Request" class="btn btn-light" />
                     </div>
                 </div>
             }
         </section>
-    </div>
 </div>
 

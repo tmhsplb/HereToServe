@@ -50,13 +50,13 @@
                 @Html.Hidden("AgencyId", Model.AgencyId)
                 @Html.Partial("_CaseManagerRequestedServicesForm", Model)
 
-                @Html.Partial("_BootstrapSupportingDocuments", Model)
+                @Html.Partial("_SupportingDocumentsForm", Model)
 
                 <br /><br />
 
-                <div class="form-group">
+                <div class="row">
                     <div class="col-md-10">
-                        <input type="submit" value="Save Service Request" class="btn btn-default" />
+                        <input type="submit" value="Save Service Request" @* class="btn btn-light" *@ />
                     </div>
                 </div>
             }

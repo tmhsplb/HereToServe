@@ -14,15 +14,14 @@
     }
 </style>
 
-
+<br />
 <h3>Client: @ViewBag.ClientName</h3>
 <h4>DOB: @ViewBag.DOB (Age @ViewBag.Age)</h4>
 <br />
 
 <h4>Requested Services</h4>
 <hr />
-<div class="row">
-    <div class="col-md-12">
+<div class="container">
         <section id="voucherForm">
             @using (Html.BeginForm("StoreExpressClientServiceRequest", "CaseManager", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
             {
@@ -31,18 +30,18 @@
 
                 @Html.Hidden("AgencyId", Model.AgencyId)
                 @Html.Partial("_CaseManagerRequestedServicesForm", Model)
-
-                @Html.Partial("_BootstrapSupportingDocuments", Model)
+                <br/><br/>
+                @Html.Partial("_SupportingDocumentsForm", Model)
 
                 <br /><br />
 
-                <div class="form-group">
+                <div class="row">
                     <div class="col-md-10">
-                        <input type="submit" value="Save Service Request" class="btn btn-default" />
+                        <input type="submit" value="Save Service Request" @*class="btn btn-light"*@ />
                     </div>
                 </div>
             }
         </section>
-    </div>
 </div>
+
 

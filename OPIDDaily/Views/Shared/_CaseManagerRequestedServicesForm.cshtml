@@ -1,6 +1,6 @@
 ﻿@model OPIDDaily.Models.RequestedServicesViewModel
 
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.BC, new { @class = "form-control" })
     </div>
@@ -15,7 +15,7 @@
         @Html.LabelFor(m => m.HCC, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.MBVD, new { @class = "form-control" })
     </div>
@@ -30,7 +30,7 @@
       @Html.Label("Not all states are listed!")
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.NewTID, new { @class = "form-control" })
     </div>
@@ -44,7 +44,7 @@
         @Html.LabelFor(m => m.ReplacementTID, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.NewTDL, new { @class = "form-control" })
     </div>
@@ -58,7 +58,7 @@
         @Html.LabelFor(m => m.ReplacementTDL, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.Numident, new { @class = "form-control" })
     </div>

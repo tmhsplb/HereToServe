@@ -38,8 +38,7 @@
 <h4>DOB: @ViewBag.DOB (Age @ViewBag.Age)</h4>
 <br />
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container">
         <section id="existingclientForm">
             @using (Html.BeginForm("StoreExistingClientServiceRequest", "Interviewer", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
             {
@@ -51,18 +50,17 @@
                 <hr />
               
                 @Html.Partial("_RequestedServicesForm", Model)
-
-                @Html.Partial("_BootstrapSupportingDocuments", Model) 
+                <br/>
+                @Html.Partial("_SupportingDocumentsForm", Model) 
 
                 <br />
                 <div class="form-group">
                     <div class="col-md-10">
-                        <input type="submit" value="Save Service Request" class="btn btn-default" />
+                        <input type="submit" value="Save Service Request" class="btn btn-light" />
                     </div>
                 </div>
             }
         </section>
-    </div>
 </div>
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-2.4.1.min.js")"></script>

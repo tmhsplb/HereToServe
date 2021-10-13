@@ -1,6 +1,6 @@
 ﻿@model OPIDDaily.Models.RequestedServicesViewModel
 
-<div class="form-group">
+<div class="row">
     <div class="col-md-4">
         @Html.DropDownListFor(model => model.AgencyId, Model.Agencies, new { @class = "form-control" })   
     </div>
@@ -11,7 +11,7 @@
         @Html.TextBoxFor(m => m.OtherAgencyName, new { placeholder = "Other Agency", @class = "form-control" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.BC, new { @class = "form-control" })
     </div>
@@ -31,7 +31,7 @@
         @Html.LabelFor(m => m.HCC, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.MBVD, new { @class = "form-control" })     
     </div>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.NewTID, new { @class = "form-control" })
     </div>
@@ -64,7 +64,7 @@
         @Html.LabelFor(m => m.PreApprovedNewTID, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.ReplacementTID, new { @class = "form-control" })
     </div>
@@ -78,7 +78,7 @@
         @Html.LabelFor(m => m.PreApprovedReplacementTID, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.NewTDL, new { @class = "form-control" })
     </div>
@@ -92,7 +92,7 @@
         @Html.LabelFor(m => m.PreApprovedNewTDL, new { @class = "control-label" })
     </div>
 </div>
-<div class="form-group">
+<div class="row">
     <div class="col-md-2">
         @Html.CheckBoxFor(m => m.ReplacementTDL, new { @class = "form-control" })
     </div>
@@ -106,7 +106,7 @@
         @Html.LabelFor(m => m.PreApprovedReplacementTDL, new { @class = "control-label" })
     </div>
 </div>
-    <div class="form-group">
+    <div class="row">
         <div class="col-md-2">
             @Html.CheckBoxFor(m => m.Numident, new { @class = "form-control" })
         </div>

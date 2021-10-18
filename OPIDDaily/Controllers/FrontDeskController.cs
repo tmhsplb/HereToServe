@@ -217,10 +217,17 @@ namespace OPIDDaily.Controllers
         public ActionResult StoreExpressClientServiceRequest(RequestedServicesViewModel rsvm)
         {
             // Called when 
-            //   ~/Views/CaseManager/ExpressClientServiceRequest.cshtml
+            //   ~/Views/FrontDesk/ExpressClientServiceRequest.cshtml
             // posts to server. rsvm will contain both requested services
             // and supporting documents.
             int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "You waited too long before acting! Session timeout. Go back to Clients list (or Dashboard) and try again.";
+                return View("Warning");
+            }
+
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
             string serviceRequestError = ServiceRequestError(rsvm);
 
@@ -245,10 +252,17 @@ namespace OPIDDaily.Controllers
         public ActionResult StoreExistingClientServiceRequest(RequestedServicesViewModel rsvm)
         {
             // Called when          
-            //    ~/Views/CaseManager/ExistingClientServiceRequest.cshtml
+            //    ~/Views/FrontDesk/ExistingClientServiceRequest.cshtml
             // posts to server. rsvm will contain both requested services
             // and supporting documents.
             int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "You waited too long before acting! Session timeout. Go back to Clients list (or Dashboard) and try again.";
+                return View("Warning");
+            }
+
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
             string serviceRequestError = ServiceRequestError(rsvm);
 

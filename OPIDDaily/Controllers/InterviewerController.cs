@@ -68,6 +68,13 @@ namespace OPIDDaily.Controllers
             // posts to server. rsvm will contain both requested services
             // and supporting documents.
             int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "You waited too long before acting! Session timeout. Go back to Dashboard and try again.";
+                return View("Warning");
+            }
+
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
             string serviceRequestError = ServiceRequestError(rsvm);
 
@@ -96,6 +103,13 @@ namespace OPIDDaily.Controllers
             // posts to server. rsvm will contain both requested services
             // and supporting documents.
             int nowServing = NowServing();
+
+            if (nowServing == 0)
+            {
+                ViewBag.Warning = "You waited too long before acting! Session timeout. Go back to Dashboard and try again.";
+                return View("Warning");
+            }
+
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
             string serviceRequestError = ServiceRequestError(rsvm);
 

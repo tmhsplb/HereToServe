@@ -28,9 +28,17 @@ namespace OPIDDaily.DAL
 
         private static bool IsPocketCheck(PocketCheck pcheck)
         {
+            if (pcheck.Item.Trim().StartsWith("METRO") || (pcheck.Item.Trim().StartsWith("VISA")))
+            {
+                // Gift Cards are implemented as pocket checks but should not
+                // appear in the Pocket Checks Report.
+                return false;
+            }
+
             // Does not depend on Disposition, which might not be determined yet.
             // It's still a pocket check based on check number alone.
             // See CheckManager.PocketCheck which DOES depend on disposition.
+
             return 0 < pcheck.Num && pcheck.Num < 9999;
         }
 
@@ -61,7 +69,7 @@ namespace OPIDDaily.DAL
 
         public static List<PocketCheckViewModel> GetPocketChecks(SearchParameters sps)
         {
-            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
                 List<PocketCheck> pchecks = opiddailycontext.PocketChecks.Where(pc => pc.HH == 0 && pc.IsActive == true).ToList();
                 List<PocketCheckViewModel> pocketChecks = new List<PocketCheckViewModel>();
@@ -93,7 +101,7 @@ namespace OPIDDaily.DAL
 
         public static void EditPocketCheck(PocketCheckViewModel pcvm)
         {
-            using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
+            using (OpidDailyDB opiddailycontext = new OpidDailyDB())
             {
                 PocketCheck pcheck = opiddailycontext.PocketChecks.Where(pc => pc.Id == pcvm.Id).SingleOrDefault();
 
@@ -112,21 +120,24 @@ namespace OPIDDaily.DAL
                 PocketCheck pcheck = opiddailycontext.PocketChecks.Find(id);
 
                 if (pcheck != null)
-                {
-                    Client client = opiddailycontext.Clients.Find(pcheck.ClientId);
-
-                    if (client != null)
+                { 
+                    if (pcheck.HeadOfHousehold == true)
                     {
-                        List<PocketCheck> dependentPocketChecks = opiddailycontext.PocketChecks.Where(pc => pc.HH == client.Id).ToList();
+                        List<PocketCheck> dependentPocketChecks = opiddailycontext.PocketChecks.Where(pc => pc.HH == pcheck.ClientId).ToList();
                         List<PocketCheckViewModel> pcvms = new List<PocketCheckViewModel>();
 
-                        foreach (PocketCheck dependentPocketCheck in dependentPocketChecks)
-                        {
-                            PocketCheckViewModel pcvm = PocketCheckToPocketCheckViewModel(client, dependentPocketCheck);
-                            pcvms.Add(pcvm);
-                        }
+                        Client client = opiddailycontext.Clients.Find(pcheck.ClientId);
 
-                        return pcvms;
+                        if (client != null)
+                        {
+                            foreach (PocketCheck dependentPocketCheck in dependentPocketChecks)
+                            {
+                                PocketCheckViewModel pcvm = PocketCheckToPocketCheckViewModel(client, dependentPocketCheck);
+                                pcvms.Add(pcvm);
+                            }
+
+                            return pcvms;
+                        }
                     }
 
                     return null;

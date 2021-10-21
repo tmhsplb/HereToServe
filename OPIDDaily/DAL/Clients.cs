@@ -140,7 +140,7 @@ namespace OPIDDaily.DAL
             {
                 Id = client.Id,
                 ServiceDate = client.ServiceDate,
-                Expiry = client.Expiry.AddHours(12),
+                Expiry = client.Expiry,
                 ServiceTicket = client.ServiceTicket,
                 Stage = client.Stage,
                 WaitTime = client.WaitTime,
@@ -150,8 +150,8 @@ namespace OPIDDaily.DAL
                 FirstName = client.FirstName,
                 MiddleName = client.MiddleName,
                 BirthName = client.BirthName,
-                DOB = client.DOB.AddHours(12),
-                sDOB = client.DOB.AddHours(12).ToString("MM/dd/yyyy"),
+                DOB = client.DOB,
+                sDOB = client.DOB.ToString("MM/dd/yyyy"),
                 Age = client.Age,
                 AgencyName = (!string.IsNullOrEmpty(client.AgencyName) ? client.AgencyName : Agencies.GetAgencyName(client.AgencyId)),
 
@@ -366,7 +366,7 @@ namespace OPIDDaily.DAL
         {
             return new TextMsg
             {
-                Date = Extras.DateTimeToday().AddHours(12),
+                Date = Extras.DateTimeNoonToday(),
                 From = textMsg.From,
                 To = textMsg.To,
                 InHouse = (string.IsNullOrEmpty(textMsg.InHouse) || textMsg.InHouse.Equals("''")) ? false : true,
@@ -523,7 +523,7 @@ namespace OPIDDaily.DAL
         {
             DateTime today = Extras.DateTimeToday();
             DateTime now = Extras.DateTimeNow();
-            DateTime dob = DateTime.Parse(cvm.sDOB);
+            DateTime dob = DateTime.Parse(cvm.sDOB).AddHours(12);
           
             try {
                 using (OpidDailyDB opidcontext = new OpidDailyDB())
@@ -583,7 +583,7 @@ namespace OPIDDaily.DAL
 
         public static void AddNewClients(List<ClientRow> clientRows)
         {
-            DateTime today = Extras.DateTimeToday().AddHours(12);
+            DateTime today = Extras.DateTimeNoonToday();
             DateTime now = Extras.DateTimeNow();
             List<Client> newClients = new List<Client>();
 
@@ -672,7 +672,7 @@ namespace OPIDDaily.DAL
                     break;
             }
 
-            return expiry.Add(extension);
+            return expiry.Add(extension).AddHours(12);
         }
 
         public static DateTime CalculateExpiry(DateTime serviceDate)
@@ -686,11 +686,10 @@ namespace OPIDDaily.DAL
 
         public static int AddMyClient(ClientViewModel cvm, int agencyId)
         {
-           // DateTime now = Extras.DateTimeNow();
-
             using (OpidDailyDB opidcontext = new OpidDailyDB())
             {
                 DateTime now = Extras.DateTimeNow();
+                DateTime dob = cvm.DOB.AddHours(12);
 
                 Client client = new Client
                 {
@@ -701,8 +700,8 @@ namespace OPIDDaily.DAL
                     MiddleName = cvm.MiddleName,
                     LastName = cvm.LastName,
                     BirthName = cvm.BirthName,
-                    DOB = cvm.DOB,  
-                    Age = CalculateAge(cvm.DOB),
+                    DOB = dob,  
+                    Age = CalculateAge(dob),
                     ReferringAgentId = cvm.ReferringAgentId,
                     Conversation = (string.IsNullOrEmpty(cvm.Conversation) || cvm.Conversation.Equals("''") ? false : true),
                     Notes = cvm.Notes,
@@ -761,6 +760,7 @@ namespace OPIDDaily.DAL
                     // Adding a dependent client makes the family head a head of household
                     familyHead.HeadOfHousehold = true;
                     DateTime today = Extras.DateTimeNoonToday();
+                    DateTime dob = cvm.DOB.AddHours(12);
 
                     Client dependent = new Client
                     {
@@ -772,8 +772,8 @@ namespace OPIDDaily.DAL
                         MiddleName = cvm.MiddleName,
                         LastName = cvm.LastName,
                         BirthName = cvm.BirthName,
-                        DOB = cvm.DOB,
-                        Age = CalculateAge(cvm.DOB),
+                        DOB = dob,
+                        Age = CalculateAge(dob),
                         ReferringAgentId = cvm.ReferringAgentId,
                         Notes = cvm.Notes,
                         Screened = now,
@@ -1100,7 +1100,7 @@ namespace OPIDDaily.DAL
                 Stage = client.Stage,
                 LastName = client.LastName,
                 FirstName = client.FirstName,
-                DOB = client.DOB.AddHours(12),
+                DOB = client.DOB,
                 Age = CalculateAge(client.DOB),
                 Active = (client.IsActive ? "Y" : "N"),
                 Notes = client.Notes

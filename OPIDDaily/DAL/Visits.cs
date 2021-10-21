@@ -69,7 +69,7 @@ namespace OPIDDaily.DAL
             return new VisitViewModel
             {
                 Id = ancientCheck.Id,
-                Date = date.AddHours(12),
+                Date = date,
               //  Conversation = (HavingConversation(ancientCheck.Id) ? "Y" : string.Empty),
                 Item = NormalizedService(ancientCheck.Service),
                 Check = (ancientCheck.Num == 0 ? string.Empty : ancientCheck.Num.ToString()),
@@ -96,7 +96,7 @@ namespace OPIDDaily.DAL
             return new VisitViewModel
             {
                 Id = rcheck.Id,
-                Date = date.AddHours(12),
+                Date = date,
               //  Conversation = (HavingConversation(rcheck.Id) ? "Y" : string.Empty),
                 Item = NormalizedService(rcheck.Service),
                 Check = (rcheck.Num == 0 ? string.Empty: rcheck.Num.ToString()),
@@ -225,7 +225,7 @@ namespace OPIDDaily.DAL
             {
                 ClientId = client.Id,
                 HH = (client.HHId == null ? 0 : (int)client.HHId),
-                Date = vvm.Date.AddHours(12),  
+                Date = vvm.Date,  
                 Name = Clients.ClientBeingServed(client, false),
                 DOB = client.DOB,
                 Item = vvm.Item,
@@ -263,8 +263,19 @@ namespace OPIDDaily.DAL
                 Client client = opiddailycontext.Clients.Find(nowServing);
 
                 if (client != null)
-                {                   
-                    opiddailycontext.PocketChecks.Add(NewPocketCheck(client, vvm));
+                {
+                    PocketCheck pcheck = NewPocketCheck(client, vvm);
+
+                    PocketCheck existing = opiddailycontext.PocketChecks.Where(pc => pc.ClientId == client.Id).SingleOrDefault();
+
+                    if (existing == null)
+                    {
+                        // If a client has multiple pockect checks and is the head of a household,
+                        // then only the client's first pocket check will expand to dependents.
+                        pcheck.HeadOfHousehold = client.HeadOfHousehold;
+                    }
+
+                    opiddailycontext.PocketChecks.Add(pcheck);
 
                     // A pocket check must always have a corresponding check in the Research Table,
                     // because Service Tickets are generated from the visit history in the Research
@@ -384,7 +395,7 @@ namespace OPIDDaily.DAL
         {
             return new TextMsg
             {
-                Date = Extras.DateTimeToday().AddHours(12),
+                Date = Extras.DateTimeNoonToday(),
                 Vid = vid,
                 From = vnm.From,
                 Msg = vnm.Note

@@ -489,7 +489,16 @@ namespace OPIDDaily.Controllers
         public string AddDatedPocketCheck(VisitViewModel vvm)
         {
             int nowServing = NowServing();
-            vvm.Date = Extras.DateTimeToday().AddHours(12);
+
+            if (vvm.Date == new DateTime(0))
+            {
+                vvm.Date = Extras.DateTimeNoonToday();
+            }
+            else
+            {
+                vvm.Date = vvm.Date.AddHours(12);
+            }
+            
             Visits.AddPocketCheck(nowServing, vvm);
             DailyHub.Refresh();
             return "Success";

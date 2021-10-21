@@ -1044,7 +1044,7 @@ namespace OPIDDaily.DAL
                 Name = cvm.Name,
                 DOB = cvm.DOB,
                 sDOB = cvm.DOB.ToString("MM/dd/yyyy"),
-                Date = string.IsNullOrEmpty(cvm.Date) ? epoch : Convert.ToDateTime(cvm.Date),
+                Date = string.IsNullOrEmpty(cvm.Date) ? epoch : Convert.ToDateTime(cvm.Date).AddHours(12),
                 sDate = string.IsNullOrEmpty(cvm.Date) ? string.Empty : cvm.Date,
                 Service = cvm.Service,
                 Disposition = cvm.Disposition

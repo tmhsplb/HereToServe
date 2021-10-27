@@ -19,11 +19,11 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Home", "Interviewer", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "Interviewer", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "Interviewer", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "Interviewer", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Ticket", "InterviewerServiceTicket", "Interviewer", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "Interviewer", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "Interviewer", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "Interviewer", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "Interviewer", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Ticket", "InterviewerServiceTicket", "Interviewer", null, new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

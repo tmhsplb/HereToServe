@@ -21,17 +21,17 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Home", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Ticket", "BackOfficeServiceTicket", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Pocket Checks", "ManagePocketChecks", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("PCR", "PocketChecksReport", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Merge", "Merge", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Resolved", "Resolved", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("RChecks", "RecentChecks", "BackOffice", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("AChecks", "AncientChecks", "BackOffice", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", null, "BackOffice", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", null, "BackOffice", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Ticket", "BackOfficeServiceTicket", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Pocket Checks", "ManagePocketChecks", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("PCR", "PocketChecksReport", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Merge", "Merge", "BackOffice",null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Resolved", "Resolved", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("RChecks", "RecentChecks", "BackOffice", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("AChecks", "AncientChecks", "BackOffice", null, new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

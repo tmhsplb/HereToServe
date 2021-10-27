@@ -23,13 +23,13 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Home", "FrontDesk", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Clients", "ManageClients", "FrontDesk", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "FrontDesk", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "FrontDesk", new { @class = "nav-link" })</li>
-                    <!--  <li class="nav-item">@Html.ActionLink("Service Ticket", "ServiceTicket", "FrontDesk", new { @class = "nav-link" })</li> -->
-                    <li class="nav-item">@Html.ActionLink("Service Ticket", "FrontDeskServiceTicket", "FrontDesk", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "FrontDesk", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "FrontDesk", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Clients", "ManageClients", "FrontDesk", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Demographics", "GetDemographicInfo", "FrontDesk", null,  new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Request", "ServiceRequest", "FrontDesk", null,  new { @class = "nav-link" })</li>
+                    <!--  <li class="nav-item">@Html.ActionLink("Service Ticket", "ServiceTicket", "FrontDesk", null, new { @class = "nav-link" })</li> -->
+                    <li class="nav-item">@Html.ActionLink("Service Ticket", "FrontDeskServiceTicket", "FrontDesk", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "FrontDesk", null, new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

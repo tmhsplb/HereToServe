@@ -21,12 +21,12 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Home", "GiftCards", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "GiftCards", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Service Ticket", "GiftCardsServiceTicket", "GiftCards", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Assign Card(s)", "AssignRequestedCards", "GiftCards", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Inventory", "ManageInventory", "GiftCards", new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Pocket Checks", "ManagePocketChecks", "GiftCards", new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Home", "GiftCards", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Dashboard", "ManageDashboard", "GiftCards", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Service Ticket", "GiftCardsServiceTicket", "GiftCards", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Assign Card(s)", "AssignRequestedCards", "GiftCards", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Inventory", "ManageInventory", "GiftCards", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Pocket Checks", "ManagePocketChecks", "GiftCards", null, new { @class = "nav-link" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_EnvironmentPartial")

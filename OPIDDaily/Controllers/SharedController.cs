@@ -650,8 +650,6 @@ namespace OPIDDaily.Controllers
                 notes.Append(" XBC ");
             }
 
-          //  notes.Append(string.Format(" {0}", rsvm.State));
-
             notes.Append(string.Format(" {0}", MBVDS.GetMBVDName(Convert.ToInt32(rsvm.State))));
 
             if (rsvm.PreApprovedMBVD)

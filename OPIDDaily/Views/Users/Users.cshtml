@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_SuperAdmin.cshtml";
 }
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 
 
 <div>
@@ -20,6 +22,12 @@
 <script src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")" type="text/javascript"></script>
 
 <script type="text/javascript">
+ $(window).bind('resize', function () {
+       $("#invitationsGrid").setGridWidth($(window).width());
+    }).trigger('resize')
+</script>
+
+<script type="text/javascript">
     $("#invitationsGrid").jqGrid({
         url: "@Url.Action("GetUsers", "Users")",
         datatype: "json",
@@ -31,10 +39,10 @@
         { key: false, align: 'center', name: 'Accepted', index: 'Accepted', width: 80, editable: false, sortable: true, search: false },
         { key: false, name: 'UserName', index: 'UserName', width: 50, editable: true, sortable: false, search: false },
         { key: false, name: 'FullName', index: 'FullName', width: 80, editable: true, sortable: false, search: false },
-        { key: false, name: 'Email', index: 'Email', width: 100, editable: true, sortable: false, search: false },
-        { key: false, name: 'Role', index: 'Role', width: 80, editable: true, edittype: 'select', editoptions: { value: { '--': '--', 'FrontDesk': 'FrontDesk', 'Interviewer': 'Interviewer', 'BackOffice': 'BackOffice', 'GiftCardAdmin': 'GiftCardAdmin', 'CaseManager': 'CaseManager' } }, sortable: false, search: false },
+        { key: false, name: 'Email', index: 'Email', width: 70, editable: true, sortable: false, search: false },
+        { key: false, name: 'Role', index: 'Role', width: 50, editable: true, edittype: 'select', editoptions: { value: { '--': '--', 'FrontDesk': 'FrontDesk', 'Interviewer': 'Interviewer', 'BackOffice': 'BackOffice', 'GiftCardAdmin': 'GiftCardAdmin', 'CaseManager': 'CaseManager' } }, sortable: false, search: false },
        @* { key: false, name: 'Role', index: 'Role', width: 80, editable: true, edittype: 'select', editoptions: { dataUrl: '@Url.Action("GetRoles", "Users")' }, sortable: false, search: false }, *@
-        { key: false, name: 'Agency', index: 'Agency', width: 80, editable: true, edittype: 'select', editoptions: { dataUrl: '@Url.Action("GetAgencies", "Users")' }, sortable: false, search: false }
+        { key: false, name: 'Agency', index: 'Agency', width: 70, editable: true, edittype: 'select', editoptions: { dataUrl: '@Url.Action("GetAgencies", "Users")' }, sortable: false, search: false }
         ],
         pager: '#invitationsPager',
         rowNum: 25,

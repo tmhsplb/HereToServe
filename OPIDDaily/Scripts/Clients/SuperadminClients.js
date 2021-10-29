@@ -1,4 +1,8 @@
 ﻿var lastServed = 0;
+
+$(window).bind('resize', function () {
+    $("#clientsGrid").setGridWidth($(window).width());
+}).trigger('resize')
  
 $("#clientsGrid").jqGrid({
     url: "GetServiceDateClients", // "@Url.Action("GetServiceDateClients", "Superadmin")",

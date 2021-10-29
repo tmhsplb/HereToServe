@@ -1,6 +1,10 @@
 ﻿var lastServed = 0;
 var rowsToColor = [];
 
+$(window).bind('resize', function () {
+    $("#dashboardGrid").setGridWidth($(window).width());
+}).trigger('resize')
+
 $("#dashboardGrid").jqGrid({
     url: "GetDashboard", // "@Url.Action("GetDashboard", "BackOffice")",
     datatype: "json",

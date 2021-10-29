@@ -565,7 +565,7 @@ namespace OPIDDaily.DAL
         // change the marking to not current (gcard.IsCurrent = false) based on the cardType.
         public static void DeliverGiftCard(int nowServing, VisitViewModel vvm)
         {
-            string cardType = vvm.Item.Trim();
+            string cardType = vvm.Item;
             string status = vvm.Status;
             
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
@@ -773,10 +773,10 @@ namespace OPIDDaily.DAL
                 Date = today,
                 Name = Clients.ClientBeingServed(client, false),
                 DOB = client.DOB,
-                Item = string.Format(" {0}", item),
+                Item = item,
                 Num = Convert.ToInt32(amount),
-                Disposition = " Gift Card",
-                Notes = string.Format(" {0}", registrationId),
+                Disposition = "Gift Card",
+                Notes = registrationId,
                 IsActive = true
             };
         }
@@ -790,7 +790,7 @@ namespace OPIDDaily.DAL
                 if (client != null)
                 {
                     // Check for existing pocket check using this registrationId
-                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes.Trim().Equals(registrationId)).SingleOrDefault();
+                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes.Equals(registrationId)).SingleOrDefault();
 
                     if (pc == null)
                     {
@@ -810,17 +810,17 @@ namespace OPIDDaily.DAL
                 if (client != null)
                 {
                     // Check for existing pocket check using this registrationId
-                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes.Trim() == registrationId).SingleOrDefault();
+                    PocketCheck pc = opiddailycontext.PocketChecks.Where(p => p.Notes == registrationId).SingleOrDefault();
 
                     if (pc == null)
                     {
                         int num = Convert.ToInt32(amount);
-                        pc = opiddailycontext.PocketChecks.Where(p => p.Item.Trim() == item && p.Num == num).SingleOrDefault();
+                        pc = opiddailycontext.PocketChecks.Where(p => p.Item == item && p.Num == num).SingleOrDefault();
 
                         if (pc != null)
                         {
                             // We are just changing the registrationId of an existing pocket check
-                            pc.Notes = string.Format(" {0}", registrationId);
+                            pc.Notes = registrationId;
                             opiddailycontext.SaveChanges();
                             return;
                         }

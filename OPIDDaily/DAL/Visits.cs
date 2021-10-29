@@ -127,7 +127,7 @@ namespace OPIDDaily.DAL
             {
                 if (!string.IsNullOrEmpty(registrationID))
                 {
-                    PocketCheck pcheck = opiddailycontext.PocketChecks.Where(pc => pc.Notes.Trim() == registrationID).SingleOrDefault();
+                    PocketCheck pcheck = opiddailycontext.PocketChecks.Where(pc => pc.Notes == registrationID).SingleOrDefault();
                     if (pcheck != null)
                     {
                         return pcheck.Disposition;
@@ -328,7 +328,7 @@ namespace OPIDDaily.DAL
                         pcheck.Date = vvm.Date;
                         pcheck.Item = vvm.Item;
                         pcheck.Num = Convert.ToInt32(vvm.Check);
-                        pcheck.Disposition = string.Format(" {0}", vvm.Status);
+                        pcheck.Disposition = vvm.Status;
                         pcheck.Notes = vvm.Notes;
                         opiddailycontext.SaveChanges();
                         return;

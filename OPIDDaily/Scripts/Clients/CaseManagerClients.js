@@ -1,4 +1,7 @@
 ﻿
+$(window).bind('resize', function () {
+    $("#clientsGrid").setGridWidth($(window).width());
+}).trigger('resize');
 var lastServed = 0;
 var rowsToColor = [];
 

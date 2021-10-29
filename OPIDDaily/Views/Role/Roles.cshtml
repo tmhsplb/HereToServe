@@ -4,8 +4,10 @@
     Layout = "~/Views/Shared/_SuperAdmin.cshtml";
 }
 
-<br /><br /><br />
- 
+<br />
+<br />
+<br />
+
 <div>
     <table id="rolesGrid"></table>
     <div id="rolesPager"></div>
@@ -16,6 +18,12 @@
 <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(window).bind('resize', function () {
+        $("#rolesGrid").setGridWidth($(window).width());
+    }).trigger('resize')
+</script>
 
 <script type="text/javascript">
     $("#rolesGrid").jqGrid({

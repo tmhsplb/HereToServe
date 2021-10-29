@@ -28,7 +28,7 @@ namespace OPIDDaily.DAL
 
         private static bool IsPocketCheck(PocketCheck pcheck)
         {
-            if (pcheck.Item.Trim().StartsWith("METRO") || (pcheck.Item.Trim().StartsWith("VISA")))
+            if (pcheck.Item.StartsWith("METRO") || (pcheck.Item.StartsWith("VISA")))
             {
                 // Gift Cards are implemented as pocket checks but should not
                 // appear in the Pocket Checks Report.

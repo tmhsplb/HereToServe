@@ -93,6 +93,7 @@ namespace OPIDDaily.DAL
                 ContactPerson = avm.ContactPerson,
                 Phone = avm.Phone,
                 Email = avm.Email,
+                AllowGiftCards = (avm.AllowGiftCards == "Yes" ? true : false),
                 IsActive = (avm.IsActive == "Yes" ? true : false)
             };
         }

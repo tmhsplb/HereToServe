@@ -1221,7 +1221,7 @@ namespace OPIDDaily.DAL
                 else
                 {
                     client.AgencyName = string.Empty;
-                    client.AgencyId = Convert.ToInt32(rsvm.AgencyId);
+                   // client.AgencyId = Convert.ToInt32(rsvm.AgencyId); // PLB 5/21/22
                 }
 
                 // Requested Services

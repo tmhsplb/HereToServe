@@ -324,13 +324,6 @@ namespace OPIDDaily.Controllers
             return View("DemographicInfo", civm);
         }
 
-        public ActionResult StoreDemographicInfo(DemographicInfoViewModel civm)
-        {
-            int nowServing = NowServing();
-            Clients.StoreDemographicInfo(nowServing, civm);
-            return RedirectToAction("ManageClients");
-        }
-
         public string AddClient(ClientViewModel cvm)
         {
             cvm.ReferringAgentId = ReferringAgentId();
@@ -579,6 +572,7 @@ namespace OPIDDaily.Controllers
             RequestedServicesViewModel rsvm = new RequestedServicesViewModel();
             Client client = Clients.GetClient(nowServing, rsvm);
             rsvm.Agencies = Agencies.GetAgenciesSelectList(client.AgencyId);
+          //  rsvm.AgencyId = client.AgencyId.ToString();  // PLB 5/21/22
             rsvm.MBVDS = MBVDS.GetMBVDSelectList();
 
             ViewBag.Agency = GetClientAgencyName(client);
@@ -602,6 +596,7 @@ namespace OPIDDaily.Controllers
             RequestedServicesViewModel rsvm = new RequestedServicesViewModel();
             Client client = Clients.GetClient(nowServing, rsvm);
             rsvm.Agencies = Agencies.GetAgenciesSelectList(client.AgencyId);
+         //   rsvm.AgencyId = client.AgencyId.ToString();  // PLB 5/21/22
             rsvm.MBVDS = MBVDS.GetMBVDSelectList();
 
             ViewBag.Agency = GetClientAgencyName(client);

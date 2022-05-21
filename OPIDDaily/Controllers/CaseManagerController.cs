@@ -113,6 +113,14 @@ namespace OPIDDaily.Controllers
         }
 
         [HttpPost]
+        public ActionResult StoreDemographicInfo(DemographicInfoViewModel civm)
+        {
+            int nowServing = NowServing();
+            Clients.StoreDemographicInfo(nowServing, civm);
+            return RedirectToAction("ManageClients");
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult StoreExpressClientServiceRequest(RequestedServicesViewModel rsvm)
         {

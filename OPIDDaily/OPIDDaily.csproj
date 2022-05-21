@@ -200,6 +200,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgencyController.cs" />
+    <Compile Include="Controllers\VetterController.cs" />
     <Compile Include="Controllers\BackOfficeController.cs" />
     <Compile Include="Controllers\CaseManagerController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
@@ -618,7 +619,9 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ClientHistory\VetterClientHistory.js" />
     <Content Include="Scripts\ClientHistory\InterviewerClientHistory.js" />
+    <Content Include="Scripts\Conversation\VetterConversation.js" />
     <Content Include="Scripts\Conversation\GiftCardsConversation.js" />
     <Content Include="Scripts\Conversation\InterviewerConversation.js" />
     <Content Include="Scripts\Conversation\FrontDeskConversation.js" />
@@ -631,6 +634,7 @@
     <Content Include="Scripts\Clients\CaseManagerClients.js" />
     <Content Include="Scripts\Clients\FrontDeskClients.js" />
     <Content Include="Scripts\Clients\SuperadminClients.js" />
+    <Content Include="Scripts\Dashboards\VetterDashboard.js" />
     <Content Include="Scripts\Dashboards\GiftCardsDashboard.js" />
     <Content Include="Scripts\Dashboards\BackOfficeDashboard.js" />
     <Content Include="Scripts\Dashboards\DemoDashboard.js" />
@@ -717,6 +721,7 @@
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\Helper.js" />
+    <Content Include="Scripts\HubCode\VetterHubCode.js" />
     <Content Include="Scripts\HubCode\VisitHistoryHubCode.js" />
     <Content Include="Scripts\HubCode\BackOfficeHubCode.js" />
     <Content Include="Scripts\HubCode\CaseManagerHubCode.js" />
@@ -1056,6 +1061,16 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Vetter\Home.cshtml" />
+    <Content Include="Views\Shared\_Vetter.cshtml" />
+    <Content Include="Views\Vetter\Dashboard.cshtml" />
+    <Content Include="Views\Vetter\ExistingClientServiceRequest.cshtml" />
+    <Content Include="Views\Vetter\ExpressClientServiceRequest.cshtml" />
+    <Content Include="Views\Vetter\RecentChecks.cshtml" />
+    <Content Include="Views\Vetter\AncientChecks.cshtml" />
+    <Content Include="Views\Vetter\Warning.cshtml" />
+    <Content Include="Views\Shared\_VetterRequestedServicesForm.cshtml" />
+    <Content Include="Views\Vetter\DemographicInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

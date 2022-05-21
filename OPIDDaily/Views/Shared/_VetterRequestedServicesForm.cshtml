@@ -1,0 +1,71 @@
+﻿@model OPIDDaily.Models.RequestedServicesViewModel
+
+<div class="row">
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.BC, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.BC, new { @class = "control-label" })
+    </div>
+
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.HCC, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.HCC, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.MBVD, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.MBVD, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @*  @Html.TextBoxFor(m => m.State, new { placeholder = "State", @class = "form-control" }) *@
+        @Html.DropDownListFor(model => model.State, Model.MBVDS, new { @class = "form-control" })
+    </div>
+    <div class="col-md-4">
+      @Html.Label("Not all states are listed!")
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.NewTID, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.NewTID, new { @class = "control-label" })
+    </div>
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.ReplacementTID, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.ReplacementTID, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.NewTDL, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.NewTDL, new { @class = "control-label" })
+    </div>
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.ReplacementTDL, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.ReplacementTDL, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.CheckBoxFor(m => m.Numident, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.Numident, new { @class = "control-label" })
+    </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(m => m.RequestedDocument, new { placeholder = "Requested Document", @class = "form-control" })
+    </div>
+</div>

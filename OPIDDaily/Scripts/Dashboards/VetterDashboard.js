@@ -180,10 +180,10 @@ function rowColorFormatter(cellValue, options, rowObject) {
     if (cellValue != null && cellValue == "END") {
         // End of conversation. Turn coloring off.
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#000000" };  // black
-    } else if (cellValue != null && (cellValue == "FromAgency" || cellValue == "FromVetter" || cellValue == "IHFromVetter" || cellValue == "FromFrontDesk" || cellValue == "IHFromFrontDesk" || cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer" || cellValue == "IHFromGCAdmin" || cellValue == "FromGCAdmin")) {
+    } else if (cellValue != null && (cellValue == "FromAgency" || cellValue == "FromFrontDesk" || cellValue == "IHFromFrontDesk" || cellValue == "FromOPID" || cellValue == "IHFromOPID" || cellValue == "FromInterviewer" || cellValue == "IHFromInterviewer" || cellValue == "IHFromGCAdmin" || cellValue == "FromGCAdmin")) {
         // alert("cellValue == FromAgency");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#00FF00" };  // green
-    } else if (cellValue != null && (cellValue == "FromOPID" || cellValue == "IHFromOPID")) {
+    } else if (cellValue != null && (cellValue == "FromVetter" || cellValue == "IHFromVetter")) {
         // alert("cellValue == FromOPID");
         rowsToColor[rowsToColor.length] = { rowId: rowObject.Id, rowColor: "#FF0000" };  // red
     } else if (cellValue != null && cellValue == "StageChange") {

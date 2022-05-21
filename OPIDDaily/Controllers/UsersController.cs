@@ -122,6 +122,11 @@ namespace OPIDDaily.Controllers
                     return RedirectToAction("ManageDashboard", "GiftCards");
                 }
 
+                else if (IsInRole("Vetter"))
+                {
+                    return RedirectToAction("ManageDashboard", "Vetter");
+                }
+
                 ViewBag.Warning = "User in unrecognized role.";
             }
             else

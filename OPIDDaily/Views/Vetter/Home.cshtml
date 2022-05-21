@@ -1,0 +1,14 @@
+﻿
+
+@{
+    ViewBag.Title = "Vetter";
+    Layout = "~/Views/Shared/_Vetter.cshtml";
+}
+
+<br /><br /><br />
+<h2>Welcome to the Here to Serve website!</h2>
+<br/>
+@Html.Partial("_HowItWorks")
+
+<br /><br />
+<a href="@Url.Action("ChangePassword", "Vetter")" class="button">Change Password</a>

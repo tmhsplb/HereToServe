@@ -508,11 +508,8 @@ namespace OPIDDaily.Controllers
         /// <summary>
         ///  PLB: 6/15/2020 Disallowed this through jqGrid in 
         ///     FrontDeskClientHistory.js
-        ///     FrontDeskPocketChecks.js
         ///     BackOfficeClientHistory.js 
-        ///     BackOfficePocketChecks.js
         ///     InterviewerClientHistory.js
-        ///     InterviewerPocketChecks.js
         ///  May revisit this decision later.
         /// </summary>
         /// <param name="id"></param>

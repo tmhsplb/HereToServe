@@ -266,9 +266,9 @@ namespace OPIDDaily.DAL
                 {
                     PocketCheck pcheck = NewPocketCheck(client, vvm);
 
-                    PocketCheck existing = opiddailycontext.PocketChecks.Where(pc => pc.ClientId == client.Id).SingleOrDefault();
+                    List<PocketCheck> existing = opiddailycontext.PocketChecks.Where(pc => pc.ClientId == client.Id).ToList();
 
-                    if (existing == null)
+                    if (existing.Count == 0)
                     {
                         // If a client has multiple pockect checks and is the head of a household,
                         // then only the client's first pocket check will expand to dependents.
@@ -281,6 +281,10 @@ namespace OPIDDaily.DAL
                     // because Service Tickets are generated from the visit history in the Research
                     // Table, not by using any pocket checks. So, when we add a new pocket check
                     // we must also add a new corresponding research check.
+                    // Subtract 12 hours form vvm.Date. This is tricky! At this point vvm.Date
+                    // is already noon and NewRCheck will add 12 hours to it, making it spill
+                    // over inot the next day. So subtract 12 hour to prevent this.
+                    vvm.Date = vvm.Date.AddHours(-12);
                     opiddailycontext.RChecks.Add(NewRCheck(client, vvm));    
                     opiddailycontext.SaveChanges();
                 }
@@ -347,13 +351,20 @@ namespace OPIDDaily.DAL
 
                     if (client != null)
                     {
-                        PocketCheck pcheck = opiddailycontext.PocketChecks.Where(p => p.ClientId == nowServing).SingleOrDefault();
+                        PocketCheck pcheck = opiddailycontext.PocketChecks.Where(p => p.ClientId == nowServing && p.Id == id).SingleOrDefault();
 
                         if (pcheck != null)
                         {
-                            DeleteVisitNotes(pcheck.Id);
-                            opiddailycontext.PocketChecks.Remove(pcheck);
-                            opiddailycontext.SaveChanges();
+                            // Look for the rcheck corresponding to this pocket check.
+                            RCheck rcheck = opiddailycontext.RChecks.Where(r => r.Num == pcheck.Num).SingleOrDefault();
+
+                            if (rcheck != null)
+                            {
+                                DeleteVisitNotes(pcheck.Id);
+                                opiddailycontext.PocketChecks.Remove(pcheck);
+                                opiddailycontext.RChecks.Remove(rcheck);
+                                opiddailycontext.SaveChanges();
+                            }
                         }
                     }
                 }

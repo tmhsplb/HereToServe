@@ -33,7 +33,7 @@ $("#pocketCheckGrid").jqGrid({
     multiselect: false,
 })
 
-jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, add: true, del: false, search: false, refresh: false },
+jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, add: true, del: true, search: false, refresh: false },
     {
         zIndex: 100,
         url: "EditPocketCheck", 
@@ -59,8 +59,7 @@ jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, 
                 }
             }
         }
-    }
-    /*
+    },
     {
         zIndex: 100,
         url: "DeletePocketCheck", // "@Url.Action("DeleteVisit", "FrontDesk")",
@@ -73,7 +72,6 @@ jQuery("#pocketCheckGrid").jqGrid('navGrid', '#pocketCheckPager', { edit: true, 
             }
         }
     }
-    */
     );
 
 // http://www.trirand.com/blog/?page_id=393/help/how-to-use-add-form-dialog-popup-window-set-position

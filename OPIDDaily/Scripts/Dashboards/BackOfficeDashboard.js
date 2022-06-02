@@ -159,7 +159,7 @@ $("#dashboardGrid").jqGrid({
 })
 
 jQuery("#dashboardGrid").jqGrid('filterToolbar', { searchOperators: true });
-jQuery("#dashboardGrid").jqGrid('navGrid', '#dashboardPager', { edit: true, add: false, del: false, search: false, refresh: true },
+jQuery("#dashboardGrid").jqGrid('navGrid', '#dashboardPager', { edit: true, add: false, del: true, search: false, refresh: true },
     {
         zIndex: 100,
         url: "EditClient", // "@Url.Action("EditClient", "BackOffice")",
@@ -173,6 +173,20 @@ jQuery("#dashboardGrid").jqGrid('navGrid', '#dashboardPager', { edit: true, add:
                 theHub.client.openConversation();
             }
         }
+    },
+    {},
+    {
+        zIndex: 100,
+        url: "DeleteClient", // "@Url.Action("DeleteClient", "FrontDesk")",
+        closeOnEscape: true,
+        closeAfterDelete: true,
+        recreateForm: true,
+        afterComplete: function (response) {
+            if (response) {
+                // alert(response.responseText);
+        }
+     }
+    
     });
 
 // See: https://stackoverflow.com/questions/3908171/jqgrid-change-row-background-color-based-on-condition

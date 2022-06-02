@@ -573,6 +573,7 @@ namespace OPIDDaily.Controllers
             rsvm.MBVDS = MBVDS.GetMBVDSelectList();
 
             ViewBag.Agency = GetClientAgencyName(client);
+            ViewBag.Agent = ReferringAgentName(client.ReferringAgentId);
 
             if (!string.IsNullOrEmpty(client.AgencyName))
             {
@@ -597,6 +598,7 @@ namespace OPIDDaily.Controllers
             rsvm.MBVDS = MBVDS.GetMBVDSelectList();
 
             ViewBag.Agency = GetClientAgencyName(client);
+            ViewBag.Agent = ReferringAgentName(client.ReferringAgentId);
 
             if (!string.IsNullOrEmpty(client.AgencyName))
             {

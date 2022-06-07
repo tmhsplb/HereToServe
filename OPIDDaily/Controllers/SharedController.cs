@@ -499,6 +499,7 @@ namespace OPIDDaily.Controllers
 
         public string EditPocketCheck(VisitViewModel vvm)
         {
+            // Log.Debug(string.Format("vvm.Id = {0}, vvm.ClientId = {1}, vvm.Status = {2}", vvm.Id, vvm.ClientId, vvm.Status));
             int nowServing = NowServing();
             Visits.EditVisit(nowServing, vvm);
             DailyHub.Refresh();

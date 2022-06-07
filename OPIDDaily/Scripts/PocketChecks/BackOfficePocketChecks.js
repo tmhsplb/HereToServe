@@ -3,9 +3,10 @@ $("#pocketCheckGrid").jqGrid({
     url: "GetClientPocketChecks", 
     datatype: "json",
     mtype: "Get",
-    colNames: ['Id', 'Date', 'Item', 'Check', 'Status', 'Notes'],
+    colNames: ['Id', 'ClientId', 'Date', 'Item', 'Check', 'Status', 'Notes'],
     colModel: [
         { key: false, hidden: true, name: 'Id', index: 'Id' },  // Id may not be unique!
+        { key: false, hidden: true, name: 'ClientId', index: 'ClientId', editable: true }, 
         { key: false, align: 'center', name: 'Date', index: 'Date', formatter: 'date', width: 80, editable: true, sortable: true, search: false },
         { key: false, name: 'Item', index: 'Item', width: 80, editable: true, sortable: false, search: false },
         { key: false, name: 'Check', index: 'Check', width: 80, editable: true, sortable: false, search: false },

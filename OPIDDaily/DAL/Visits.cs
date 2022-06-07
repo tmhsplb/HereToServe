@@ -111,6 +111,7 @@ namespace OPIDDaily.DAL
             return new VisitViewModel
             {
                 Id = pcheck.Id,
+                ClientId = pcheck.ClientId,
                 Date = pcheck.Date,
               //  Conversation = (HavingConversation(pcheck.Id) ? "Y" : string.Empty),
                 Item = pcheck.Item,
@@ -158,11 +159,11 @@ namespace OPIDDaily.DAL
             using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
             {
                 Client client = opiddailycontext.Clients.Find(nowServing);
-                DateTime DOB = client.DOB;
-                string lastName = Extras.StripSuffix(client.LastName.ToUpper());
-                
+                               
                 if (client != null)
                 {
+                    DateTime DOB = client.DOB;
+                    string lastName = Extras.StripSuffix(client.LastName.ToUpper());
                     opiddailycontext.Entry(client).Collection(c => c.GiftCards).Load();
                     List<GiftCard> gcards = client.GiftCards.ToList();
                     List<AncientCheck> ancientChecks = opiddailycontext.AncientChecks.Where(ac => ac.DOB == DOB && ac.Name.ToUpper().StartsWith(lastName)).ToList();
@@ -189,11 +190,59 @@ namespace OPIDDaily.DAL
                  
                     // Make sure that visits are listed by ascending date
                     visits = visits.OrderBy(v => v.Date).ToList();
-                    return visits;
+                    return SequenceTheVisits(visits);
                 }
             }
 
             return null;
+        }
+
+        private static List<VisitViewModel> SequenceTheVisits(List<VisitViewModel> visits)
+        {
+            int tidSequence = 1, tdlSequence = 1, bcSequence = 1, mbvdSequence = 1;
+
+            foreach (VisitViewModel vvm in visits)
+            {
+                switch (vvm.Item)
+                {
+                    case "TID":
+                        if (tidSequence > 1)
+                        {
+                            vvm.Item = String.Format("{0}{1}", vvm.Item, tidSequence);
+                        }
+                        tidSequence += 1;
+                        break;
+
+                    case "TDL":
+                        if (tdlSequence > 1)
+                        {
+                            vvm.Item = String.Format("{0}{1}", vvm.Item, tdlSequence);
+                        }
+                        tdlSequence += 1;
+                        break;
+
+                    case "BC":
+                        if (bcSequence > 1)
+                        {
+                            vvm.Item = String.Format("{0}{1}", vvm.Item, bcSequence);
+                        }
+                        bcSequence += 1;
+                        break;
+
+                    case "MBVD":
+                        if (mbvdSequence > 1)
+                        {
+                            vvm.Item = String.Format("{0}{1}", vvm.Item, mbvdSequence);
+                        }
+                        mbvdSequence += 1;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return visits;
         }
 
         public static List<VisitViewModel> GetPocketChecks(int nowServing)
@@ -242,8 +291,8 @@ namespace OPIDDaily.DAL
             {
                 RecordID = client.Id,
                 sRecordID = client.Id.ToString(),
-                InterviewRecordID = 0,
-                sInterviewRecordID = "0",
+                InterviewRecordID = vvm.Id,
+                sInterviewRecordID = vvm.Id.ToString(),
                 Num = Convert.ToInt32(vvm.Check),
                 sNum = vvm.Check,
                 Name = Clients.ClientBeingServed(client, false),
@@ -276,6 +325,8 @@ namespace OPIDDaily.DAL
                     }
 
                     opiddailycontext.PocketChecks.Add(pcheck);
+                    opiddailycontext.SaveChanges(); // save changes to have an Id assigned to pcheck
+                    vvm.Id = pcheck.Id;
 
                     // A pocket check must always have a corresponding check in the Research Table,
                     // because Service Tickets are generated from the visit history in the Research
@@ -283,7 +334,7 @@ namespace OPIDDaily.DAL
                     // we must also add a new corresponding research check.
                     // Subtract 12 hours form vvm.Date. This is tricky! At this point vvm.Date
                     // is already noon and NewRCheck will add 12 hours to it, making it spill
-                    // over inot the next day. So subtract 12 hour to prevent this.
+                    // over into the next day. So subtract 12 hour to prevent this.
                     vvm.Date = vvm.Date.AddHours(-12);
                     opiddailycontext.RChecks.Add(NewRCheck(client, vvm));    
                     opiddailycontext.SaveChanges();
@@ -299,7 +350,7 @@ namespace OPIDDaily.DAL
 
                 if (client != null)
                 {
-                    AncientCheck ancientCheck = opiddailycontext.AncientChecks.Find(vvm.Id);
+                    AncientCheck ancientCheck = opiddailycontext.AncientChecks.Where(a => a.RecordID == vvm.ClientId && a.InterviewRecordID == vvm.Id).SingleOrDefault();
 
                     if (ancientCheck != null)
                     {
@@ -308,11 +359,10 @@ namespace OPIDDaily.DAL
                         ancientCheck.Service = vvm.Item;
                         ancientCheck.Disposition = vvm.Status;
                         ancientCheck.Notes = vvm.Notes;
-                        opiddailycontext.SaveChanges();
-                        return;
+                     //   return;
                     }
 
-                    RCheck rcheck = opiddailycontext.RChecks.Find(vvm.Id);
+                    RCheck rcheck = opiddailycontext.RChecks.Where(r => r.RecordID == vvm.ClientId && r.InterviewRecordID == vvm.Id).SingleOrDefault();
 
                     if (rcheck != null)
                     {
@@ -321,8 +371,7 @@ namespace OPIDDaily.DAL
                         rcheck.Service = vvm.Item;
                         rcheck.Disposition = vvm.Status;
                         rcheck.Notes = vvm.Notes;
-                        opiddailycontext.SaveChanges();
-                        return;
+                    //    return;
                     }
 
                     PocketCheck pcheck = opiddailycontext.PocketChecks.Find(vvm.Id);
@@ -334,9 +383,10 @@ namespace OPIDDaily.DAL
                         pcheck.Num = Convert.ToInt32(vvm.Check);
                         pcheck.Disposition = vvm.Status;
                         pcheck.Notes = vvm.Notes;
-                        opiddailycontext.SaveChanges();
-                        return;
+                     //   return;
                     }
+
+                    opiddailycontext.SaveChanges();
                 }
             }
         }

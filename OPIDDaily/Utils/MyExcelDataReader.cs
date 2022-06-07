@@ -322,8 +322,10 @@ namespace OPIDDaily.Utils
                     disp = "Scammed Check";
                 }
 
-                List<VisitViewModel> visits = Visits.GetVisits(cid);
-                requestedItem = CheckManager.SequencedRequestedItem(visits, requestedItem);
+                // Do the sequencing when the Service Ticket is created, not while checks
+                // are being loaded.
+                //   List<VisitViewModel> visits = Visits.GetVisits(cid);
+                //   requestedItem = CheckManager.SequencedRequestedItem(visits, requestedItem);
                 return NewTrackingRow(requestedItem, lname, fname, dob, dataRow, epoch, disp);
             }
             catch (Exception e)

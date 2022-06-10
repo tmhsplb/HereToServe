@@ -1106,54 +1106,6 @@ namespace OPIDDaily.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-
-        public ActionResult PrepareCaseManagerServiceTicket()
-        {
-            int nowServing = NowServing();
-
-            if (nowServing == 0)
-            {
-                ViewBag.Warning = "Please first select a client from the Clients Table.";
-                return View("Warning");
-            }
-
-            RequestedServicesViewModel rsvm = new RequestedServicesViewModel();
-            Client client = Clients.GetClient(nowServing, rsvm);
-
-            if (client.HHId != null)
-            {
-                ViewBag.Warning = "Cannot prepare a Service Ticket for a dependent of another client.";
-                return View("Warning");
-            }
-
-            PrepareClientNotes(client, rsvm);
-
-            DateTime today = Extras.DateTimeNoonToday();
-            ViewBag.VoucherDate = today.ToString("MM/dd/yyyy");
-            ViewBag.Expiry = client.Expiry.ToString("ddd MMM d, yyyy");
-
-            ViewBag.ClientName = Clients.ClientBeingServed(client, false);
-            ViewBag.BirthName = client.BirthName;
-
-
-            // ViewBag.CurrentAddress = Clients.ClientAddress(client);
-            ViewBag.Phone = (!string.IsNullOrEmpty(client.Phone) ? client.Phone : "N/A");
-            ViewBag.Email = (!string.IsNullOrEmpty(client.Email) ? client.Email : "N/A");
-
-            ViewBag.DOB = client.DOB.ToString("MM/dd/yyyy");
-            // ViewBag.BirthPlace = Clients.GetBirthplace(client);
-            ViewBag.Age = client.Age;
-            ViewBag.Agency = Agencies.GetAgencyName(client.AgencyId);  // rsvm.Agency will be the Id of an Agency as a string
-
-            List<ClientViewModel> dependents = Clients.GetDependents(nowServing);
-
-            var objTuple = new Tuple<List<ClientViewModel>, RequestedServicesViewModel>(dependents, rsvm);
-
-            //  VoucherBackButtonHelper("Set", rsvm);
-            // return View("PrintVoucher", objTuple);
-            return View("PrintServiceTicket", objTuple);
-        }
-    
         public ActionResult ServiceTicket()
         {
             int nowServing = NowServing();

@@ -1255,49 +1255,6 @@ namespace OPIDDaily.DAL
             }
         }
         
-        private static string Successor(string sequencedItem)
-        {   // Example: sequencedItem = "TID2"
-            // Then:
-            //    length = 3
-            //    item = "TID"
-            //    sequenceNumber = 2
-            // Returns: "TID3"
-            int length = sequencedItem.Length;
-            string item = sequencedItem.Substring(0, length - 1);
-            int sequenceNumber = Convert.ToInt32(sequencedItem.Substring(length - 1));
-
-            return string.Format("{0}{1}", (item.Equals("BC") ? "LBVD" : item), sequenceNumber + 1);
-        }
-
-        public static string SequencedRequestedItem(List<VisitViewModel> visits, string requestedItem)
-        {
-            string sequencedItem = string.Empty;
-            string normalizedRequestedItem = Visits.NormalizedService(requestedItem);
-
-            foreach (VisitViewModel vvm in visits)
-            {
-                if (vvm.Item.StartsWith(normalizedRequestedItem))
-                {
-                    sequencedItem = vvm.Item;
-                }
-            }
-
-            if (string.IsNullOrEmpty(sequencedItem))
-            {
-                return requestedItem;
-            }
-            else if (sequencedItem.Equals(normalizedRequestedItem))
-            {
-                // Example 1: if requestedItem = "TDL" and sequencedItem = "TDL"
-                // then the next sequencedItem is TDL2.
-                // Example 2: if requestedItem = "LBVD" then nomralizedRequestedItem = "BC" so if sequencedItem = "BC"
-                // then the next sequencedItem is LBVD2.
-                return string.Format("{0}2", requestedItem);
-            }
-
-            return Successor(sequencedItem);
-        }
-
         public static List<Check> GetExcelChecks(string uploadedFileName, string disposition)
         {
             if (uploadedFileName.Equals("unknown"))

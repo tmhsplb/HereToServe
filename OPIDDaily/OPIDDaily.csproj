@@ -808,6 +808,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\clientsServed.js" />
+    <Content Include="Scripts\PocketChecks\VetterPocketChecks.js" />
+    <Content Include="Scripts\PocketChecks\CaseManagerPocketChecks.js" />
     <Content Include="Scripts\PocketChecks\GiftCardPocketChecks.js" />
     <Content Include="Scripts\PocketChecks\PocketChecksReport.js" />
     <Content Include="Scripts\PocketChecks\FrontDeskPocketChecks.js" />
@@ -1071,6 +1073,8 @@
     <Content Include="Views\Vetter\Warning.cshtml" />
     <Content Include="Views\Shared\_VetterRequestedServicesForm.cshtml" />
     <Content Include="Views\Vetter\DemographicInfo.cshtml" />
+    <Content Include="Views\CaseManager\PocketChecks.cshtml" />
+    <Content Include="Views\Vetter\PocketChecks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FileDownload\" />

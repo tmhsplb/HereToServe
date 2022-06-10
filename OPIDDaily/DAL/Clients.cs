@@ -60,8 +60,6 @@ namespace OPIDDaily.DAL
             }
         }
 
-      
-
         public static Client GetClient(int nowServing, RequestedServicesViewModel rsvm)
         {
             using (OpidDailyDB opidcontext = new OpidDailyDB())
@@ -182,7 +180,7 @@ namespace OPIDDaily.DAL
             client.BirthName = cvm.BirthName;
             client.DOB = dob;   
             client.Age = CalculateAge(dob);
-            client.ReferringAgentId = cvm.ReferringAgentId;
+            client.ReferringAgentId = (client.ReferringAgentId == 0 ? cvm.ReferringAgentId : client.ReferringAgentId);
 
             // client.EXP = (cvm.EXP.Equals("Y") ? true : false);
             client.ACK = (client.ACK ? true : (!string.IsNullOrEmpty(cvm.ACK) && cvm.ACK.Equals("Y")) ? true : false);
@@ -377,7 +375,7 @@ namespace OPIDDaily.DAL
         private static bool IsEndMsg(string textMsg)
         {
             string msg = textMsg.ToUpper();
-            return (msg.Equals("END") || msg.Equals("DONE") || msg.Equals("OVER"));
+            return (msg.Equals("END") || msg.Equals("OVER"));
         }
 
         private static void SetClientMsg(Client client, string sender, string textMsg, bool inHouse)
@@ -723,6 +721,37 @@ namespace OPIDDaily.DAL
             }
         }
 
+        private static string PrepareDependentNotes(Client dependent)
+        {
+            StringBuilder notes = new StringBuilder(dependent.Notes);
+            Boolean first = (notes.Length == 0 ? true : false);
+
+            if (dependent.BC)
+            {
+                notes.Append(first ? "BC" : ", BC");
+                first = false;
+            }
+
+            if (dependent.MBVD)
+            {
+                notes.Append(first ? "MBVD" : ", MBVD");
+                first = false;
+            }
+
+            if (dependent.NewTID || dependent.ReplacementTID)
+            {
+                notes.Append(first ? "TID" : ", TID");
+                first = false;
+            }
+
+            if (dependent.NewTDL || dependent.ReplacementTDL)
+            {
+                notes.Append(first ? "TDL" : ", TDL");
+            }
+
+            return notes.ToString();
+        }
+
         public static List<ClientViewModel> GetDependents(int id)
         {
             using (OpidDailyDB opiddailycontext = new OpidDailyDB())
@@ -739,6 +768,7 @@ namespace OPIDDaily.DAL
                         if (dependent.IsActive)
                         {
                             ClientViewModel cvm = ClientEntityToClientViewModel(dependent);
+                            cvm.Notes = PrepareDependentNotes(dependent);
                             dependents.Add(cvm);
                         }
                     }

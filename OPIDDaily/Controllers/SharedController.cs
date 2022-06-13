@@ -614,13 +614,17 @@ namespace OPIDDaily.Controllers
             return View("ExistingClientServiceRequest", rsvm);
         }
 
-        protected static void PrepareBCNotes(Client client, RequestedServicesViewModel rsvm)
+        protected static void PrepareBCNotes(Client client, List<VisitViewModel> visits, RequestedServicesViewModel rsvm)
         {
             StringBuilder notes = new StringBuilder();
 
             if (client.XBC)
             {
                 notes.Append(" XBC ");
+            }
+            else
+            {
+                notes.Append(Clients.GetPocketReadyItem(true, "BC", visits));
             }
 
             if (rsvm.PreApprovedBC)
@@ -636,13 +640,17 @@ namespace OPIDDaily.Controllers
             rsvm.BCNotes = notes.ToString();
         }
 
-        protected static void PrepareMBVDNotes(Client client, RequestedServicesViewModel rsvm)
+        protected static void PrepareMBVDNotes(Client client, List<VisitViewModel> visits, RequestedServicesViewModel rsvm)
         {
             StringBuilder notes = new StringBuilder();
 
             if (client.XBC)
             {
                 notes.Append(" XBC ");
+            }
+            else
+            {
+                notes.Append(Clients.GetPocketReadyItem(true, "MBVD", visits));
             }
 
             notes.Append(string.Format(" {0}", MBVDS.GetMBVDName(Convert.ToInt32(rsvm.State))));
@@ -655,13 +663,17 @@ namespace OPIDDaily.Controllers
             rsvm.MBVDNotes = notes.ToString();
         }
 
-        protected static void PrepareTIDNotes(Client client, RequestedServicesViewModel rsvm)
+        protected static void PrepareTIDNotes(Client client, List<VisitViewModel> visits, RequestedServicesViewModel rsvm)
         {
             StringBuilder notes = new StringBuilder();
 
             if (client.XID)
             {
                 notes.Append(" XID ");
+            }
+            else
+            {
+                notes.Append(Clients.GetPocketReadyItem(true, "TID", visits));
             }
 
             if (rsvm.PreApprovedNewTID || rsvm.PreApprovedReplacementTID)
@@ -671,13 +683,17 @@ namespace OPIDDaily.Controllers
 
             rsvm.TIDNotes = notes.ToString();
         }
-        protected static void PrepareTDLNotes(Client client, RequestedServicesViewModel rsvm)
+        protected static void PrepareTDLNotes(Client client, List<VisitViewModel> visits, RequestedServicesViewModel rsvm)
         {
             StringBuilder notes = new StringBuilder();
 
             if (client.XID)
             {
                 notes.Append(" XID ");
+            }
+            else
+            {
+                notes.Append(Clients.GetPocketReadyItem(true, "TDL", visits));
             }
 
             if (rsvm.PreApprovedNewTDL || rsvm.PreApprovedReplacementTDL)
@@ -702,10 +718,11 @@ namespace OPIDDaily.Controllers
         {
             if (!rsvm.TrackingOnly)
             {
-                PrepareBCNotes(client, rsvm);
-                PrepareMBVDNotes(client, rsvm);
-                PrepareTIDNotes(client, rsvm);
-                PrepareTDLNotes(client, rsvm);
+                List<VisitViewModel> visits = Visits.GetPocketChecks(client.Id);
+                PrepareBCNotes(client, visits, rsvm);
+                PrepareMBVDNotes(client, visits, rsvm);
+                PrepareTIDNotes(client, visits, rsvm);
+                PrepareTDLNotes(client, visits, rsvm);
                 PrepareMETRONotes(client, rsvm);
                 PrepareVisaNotes(client, rsvm);
             }

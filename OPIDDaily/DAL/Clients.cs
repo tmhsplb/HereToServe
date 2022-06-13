@@ -721,32 +721,62 @@ namespace OPIDDaily.DAL
             }
         }
 
+        private static string PocketReady(string item, List<VisitViewModel> visits)
+        {
+            string pr = String.Empty;
+
+            foreach(VisitViewModel v in visits)
+            {
+                if (v.Item.Equals(item))
+                {
+                    pr = v.Check;
+                    break;
+                }
+            }
+
+            return pr;
+        }
+
+        public static string GetPocketReadyItem(Boolean first, string item, List<VisitViewModel> visits)
+        {
+            string pocketReady = PocketReady(item, visits);
+            string separator = first ? string.Empty : "; ";
+
+            if (!string.IsNullOrEmpty(pocketReady))
+            {
+                return string.Format("{0}({1}, {2})", separator, item, pocketReady);
+            }
+
+            return string.Format("{0}{1}", separator, item);
+        }
+
         private static string PrepareDependentNotes(Client dependent)
         {
             StringBuilder notes = new StringBuilder(dependent.Notes);
             Boolean first = (notes.Length == 0 ? true : false);
+            List<VisitViewModel> visits = Visits.GetPocketChecks(dependent.Id);
 
             if (dependent.BC)
             {
-                notes.Append(first ? "BC" : ", BC");
+                notes.Append(GetPocketReadyItem(first, "BC", visits));
                 first = false;
             }
 
             if (dependent.MBVD)
             {
-                notes.Append(first ? "MBVD" : ", MBVD");
+                notes.Append(GetPocketReadyItem(first, "MBVD", visits));
                 first = false;
             }
 
             if (dependent.NewTID || dependent.ReplacementTID)
             {
-                notes.Append(first ? "TID" : ", TID");
+                notes.Append(GetPocketReadyItem(first, "TID", visits));
                 first = false;
             }
 
             if (dependent.NewTDL || dependent.ReplacementTDL)
             {
-                notes.Append(first ? "TDL" : ", TDL");
+                notes.Append(GetPocketReadyItem(first, "TDL", visits));
             }
 
             return notes.ToString();

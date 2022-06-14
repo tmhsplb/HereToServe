@@ -173,7 +173,7 @@ namespace OPIDDaily.DAL
             client.Stage = cvm.Stage;
             client.Conversation = (client.Conversation ? true : (!string.IsNullOrEmpty(cvm.Conversation) && cvm.Conversation.Equals("Y") ? true : false));
             // default(DateTime) : https://stackoverflow.com/questions/221732/datetime-null-value
-            client.Expiry = (cvm.Expiry != default(DateTime) ? cvm.Expiry : client.Expiry);
+            client.Expiry = (cvm.Expiry != default(DateTime) ? cvm.Expiry.AddHours(12) : client.Expiry);
             client.LastName = cvm.LastName;
             client.FirstName = cvm.FirstName;
             client.MiddleName = cvm.MiddleName;
@@ -467,33 +467,26 @@ namespace OPIDDaily.DAL
             }
         }
 
-        public static List<ClientViewModel> GetDemoDashboardClients(SearchParameters sps)
+        public static List<ClientViewModel> GetDemoDashboardClients()
         {
             using (OpidDailyDB opiddailycontext = new DataContexts.OpidDailyDB())
             {
                 List<ClientViewModel> clientCVMS = new List<ClientViewModel>();
-                
+                                
                 // A demo dashboard client will 
                 //    come from an agency: c.AgencyId != 0
-                //    be a head of household: c.HH == 0
-                //    be not a same day client: c.ServiceDate != c.Expiry.
-                // The expiry date of a demo dashboard client does not matter. It may lie in the past
-                // or it may lie in the future.
-                List<Client> clients = opiddailycontext.Clients.Where(c => c.AgencyId != 0 && c.HHId == null && c.ServiceDate != c.Expiry).ToList();
-
+                //    be a head of household: c.HH == null
+                //    be not a same day client: c.ServiceDate != c.Expiry
+                //    be unexpired: today <= c.Expiry
+                DateTime today = Extras.DateTimeToday();
+                List<Client> clients = opiddailycontext.Clients.Where(c => c.HHId == null && today <= c.Expiry && c.IsActive == true).ToList();
+      
                 foreach (Client client in clients)
                 {
                     clientCVMS.Add(ClientEntityToClientViewModel(client));
                 }
 
-                if (!sps._search)
-                {
-                    // if not performing filtered search (example, when refreshing) then
-                    // just return the required view models
-                    return clientCVMS;
-                }
-
-                return GetFilteredDashboardClients(sps, clientCVMS);
+                return clientCVMS;
             }
         }
 
@@ -997,15 +990,12 @@ namespace OPIDDaily.DAL
 
                 if (client != null)
                 {
-                    if (client.AgencyId != 0)
-                    {
-                        client.ServiceDate = cvm.ServiceDate;
+                    client.ServiceDate = cvm.ServiceDate.AddHours(12);
 
-                        // Update the expiry.
-                        client.Expiry = CalculateExpiry(cvm.ServiceDate);
+                    // Update the expiry.
+                    client.Expiry = CalculateExpiry(cvm.ServiceDate);
 
-                        opidcontext.SaveChanges();
-                    }
+                    opidcontext.SaveChanges();
                 }
             }
         }

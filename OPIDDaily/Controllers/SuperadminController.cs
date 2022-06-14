@@ -22,30 +22,6 @@ namespace OPIDDaily.Controllers
         {
             string workingConnectionString = string.Empty;
 
-            /*
-            ViewBag.Release = Config.Release;   
-                         
-            switch (Config.Release) 
-            {
-                case "Desktop":
-                    workingConnectionString = Config.WorkingDesktopConnectionString;
-                    break;
-                case "Staging":
-                    workingConnectionString = Config.WorkingStagingConnectionString;
-                    break;
-                case "Training":
-                    workingConnectionString = Config.WorkingTrainingConnectionString;
-                    break;
-                case "Production":
-                    workingConnectionString = Config.WorkingProductionConnectionString;
-                    break;
-            }
-
-            ViewBag.ConnectionString = Config.ConnectionString;
-            ViewBag.ChangedConnectionString = (Config.ConnectionString.Equals(workingConnectionString) ? "False" : "True");
-            ViewBag.TrainingClients = Config.TrainingClients;
-            */
-
             return View();
         }
 
@@ -167,9 +143,9 @@ namespace OPIDDaily.Controllers
             return View();
         }
 
-        public JsonResult GetDemoDashboard(SearchParameters sps, int page, int? rows = 15)
+        public JsonResult GetDemoDashboard(int page, int? rows = 15)
         {
-            List<ClientViewModel> clients = Clients.GetDemoDashboardClients(sps);
+            List<ClientViewModel> clients = Clients.GetDemoDashboardClients();
 
             int pageIndex = page - 1;
             int pageSize = (int)rows;

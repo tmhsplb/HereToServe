@@ -43,8 +43,8 @@ $("#dashboardGrid").jqGrid({
             jQuery("#dashboardGrid").jqGrid('setGridParam',
                 {
                     postData: { nowServing: nowServing },
-                    url: "NowConversing",
-                }).trigger('reloadGrid', { fromServer: true });
+                    url: "NowServing",
+                }).trigger('reloadGrid', { fromServer: true }).jqGrid('setSelection', nowServing, true);
         }
     },
 

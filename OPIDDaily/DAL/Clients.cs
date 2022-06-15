@@ -157,7 +157,8 @@ namespace OPIDDaily.DAL
                 LCK = (client.LCK == true ? "Y" : string.Empty),
                 XID = (client.XID == true ? "Y" : string.Empty),
                 XBC = (client.XBC == true ? "Y" : string.Empty),
-            
+                WBM = (client.WBM == true ? "Y" : string.Empty),
+
                 MSG = client.Msg,
                 Notes = client.Notes
             };
@@ -187,6 +188,7 @@ namespace OPIDDaily.DAL
             client.LCK = (string.IsNullOrEmpty(cvm.LCK) || cvm.LCK.Equals("''")) ? false : true;
             client.XID = (cvm.XID.Equals("Y") ? true : false);
             client.XBC = (cvm.XBC.Equals("Y") ? true : false);
+            client.WBM = (cvm.WBM.Equals("Y") ? true : false);
             client.Notes = cvm.Notes;
         }
 
@@ -321,6 +323,13 @@ namespace OPIDDaily.DAL
                     DateTime dob = DateTime.Parse(sps.sDOB);
                     DateTime dob12 = DateTime.Parse(sps.sDOB).AddHours(12);
                     clients = opiddailycontext.Clients.Where(c => (dob == c.DOB || dob12 == c.DOB) && c.IsActive == true).ToList();
+                   
+                    // These clients have been retrieved by the Way Back Machine.
+                    foreach (Client client in clients)
+                    {
+                        client.WBM = true;
+                    }
+                    opiddailycontext.SaveChanges();
                 }
                 else
                 {
@@ -498,7 +507,7 @@ namespace OPIDDaily.DAL
                 List<ClientViewModel> clientCVMS = new List<ClientViewModel>();
 
                 // An unexpired remote client will have today <= c.Expiry
-                List<Client> clients = opiddailycontext.Clients.Where(c => c.AgencyId == referringAgency && c.HHId == null && today <= c.Expiry && c.IsActive == true).ToList();
+                List<Client> clients = opiddailycontext.Clients.Where(c => c.AgencyId == referringAgency && c.HHId == null && today <= c.Expiry && c.IsActive == true && c.WBM == false).ToList();
                 clients = clients.OrderByDescending(c => c.ServiceDate).ToList();
 
                 foreach (Client client in clients)
@@ -883,6 +892,10 @@ namespace OPIDDaily.DAL
                         {
                             cvm.XBC = (dependent.XBC ? "Y" : string.Empty);
                         }
+                        if (cvm.WBM == null)
+                        {
+                            cvm.WBM = (dependent.WBM ? "Y" : string.Empty);
+                        }
                     }
                     
                     Client headofhousehold = opiddailycontext.Clients.Find(dependent.HHId);
@@ -991,6 +1004,7 @@ namespace OPIDDaily.DAL
                 if (client != null)
                 {
                     client.ServiceDate = cvm.ServiceDate.AddHours(12);
+                    client.WBM = (cvm.WBM.Equals("Y") ? true : false);
 
                     // Update the expiry.
                     client.Expiry = CalculateExpiry(cvm.ServiceDate);

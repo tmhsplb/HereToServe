@@ -46,6 +46,8 @@ namespace OPIDDaily.Models
         public string XID { get; set; }
 
         public string XBC { get; set; }
+
+        public string WBM { get; set; }
         
         public string History { get; set; }
 

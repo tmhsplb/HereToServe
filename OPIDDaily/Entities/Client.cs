@@ -175,6 +175,8 @@ namespace OpidDailyEntities
 
         public bool XBC { get; set; }
 
+        public bool WBM { get; set; }  // WBM = Way Back Machine
+
         public bool IsActive { get; set; }
 
         public ICollection<TextMsg> TextMsgs { get; set; }

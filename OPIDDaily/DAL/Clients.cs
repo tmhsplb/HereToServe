@@ -482,14 +482,10 @@ namespace OPIDDaily.DAL
             {
                 List<ClientViewModel> clientCVMS = new List<ClientViewModel>();
                                 
-                // A demo dashboard client will 
-                //    come from an agency: c.AgencyId != 0
-                //    be a head of household: c.HH == null
-                //    be not a same day client: c.ServiceDate != c.Expiry
-                //    be unexpired: today <= c.Expiry
-                DateTime today = Extras.DateTimeToday();
-                List<Client> clients = opiddailycontext.Clients.Where(c => c.HHId == null && today <= c.Expiry && c.IsActive == true).ToList();
-      
+                List<Client> clients = opiddailycontext.Clients.Where(c => c.HHId == null && c.IsActive == true).ToList();
+
+                clients = clients.OrderByDescending(c => c.ServiceDate).ToList();
+
                 foreach (Client client in clients)
                 {
                     clientCVMS.Add(ClientEntityToClientViewModel(client));

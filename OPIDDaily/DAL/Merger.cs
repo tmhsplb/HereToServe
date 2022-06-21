@@ -16,11 +16,11 @@ namespace OPIDDaily.DAL
             {
                 case "OPIDDaily":
                 case "BoundedResearchTableFile":
-                    UpdateResearchTableFromOPIDFile(uploadedFile);
+                  //  UpdateResearchTableFromOPIDFile(uploadedFile);
                     break;
 
                 case "OPIDDailyTracking":
-                    UpdateResearchTableFromOPIDTrackingFileCrossLoad(uploadedFile);
+                 //   UpdateResearchTableFromOPIDTrackingFileCrossLoad(uploadedFile);
                     break;
 
                 case "NewClients":
@@ -28,17 +28,19 @@ namespace OPIDDaily.DAL
                     break;
 
                 case "AncientChecksFile":
-                    UpdateAncientChecksTableFromFile(uploadedFile);
+                 //   UpdateAncientChecksTableFromFile(uploadedFile);
                     break;
 
                 case "VoidedChecks":
                     UpdateResearchTableFromOrigenBankFile(uploadedFile, "Voided");
                     break;
 
+                
                 case "ClearedChecks":
                     UpdateResearchTableFromOrigenBankFile(uploadedFile, "Cleared");
                     break;
 
+                /*
                 case "ReresolvedChecks":
                     ProcessMistakenlyResolvedChecks(uploadedFile);
                     break;
@@ -50,6 +52,7 @@ namespace OPIDDaily.DAL
                 case "ReresolvedClearedChecks":
                     ReResolveResearchChecks(uploadedFile, "Cleared");
                     break;
+                */
 
                 default:
                     break;
@@ -62,6 +65,7 @@ namespace OPIDDaily.DAL
             Clients.AddNewClients(newClients);
         }
         
+        /*
         public static void UpdateResearchTableFromOPIDFile(string uploadedFile)
         {
             List<DispositionRow> researchRows = CheckManager.GetResearchRows(uploadedFile);
@@ -112,8 +116,10 @@ namespace OPIDDaily.DAL
             //  PLB 12/14/2018 Don't call RemoveTypoChecks
             // CheckManager.RemoveTypoChecks();
         }
+        */
 
-        public static void UpdateResearchTableFromOrigenBankFile(string uploadedFile, string disposition)
+        /*
+        public static void OldUpdateResearchTableFromOrigenBankFile(string uploadedFile, string disposition)
         {
             CheckManager.Init();
 
@@ -128,7 +134,25 @@ namespace OPIDDaily.DAL
             // whose corresponding research check has been resolved by the preceding call.
             CheckManager.ResolvePocketChecks(resolvedChecks);
         }
+        */
 
+        public static void UpdateResearchTableFromOrigenBankFile(string uploadedFile, string disposition)
+        {
+            CheckManager.Init();
+
+            List<Check> excelChecks = CheckManager.GetExcelChecks(uploadedFile, disposition);
+          //  List<Check> researchChecks = CheckManager.GetResearchChecks();
+
+          //  List<CheckViewModel> resolvedChecks = CheckManager.GetResolvedChecks(excelChecks, disposition, researchChecks);
+
+            CheckManager.ResolveResearchChecks(excelChecks);
+
+            // Resolving pocket checks is simply a matter of deleting any pocket check
+            // whose corresponding research check has been resolved by the preceding call.
+            CheckManager.ResolvePocketChecks(excelChecks);
+        }
+
+        /*
         private static void ProcessMistakenlyResolvedChecks(string uploadedFile)
         {
             List<Check> mistakenlyResolved = CheckManager.GetExcelChecks(uploadedFile, "DontCare");
@@ -147,5 +171,6 @@ namespace OPIDDaily.DAL
             // Remove the set of resolved checks determined above from the Research Table. 
             // CheckManager.RemoveReResolvedChecks();
         }
+        */
     }
 }

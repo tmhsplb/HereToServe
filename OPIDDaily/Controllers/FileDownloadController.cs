@@ -55,20 +55,8 @@ namespace OPIDChecks.Controllers
             }, "text/html");
         }
 
-        /*
-        public JsonResult DownloadResearchTable()
-        {
-            string researchTableFileName = FileDownloader.DownloadResearchTable();
-                                    
-            return Json(new
-            {
-                rtFileName = researchTableFileName
-            }, "text/html"); 
-        }
-        */
-
         // From: https://www.codeproject.com/Tips/1028915/How-To-Download-a-File-in-MVC-2
-        // First created the file to be downloaded and copy into the ~/Downloads folder.
+        // First create the file to be downloaded and copy into the ~/Downloads folder.
         // Then download from the ~/Downloads folder to the PC's Downloads folder.
         public ActionResult DownloadResearchTable()
         {

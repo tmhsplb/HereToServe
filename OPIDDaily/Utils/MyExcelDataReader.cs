@@ -158,6 +158,7 @@ namespace OPIDDaily.Utils
             }
         }
 
+        /*
         private static DispositionRow NewDispositionRow(System.Data.DataRow dataRow, string epoch)
         {
             string interviewDate = string.Empty, lname = string.Empty, fname = string.Empty;
@@ -168,7 +169,7 @@ namespace OPIDDaily.Utils
             {
                 recordID = Convert.ToInt32(dataRow["Record ID"].ToString());
                 interviewRecordID = Convert.ToInt32(dataRow["Interview Record ID"].ToString());
-                interviewDate = dataRow["OPID Interview Date"].ToString();
+                interviewDate = dataRow["Date"].ToString();
                 lname = dataRow["Last Name"].ToString();
                 fname = dataRow["First Name"].ToString();
                 dob = Convert.ToDateTime(dataRow["Date of Birth"].ToString());
@@ -189,6 +190,7 @@ namespace OPIDDaily.Utils
                     Date = Convert.ToDateTime(interviewDate),
                     RequestedItem = dataRow["Requested Item"].ToString(),
 
+                    
                     LBVDCheckNum = Convert.ToInt32(dataRow["LBVD Check Number"].ToString()),
                     LBVDCheckDisposition = dataRow["LBVD Check Disposition"].ToString(),
 
@@ -232,9 +234,10 @@ namespace OPIDDaily.Utils
                     MBVDOrderDateThree = DBNull.Value.Equals(dataRow["MBVD Order Date Three"]) ? Convert.ToDateTime(epoch) : Convert.ToDateTime(dataRow["MBVD Order Date Three"].ToString()),
                     MBVDCheckNum3 = Convert.ToInt32(dataRow["MBVD Check Number Three"].ToString()),
                     MBVDCheck3Disposition = dataRow["MBVD Check Three Disposition"].ToString()
+                    
 
                     // Supporting documents
-                    /*
+                    
                     SDCheckNum1 = Convert.ToInt32(dataRow["SD Check Number 1"].ToString()),
                     SDCheckDisposition = dataRow["SD Check Disposition No 1"].ToString(),
                     SDCheckNum2 = Convert.ToInt32(dataRow["SD Check Number 2"].ToString()),
@@ -257,7 +260,7 @@ namespace OPIDDaily.Utils
                     SDCheckDisposition23 = dataRow["SD Check Disposition No 2, Three"].ToString(),
                     SDCheckNum33 = Convert.ToInt32(dataRow["SD Check Number 3, Three"].ToString()),
                     SDCheckDisposition33 = dataRow["SD Check Disposition No 3, Three"].ToString()
-                    */
+                    
                 };
 
                 return dr;
@@ -270,6 +273,7 @@ namespace OPIDDaily.Utils
                 return null;
             }           
         }
+       */
 
         private static TrackingRow NewTrackingRow(System.Data.DataRow dataRow, string epoch)
         {
@@ -345,7 +349,7 @@ namespace OPIDDaily.Utils
 
             try
             {
-                string interviewDate = dataRow["OPID Interview Date"].ToString();
+                string interviewDate = dataRow["Date"].ToString();
              //   DateTime orderDate = DBNull.Value.Equals(dataRow["Order Date"]) ? epochDate : Convert.ToDateTime(dataRow["Order Date"].ToString());
                 string checkNumber = dataRow["Check Number"].ToString();
                 string checkDisposition = (string.IsNullOrEmpty(disp) ? dataRow["Check Disposition"].ToString() : disp);
@@ -406,6 +410,7 @@ namespace OPIDDaily.Utils
             return clientRows;
         }
 
+        /*
         public static List<DispositionRow> GetResearchRows(string filePath)
         {
             string epoch = "01/01/1900"; // Use this in place of a null value, because I couldn't make null work
@@ -414,6 +419,7 @@ namespace OPIDDaily.Utils
             InsertNulls(dispositionRows);
             return dispositionRows;
         }
+        */
 
         public static List<TrackingRow> GetTrackingRows(string filePath)
         {
@@ -426,7 +432,7 @@ namespace OPIDDaily.Utils
         private static DateTime GetDateValue(System.Data.DataRow row)
         {
             string dvalue;
-            DateTime rdate = (DateTime)row["Date"];
+            DateTime dtime;
 
             if (DBNull.Value.Equals(row["Date"]))  // For File1 and File2 read on Mach 30, 2018 
             {
@@ -437,8 +443,6 @@ namespace OPIDDaily.Utils
             {
                 dvalue = row["Date"].ToString();  // For File1 and File2 read on March 30, 2018
             }
-
-            DateTime dtime = DateTime.Now;
 
             try
             {

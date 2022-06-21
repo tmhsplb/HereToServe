@@ -279,6 +279,7 @@ namespace OPIDDaily.Controllers
             return View("Merge", model);
         }
 
+        /*
         [HttpPost]
         public ActionResult UploadVoidedChecksFile(FileViewModel model)
         {
@@ -305,6 +306,7 @@ namespace OPIDDaily.Controllers
             ModelState.AddModelError("VoidedChecksError", "Please supply a file name.");
             return View("Merge", model);
         }
+        */
 
         [HttpPost]
         public ActionResult UploadVoidedOrigenChecksFile(FileViewModel model)
@@ -333,6 +335,7 @@ namespace OPIDDaily.Controllers
             return View("Merge", model);
         }
 
+        /*
         [HttpPost]
         public ActionResult UploadClearedChecksFile(FileViewModel model)
         {
@@ -359,6 +362,7 @@ namespace OPIDDaily.Controllers
             ModelState.AddModelError("ClearedChecksError", "Please supply a file name.");
             return View("Merge", model);
         }
+        */
 
         [HttpPost]
         public ActionResult UploadClearedOrigenChecksFile(FileViewModel model)

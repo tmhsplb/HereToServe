@@ -9,7 +9,7 @@ $("#dashboardGrid").jqGrid({
     datatype: "json",
     pageable: true,
     mtype: "Get",
-    colNames: ['Id', 'CM', 'Agency', 'Added', 'Expires', 'Stage', 'H', 'Last Name', 'First Name', 'Middle Name', 'Birth Name', 'DOB', 'Age', 'ACK', 'XID', 'XBC', 'WBM', 'Notes'],
+    colNames: ['Id', 'CM', 'Agency', 'Added', 'Expires', 'Stage', 'H', 'Last Name', 'First Name', 'Middle Name', 'Birth Name', 'DOB', 'Age', 'ACK', 'XID', 'XBC', 'WB', 'Notes'],
     colModel: [
         { key: true, hidden: true, name: 'Id', index: 'Id' },
         { key: false, align: 'center', name: 'ServiceTicket', index: 'ServiceTicket', width: 50, editable: true, sortable: true, search: false },
@@ -84,7 +84,7 @@ $("#dashboardGrid").jqGrid({
             mtype: 'post',
             editurl: "Dummy", // "@Url.Action("Dummy", "BackOffice")",
             cellsubmit: 'clientArray',
-            colNames: ['Id', 'First Name', 'Middle Name', 'Last Name', 'Birth Name', 'DOB', 'Age', 'ACK', 'XID', 'XBC', 'WBM', 'Notes'],
+            colNames: ['Id', 'First Name', 'Middle Name', 'Last Name', 'Birth Name', 'DOB', 'Age', 'ACK', 'XID', 'XBC', 'WB', 'Notes'],
             colModel: [
                 { key: true, hidden: true, name: 'Id', index: 'Id', editable: true },
                 { key: false, name: 'FirstName', index: 'FirstName', width: 100, editable: true },

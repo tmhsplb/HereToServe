@@ -1,0 +1,13 @@
+Date,Record ID,Interview Record ID,Name,DOB,Check Number,Service,Disposition
+5/28/2022,5,0,"Meyer, Lisa Ann (Birth name: Townsend)",12/04/1963,324,BC,
+9/16/2020,5,0,"Meyer, Lisa Ann (Birth name: Townsend)",12/04/1963,322,TID,Voided
+5/27/2022,1,0,"Foster, Karen ",06/05/1987,334,TID,
+10/29/2021,3,0,"Higgins, Sam ",08/09/1986,287,BC,Cleared
+6/14/2021,8,0,"Altman, John ",05/12/1957,431,BC,Voided
+9/16/2020,2,13,"Brown, Allen ",04/05/1988,321,BC,Voided
+11/20/2019,2,14,"Brown, Allen ",04/05/1988,246,BC,Voided
+11/20/2019,2,15,"Brown, Allen ",04/05/1988,247,TID,Voided
+9/16/2020,2,16,"Brown, Allen ",04/05/1988,322,TID,Voided
+6/8/2022,8,19,"Altman, John ",05/12/1957,561,BC,
+6/11/2022,26,20,"Zepeda, Carlos  (Birth name:  )",07/23/2015,457,BC,
+6/11/2022,16,21,"Zepeda, Maria ",02/21/1983,456,TID,

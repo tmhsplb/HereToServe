@@ -332,7 +332,7 @@ namespace OPIDDaily.DAL
                     // because Service Tickets are generated from the visit history in the Research
                     // Table, not by using any pocket checks. So, when we add a new pocket check
                     // we must also add a new corresponding research check.
-                    // Subtract 12 hours form vvm.Date. This is tricky! At this point vvm.Date
+                    // Subtract 12 hours from vvm.Date. This is tricky! At this point vvm.Date
                     // is already noon and NewRCheck will add 12 hours to it, making it spill
                     // over into the next day. So subtract 12 hour to prevent this.
                     vvm.Date = vvm.Date.AddHours(-12);

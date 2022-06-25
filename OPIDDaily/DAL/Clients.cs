@@ -166,9 +166,22 @@ namespace OPIDDaily.DAL
             return cvm;
         }
 
+        private static DateTime EnsureNoon(DateTime dob)
+        {
+            int hr = dob.Hour;
+
+            if (hr == 0)
+            {
+                dob = dob.AddHours(12);
+            }
+
+            return dob;
+        }
+
         private static void ClientViewModelToClientEntity(ClientViewModel cvm, Client client)
         {
             DateTime dob = (string.IsNullOrEmpty(cvm.sDOB) ? cvm.DOB : DateTime.Parse(cvm.sDOB));
+            dob = EnsureNoon(dob);
 
             client.ServiceTicket = cvm.ServiceTicket;
             client.Stage = cvm.Stage;
@@ -592,7 +605,8 @@ namespace OPIDDaily.DAL
 
                     foreach (ClientRow cr in clientRows)
                     {
-                        Client existingClient = opidcontext.Clients.Where(c => c.LastName == cr.LastName && c.DOB == cr.DOB).SingleOrDefault();
+                        DateTime dob = cr.DOB.AddHours(12);
+                        Client existingClient = opidcontext.Clients.Where(c => c.LastName == cr.LastName && c.DOB == dob).SingleOrDefault();
 
                         if (existingClient == null)
                         {
@@ -606,7 +620,7 @@ namespace OPIDDaily.DAL
                                 MiddleName = cr.MiddleName,
                                 LastName = cr.LastName,
                                 BirthName = cr.BirthName,
-                                DOB = cr.DOB,
+                                DOB = dob,
                                 Age = CalculateAge(cr.DOB),
                                 ReferringAgentId = 0,
                                 ACK = false,

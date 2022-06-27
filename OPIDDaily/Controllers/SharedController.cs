@@ -1040,12 +1040,7 @@ namespace OPIDDaily.Controllers
                 ViewBag.Warning = "Could not find selected client.";
                 return View("Warning");
             }
-
-            if (client.LCK)
-            {
-                ViewBag.Warning = "Operation ID has currently locked Service Requests for this client.";
-                return View("Warning");
-            }
+ 
 
             if (CheckManager.HasHistory(client.Id))
             {

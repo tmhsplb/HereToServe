@@ -172,6 +172,8 @@ namespace OPIDDaily.DAL
 
             if (hr == 0)
             {
+                // hr == 0 is the ambiguous midnight hour: which day does it belong to?
+                // Move hr forward to noon to eliminate the ambiguity.
                 dob = dob.AddHours(12);
             }
 

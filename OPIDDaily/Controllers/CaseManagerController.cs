@@ -137,6 +137,19 @@ namespace OPIDDaily.Controllers
             }
 
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
+
+            if (client == null)
+            {
+                ViewBag.Warning = "Could not find selected client.";
+                return View("Warning");
+            }
+
+            if (client.LCK)
+            {
+                ViewBag.Warning = "Operation ID has currently locked Service Requests for this client.";
+                return View("Warning");
+            }
+
             string serviceRequestError = ServiceRequestError(rsvm);
 
             if (!string.IsNullOrEmpty(serviceRequestError))
@@ -152,6 +165,7 @@ namespace OPIDDaily.Controllers
             Clients.StoreRequestedServicesAndSupportingDocuments(client.Id, rsvm);
             PrepareClientNotes(client, rsvm);
             return RedirectToAction("ManageMyClients", "CaseManager");
+
         }
 
         [HttpPost]
@@ -171,6 +185,19 @@ namespace OPIDDaily.Controllers
             }
 
             Client client = Clients.GetClient(nowServing, null);  // pass null so the supporting documents won't be erased
+
+            if (client == null)
+            {
+                ViewBag.Warning = "Could not find selected client.";
+                return View("Warning");
+            }
+
+            if (client.LCK)
+            {
+                ViewBag.Warning = "Operation ID has currently locked Service Requests for this client.";
+                return View("Warning");
+            }
+
             string serviceRequestError = ServiceRequestError(rsvm);
 
             if (!string.IsNullOrEmpty(serviceRequestError))
